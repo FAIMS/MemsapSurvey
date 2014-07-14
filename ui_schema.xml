@@ -27,18 +27,6 @@
             </usertab>
           </user>
           <control>
-            <Search>
-              <TeamMember/>
-              <Walker/>
-              <newSurveyUnit/>
-              <newPOI/>
-              <listOfLastText/>
-              <archentsRadio/>
-              <listOfLast/>
-            </Search>
-            <Map>
-              <map/>
-            </Map>
             <Control>
               <internalExternalGPS/>
               <container1>
@@ -70,53 +58,204 @@
               <SyncOn/>
               <SyncOff/>
             </Control>
+            <Start>
+              <container1>
+                <child1>
+                  <TeamMember/>
+                </child1>
+                <child2>
+                  <Walker/>
+                </child2>
+              </container1>
+              <newSurveyUnit/>
+              <currentSurveyUnit/>
+              <finishSU/>
+              <container2>
+                <child1>
+                  <newPOI/>
+                </child1>
+                <child2>
+                  <newArtefact/>
+                </child2>
+              </container2>
+              <listOfLastText/>
+              <archentsRadio/>
+              <listOfLast/>
+            </Start>
+            <Map>
+              <map/>
+            </Map>
           </control>
           <Survey_Unit>
             <Survey_Unit>
               <Survey_Unit_ID/>
-              <Timestamp/>
-              <Total_Transect_Width/>
-              <Number_of_Walkers/>
-              <Participants/>
-              <Landscape_Element/>
-              <Vegetation_Structure/>
-              <Ground_Surface_Visibility/>
-              <Notes/>
-              <Photos/>
-              <Attach_Photo/>
-              <Update/>
+              <Photo_file_numbers/>
+              <Landform/>
+              <Remarks_on_landform/>
+              <Average_percentage_of_visibility_of_surface_of_the_landform_area/>
+              <Remarks_on_visibility/>
+              <Average_percentage_of_exposure_of_artefacts/>
+              <Remarks_on_exposure/>
+              <Basic_geomorphic_summary/>
+              <Cobble_distribution/>
+              <Estimated_number_of_cobbles_per_m2/>
+              <Other_remarks_on_cobbles/>
+              <Sediment_size/>
+              <Other_remarks_on_transect/>
+              <Update_and_Return/>
               <Delete/>
-              <New_POI/>
-              <Finish_SUI/>
               <trackStatus/>
             </Survey_Unit>
           </Survey_Unit>
           <POI>
             <POI>
               <POI_ID/>
-              <Feature_Type/>
-              <Notes/>
-              <Photos/>
-              <Attach_Photo/>
               <container1>
                 <child1>
-                  <Timestamp/>
+                  <Latitude/>
                 </child1>
                 <child2>
-                  <Recorded_By/>
+                  <Longitude/>
                 </child2>
               </container1>
-              <Update/>
+              <Take_GPS/>
+              <Object/>
+              <Weight/>
+              <container2>
+                <child1>
+                  <Maximum_length/>
+                </child1>
+                <child2>
+                  <Maximum_width/>
+                </child2>
+                <child3>
+                  <Maximum_thickness/>
+                </child3>
+              </container2>
+              <Raw_material/>
+              <Crystal_Size/>
+              <Abundance_of_Flaws/>
+              <Photo_File_Numbers/>
+              <Other_Comments/>
+              <Photo/>
+              <Attach_Photo/>
+              <Update_and_Next/>
               <Delete/>
             </POI>
+            <Cobble>
+              <POI_ID/>
+              <Angularity/>
+              <Update_and_Return/>
+              <Delete/>
+            </Cobble>
+            <Core>
+              <POI_ID/>
+              <Completeness/>
+              <Core_Weathering_stage/>
+              <Outer_Surface_on_Whole_Core/>
+              <Outer_Surface_on_Upper_Hemisphere/>
+              <Outer_Surface_on_Lower_Hemisphere/>
+              <Number_of_Flake_Scars/>
+              <Number_of_Platforms/>
+              <Flaking_on_Core_Perimeter/>
+              <Update_and_Return/>
+              <Delete/>
+            </Core>
           </POI>
+          <Artefact>
+            <Artefact>
+              <Artefact_ID/>
+              <Technological_Component/>
+              <Weight/>
+              <container1>
+                <child1>
+                  <Maximum_length/>
+                </child1>
+                <child2>
+                  <Maximum_width/>
+                </child2>
+                <child3>
+                  <Maximum_thickness/>
+                </child3>
+              </container1>
+              <Thickness_Measurement_site/>
+              <Maximum_Dimension/>
+              <Raw_material/>
+              <Artefact_Weathering_stage/>
+              <Update_and_Next/>
+              <Delete/>
+            </Artefact>
+            <Flake>
+              <Artefact_ID/>
+              <Longitudinal_Portion/>
+              <Transverse_Portion/>
+              <Platform_Type/>
+              <Platform_Cortex/>
+              <Termination/>
+              <Percentage_Cortical_Coverage/>
+              <Flake_Typology/>
+              <Scar_Orientation/>
+              <Number_of_Dorsal_Scars/>
+              <Retouched/>
+              <Flake_Comments/>
+              <Photo/>
+              <Attach_Photo/>
+              <Update_and_Return/>
+              <Delete/>
+            </Flake>
+            <Core>
+              <Artefact_ID/>
+              <Completeness/>
+              <Core_Weathering_stage/>
+              <Outer_Surface_on_Whole_Core/>
+              <Outer_Surface_on_Upper_Hemisphere/>
+              <Outer_Surface_on_Lower_Hemisphere/>
+              <Number_of_Flake_Scars/>
+              <Number_of_Platforms/>
+              <Flaking_on_Core_Perimeter/>
+              <Typology/>
+              <Photo/>
+              <Attach_Photo/>
+              <Update_and_Return/>
+              <Delete/>
+            </Core>
+            <Shatter_Flakes>
+              <Artefact_ID/>
+              <Percentage_Cortical_Coverage/>
+              <Photo/>
+              <Attach_Photo/>
+              <Update_and_Return/>
+              <Delete/>
+            </Shatter_Flakes>
+            <Other>
+              <Artefact_ID/>
+              <Other_Type/>
+              <Photo/>
+              <Attach_Photo/>
+              <Update_and_Return/>
+              <Delete/>
+            </Other>
+          </Artefact>
         </faims>
       </instance>
-      <bind nodeset="/faims/Survey_Unit/Survey_Unit/Total_Transect_Width" type="decimal"/>
-      <bind nodeset="/faims/Survey_Unit/Survey_Unit/Number_of_Walkers" type="decimal"/>
-      <bind nodeset="/faims/Survey_Unit/Survey_Unit/Notes" type="string"/>
-      <bind nodeset="/faims/POI/POI/Notes" type="string"/>
-      <bind nodeset="/faims/control/Search/Walker" type="decimal"/>
+      <bind nodeset="/faims/Survey_Unit/Survey_Unit/Estimated_number_of_cobbles_per_m2" type="decimal"/>
+      <bind nodeset="/faims/POI/POI/container1/child1/Latitude" type="decimal"/>
+      <bind nodeset="/faims/POI/POI/container1/child2/Longitude" type="decimal"/>
+      <bind nodeset="/faims/POI/POI/Weight" type="decimal"/>
+      <bind nodeset="/faims/POI/POI/container2/child1/Maximum_length" type="decimal"/>
+      <bind nodeset="/faims/POI/POI/container2/child2/Maximum_width" type="decimal"/>
+      <bind nodeset="/faims/POI/POI/container2/child3/Maximum_thickness" type="decimal"/>
+      <bind nodeset="/faims/POI/Core/Number_of_Flake_Scars" type="decimal"/>
+      <bind nodeset="/faims/POI/Core/Number_of_Platforms" type="decimal"/>
+      <bind nodeset="/faims/control/Start/Walker" type="decimal"/>
+      <bind nodeset="/faims/Artefact/Artefact/Weight" type="decimal"/>
+      <bind nodeset="/faims/Artefact/Artefact/container1/child1/Maximum_length" type="decimal"/>
+      <bind nodeset="/faims/Artefact/Artefact/container1/child2/Maximum_width" type="decimal"/>
+      <bind nodeset="/faims/Artefact/Artefact/container1/child3/Maximum_thickness" type="decimal"/>
+      <bind nodeset="/faims/Artefact/Artefact/Maximum_Dimension" type="decimal"/>
+      <bind nodeset="/faims/Artefact/Flake/Number_of_Dorsal_Scars" type="decimal"/>
+      <bind nodeset="/faims/Artefact/Core/Number_of_Flake_Scars" type="decimal"/>
+      <bind nodeset="/faims/Artefact/Core/Number_of_Platforms" type="decimal"/>
     </model>
   </h:head>
   <h:body>
@@ -167,50 +306,6 @@
     </group>
     <group ref="control" faims_scrollable="false">
       <label>Control</label>
-      <group ref="Search" faims_scrollable="false">
-        <label>Search</label>
-        <input faims_certainty="false" faims_read_only="false" ref="TeamMember">
-          <label>Team Members</label>
-        </input>
-        <input faims_certainty="false" faims_read_only="false" ref="Walker">
-          <label>Number of Walkers</label>
-        </input>
-        <trigger ref="newSurveyUnit">
-          <label>New Survey Unit</label>
-        </trigger>
-        <trigger ref="newPOI">
-          <label>New Point of Interest</label>
-        </trigger>
-        <input faims_certainty="false" faims_read_only="false" ref="listOfLastText">
-          <label>How many records would you like to see?</label>
-        </input>
-        <select1 ref="archentsRadio" faims_annotation="false" faims_certainty="false">
-            <label/>
-            <item>
-              <label>Survey Unit</label>
-              <value>Survey Unit</value>
-            </item>
-            <item>
-              <label>Point of Interest</label>
-              <value>POI</value>
-            </item>
-        </select1>
-        <select1 appearance="compact" ref="listOfLast" faims_annotation="false" faims_certainty="false">
-            <label/>
-            <item>
-              <label>placeholder</label>
-              <value>placeholder</value>
-            </item>
-        </select1>
-      </group>
-
-      <group ref="Map" faims_scrollable="false">
-        <label>Map</label>
-         <input ref="map" faims_map="true" faims_certainty="false">
-          <label/>
-        </input>
-      </group>
-
       <group ref="Control">
         <label>Control</label>
         <select1 ref="internalExternalGPS" appearance="full">
@@ -229,7 +324,7 @@
           <group faims_style="even" ref="child1">
             <label/>
             <input faims_certainty="false" faims_read_only="false" ref="refreshText">
-              <label>GPS Refresh Rate</label>
+              <label>GPS Refresh Rate (s)</label>
             </input>
           </group>
           <group faims_style="even" ref="child2">
@@ -282,6 +377,85 @@
           <label>Sync Off</label>
         </trigger>
       </group>
+
+      <group ref="Start" faims_scrollable="false">
+        <label>Start</label>
+        <group faims_style="orientation" ref="container1">
+          <label/>
+          <group faims_style="even" ref="child1">
+            <label/>
+            <input faims_certainty="false" faims_read_only="false" ref="TeamMember">
+              <label>Team Members</label>
+            </input>
+          </group>
+          <group faims_style="even" ref="child2">
+            <label/>
+            <input faims_certainty="false" faims_read_only="false" ref="Walker">
+              <label>Number of Walkers</label>
+            </input>
+          </group>
+        </group>      
+        <trigger ref="newSurveyUnit">
+          <label>New {Survey_Unit}</label>
+        </trigger>
+        <select1 appearance="compact" ref="currentSurveyUnit" faims_annotation="false" faims_certainty="false">
+            <label>Current {Survey_Unit} Indicator</label>
+            <item>
+              <label>placeholder</label>
+              <value>placeholder</value>
+            </item>
+        </select1>
+        <trigger ref="finishSU">
+          <label>Finish {Survey_Unit}</label>
+        </trigger>
+        <group faims_style="orientation" ref="container2">
+          <label/>
+          <group faims_style="even" ref="child1">
+            <label/>
+            <trigger ref="newPOI">
+              <label>New {POI}</label>
+            </trigger>
+          </group>
+          <group faims_style="even" ref="child2">
+            <label/>
+            <trigger ref="newArtefact">
+              <label>New {Artefact}</label>
+            </trigger>
+          </group>
+        </group>
+        <input faims_certainty="false" faims_read_only="false" ref="listOfLastText">
+          <label>How many records would you like to see?</label>
+        </input>
+        <select1 ref="archentsRadio" faims_annotation="false" faims_certainty="false">
+            <label/>
+            <item>
+              <label>{Survey_Unit}</label>
+              <value>Survey Unit</value>
+            </item>
+            <item>
+              <label>{POI}</label>
+              <value>POI</value>
+            </item>
+            <item>
+              <label>{Artefact}</label>
+              <value>Artefact</value>
+            </item>
+        </select1>
+        <select1 appearance="compact" ref="listOfLast" faims_annotation="false" faims_certainty="false">
+            <label/>
+            <item>
+              <label>placeholder</label>
+              <value>placeholder</value>
+            </item>
+        </select1>
+      </group>
+
+      <group ref="Map" faims_scrollable="false">
+        <label>Map</label>
+         <input ref="map" faims_map="true" faims_certainty="false">
+          <label/>
+        </input>
+      </group>
     </group>
     <group ref="Survey_Unit" faims_archent_type="Survey Unit">
       <label>{Survey_Unit}</label>
@@ -290,63 +464,74 @@
         <input ref="Survey_Unit_ID" faims_attribute_name="Survey Unit ID" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>{Survey_Unit_ID}</label>
         </input>
-        <input ref="Timestamp" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="true">
-          <label>{Timestamp}</label>
+        <input ref="Photo_file_numbers" faims_attribute_name="Photo file numbers" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
+          <label>{Photo_file_numbers}</label>
         </input>
-        <input ref="Total_Transect_Width" faims_attribute_name="Total Transect Width (m)" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
-          <label>{Total_Transect_Width}</label>
-        </input>
-        <input ref="Number_of_Walkers" faims_attribute_name="Number of Walkers" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
-          <label>{Number_of_Walkers}</label>
-        </input>
-        <input ref="Participants" faims_attribute_name="Participants" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="true" faims_read_only="false">
-          <label>{Participants}</label>
-        </input>
-        <select1 ref="Landscape_Element" faims_attribute_name="Landscape Element" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
-          <label>{Landscape_Element}</label>
+        <select1 ref="Landform" faims_attribute_name="Landform" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Landform}</label>
           <item>
             <label>placeholder</label>
             <value>placeholder</value>
           </item>
         </select1>
-        <select1 ref="Vegetation_Structure" faims_attribute_name="Vegetation Structure" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
-          <label>{Vegetation_Structure}</label>
-          <item>
-            <label>placeholder</label>
-            <value>placeholder</value>
-          </item>
-        </select1>
-        <select1 ref="Ground_Surface_Visibility" faims_attribute_name="Ground Surface Visibility" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
-          <label>{Ground_Surface_Visibility}</label>
-          <item>
-            <label>placeholder</label>
-            <value>placeholder</value>
-          </item>
-        </select1>
-        <input ref="Notes" faims_attribute_name="Notes" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
-          <label>{Notes}</label>
+        <input ref="Remarks_on_landform" faims_attribute_name="Remarks on landform" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
+          <label>{Remarks_on_landform}</label>
         </input>
-        <select type="camera" faims_sync="true" ref="Photos" faims_attribute_name="Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
-          <label>{Photos}</label>
+        <select1 ref="Average_percentage_of_visibility_of_surface_of_the_landform_area" faims_attribute_name="Average percentage of visibility of surface of the landform area" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Average_percentage_of_visibility_of_surface_of_the_landform_area}</label>
           <item>
             <label>placeholder</label>
             <value>placeholder</value>
           </item>
-        </select>
-        <trigger ref="Attach_Photo">
-          <label>{Attach_Photo}</label>
-        </trigger>
-        <trigger ref="Update">
-          <label>Save {Survey_Unit}</label>
+        </select1>
+        <input ref="Remarks_on_visibility" faims_attribute_name="Remarks on visibility" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
+          <label>{Remarks_on_visibility}</label>
+        </input>
+        <select1 ref="Average_percentage_of_exposure_of_artefacts" faims_attribute_name="Average percentage of exposure of artefacts" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Average_percentage_of_exposure_of_artefacts}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <input ref="Remarks_on_exposure" faims_attribute_name="Remarks on exposure" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
+          <label>{Remarks_on_exposure}</label>
+        </input>
+        <select1 ref="Basic_geomorphic_summary" faims_attribute_name="Basic geomorphic summary" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Basic_geomorphic_summary}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Cobble_distribution" faims_attribute_name="Cobble distribution" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Cobble_distribution}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <input ref="Estimated_number_of_cobbles_per_m2" faims_attribute_name="Estimated number of cobbles per m2" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Estimated_number_of_cobbles_per_m2}</label>
+        </input>
+        <input ref="Other_remarks_on_cobbles" faims_attribute_name="Other remarks on cobbles" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
+          <label>{Other_remarks_on_cobbles}</label>
+        </input>
+        <select1 appearance="full" ref="Sediment_size" faims_attribute_name="Sediment size" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Sediment_size}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <input ref="Other_remarks_on_transect" faims_attribute_name="Other remarks on transect" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
+          <label>{Other_remarks_on_transect}</label>
+        </input>
+        <trigger ref="Update_and_Return">
+          <label>{Update_and_Return}</label>
         </trigger>
         <trigger ref="Delete">
-          <label>Delete {Survey_Unit}</label>
-        </trigger>
-        <trigger ref="New_POI">
-          <label>Save and New {POI}</label>
-        </trigger>
-        <trigger ref="Finish_SUI">
-          <label>Finish {Survey_Unit}</label>
+          <label>{Delete}</label>
         </trigger>
         <input faims_certainty="false" faims_read_only="true" ref="trackStatus">
           <label>Track Log Status</label>
@@ -357,20 +542,86 @@
       <label>{POI}</label>
       <group ref="POI">
         <label>{POI}</label>
-        <input ref="POI_ID" faims_attribute_name="POI ID" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+        <input ref="POI_ID" faims_attribute_name="POI ID" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>{POI_ID}</label>
         </input>
-        <select1 ref="Feature_Type" faims_attribute_name="Feature Type" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true">
-          <label>{Feature_Type}</label>
+        <group ref="container1" faims_style="orientation">
+          <label></label>
+          <group faims_style="even" ref="child1">
+            <label></label>
+            <input ref="Latitude" faims_attribute_name="Latitude" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+              <label>{Latitude}</label>
+            </input>
+          </group>
+          <group faims_style="even" ref="child2">
+            <label></label>
+            <input ref="Longitude" faims_attribute_name="Longitude" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+              <label>{Longitude}</label>
+            </input>
+          </group>
+        </group>
+        <trigger ref="Take_GPS">
+          <label>{Take_GPS}</label>
+        </trigger>
+        <select1 appearance="full" ref="Object" faims_attribute_name="Object" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Object}</label>
           <item>
             <label>placeholder</label>
             <value>placeholder</value>
           </item>
         </select1>
-        <input ref="Notes" faims_attribute_name="Notes" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
-          <label>{Notes}</label>
+        <input ref="Weight" faims_attribute_name="Weight" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Weight}</label>
         </input>
-        <select type="camera" faims_sync="true" ref="Photos" faims_attribute_name="Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+        <group ref="container2" faims_style="orientation">
+          <label>container2</label>
+          <group faims_style="even" ref="child1">
+            <label>child1</label>
+            <input ref="Maximum_length" faims_attribute_name="Maximum length" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+              <label>{Maximum_length}</label>
+            </input>
+          </group>
+          <group faims_style="even" ref="child2">
+            <label>child2</label>
+            <input ref="Maximum_width" faims_attribute_name="Maximum width" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+              <label>{Maximum_width}</label>
+            </input>
+          </group>
+          <group faims_style="even" ref="child3">
+            <label>child3</label>
+            <input ref="Maximum_thickness" faims_attribute_name="Maximum thickness" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+              <label>{Maximum_thickness}</label>
+            </input>
+          </group>
+        </group>
+        <select1 ref="Raw_material" faims_attribute_name="Raw material" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Raw_material}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Crystal_Size" faims_attribute_name="Crystal Size" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Crystal_Size}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Abundance_of_Flaws" faims_attribute_name="Abundance of Flaws" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Abundance_of_Flaws}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <input ref="Photo_File_Numbers" faims_attribute_name="Photo File Numbers" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
+          <label>{Photo_File_Numbers}</label>
+        </input>
+        <input ref="Other_Comments" faims_attribute_name="Other Comments" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
+          <label>{Other_Comments}</label>
+        </input>
+        <select type="camera" faims_sync="true" ref="Photo" faims_attribute_name="Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>{Photos}</label>
           <item>
             <label>placeholder</label>
@@ -380,26 +631,386 @@
         <trigger ref="Attach_Photo">
           <label>{Attach_Photo}</label>
         </trigger>
-        <group faims_style="orientation" ref="container1">
-          <label/>
+        <trigger ref="Update_and_Next">
+          <label>{Update_and_Next}</label>
+        </trigger>
+        <trigger ref="Delete">
+          <label>{Delete}</label>
+        </trigger>
+      </group>
+      <group ref="Cobble" faims_hidden="true">
+        <label>{Cobble}</label>
+        <input ref="POI_ID" faims_certainty="false" faims_annotation="false" faims_read_only="true">
+          <label>{POI_ID}</label>
+        </input>
+        <select1 ref="Angularity" faims_attribute_name="Angularity" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Angularity}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <trigger ref="Update_and_Return">
+          <label>{Update_and_Return}</label>
+        </trigger>
+        <trigger ref="Delete">
+          <label>{Delete}</label>
+        </trigger>
+      </group>
+      <group ref="Core" faims_hidden="true">
+        <label>{Core}</label>
+        <input ref="POI_ID" faims_certainty="false" faims_annotation="false" faims_read_only="true">
+          <label>{POI_ID}</label>
+        </input>
+        <select1 appearance="full" ref="Completeness" faims_attribute_name="Completeness" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Completeness}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Core_Weathering_stage" faims_attribute_name="Core Weathering stage" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Core_Weathering_stage}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Outer_Surface_on_Whole_Core" faims_attribute_name="Outer Surface (Cortex) on Whole Core" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Outer_Surface_on_Whole_Core}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Outer_Surface_on_Upper_Hemisphere" faims_attribute_name="Outer Surface (Cortex) on Upper Hemisphere" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Outer_Surface_on_Upper_Hemisphere}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Outer_Surface_on_Lower_Hemisphere" faims_attribute_name="Outer Surface (Cortex) on Lower Hemisphere" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Outer_Surface_on_Lower_Hemisphere}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <input ref="Number_of_Flake_Scars" faims_attribute_name="Number of Flake Scars" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Number_of_Flake_Scars}</label>
+        </input>
+        <input ref="Number_of_Platforms" faims_attribute_name="Number of Platforms" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Number_of_Platforms}</label>
+        </input>
+        <select1 ref="Flaking_on_Core_Perimeter" faims_attribute_name="Flaking on Core Perimeter" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Flaking_on_Core_Perimeter}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <trigger ref="Update_and_Return">
+          <label>{Update_and_Return}</label>
+        </trigger>
+        <trigger ref="Delete">
+          <label>{Delete}</label>
+        </trigger>
+      </group>
+    </group>
+    <group ref="Artefact" faims_archent_type="Artefact">
+      <label>{Artefact}</label>
+      <group ref="Artefact">
+        <label>{Artefact}</label>
+        <input ref="Artefact_ID" faims_attribute_name="Artefact ID" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+          <label>{Artefact_ID}</label>
+        </input>
+        <select1 appearance="full" ref="Technological_Component" faims_attribute_name="Technological Component" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Technological_Component}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <input ref="Weight" faims_attribute_name="Weight" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Weight}</label>
+        </input>
+        <group ref="container1" faims_style="orientation">
+          <label>container1</label>
           <group faims_style="even" ref="child1">
-            <label/>
-            <input ref="Timestamp" faims_certainty="false" faims_annotation="false" faims_read_only="true">
-              <label>{Timestamp}</label>
+            <label>child1</label>
+            <input ref="Maximum_length" faims_attribute_name="Maximum length" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+              <label>{Maximum_length}</label>
             </input>
           </group>
           <group faims_style="even" ref="child2">
-            <label/>
-            <input ref="Recorded_By" faims_certainty="false" faims_annotation="false" faims_read_only="true">
-              <label>{Recorded_By}</label>
+            <label>child2</label>
+            <input ref="Maximum_width" faims_attribute_name="Maximum width" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+              <label>{Maximum_width}</label>
+            </input>
+          </group>
+          <group faims_style="even" ref="child3">
+            <label>child3</label>
+            <input ref="Maximum_thickness" faims_attribute_name="Maximum thickness" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+              <label>{Maximum_thickness}</label>
             </input>
           </group>
         </group>
-        <trigger ref="Update">
-          <label>Save {POI}</label>
+        <select1 appearance="full" ref="Thickness_Measurement_site" faims_attribute_name="Thickness Measurement site" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Thickness_Measurement_site}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <input ref="Maximum_Dimension" faims_attribute_name="Maximum Dimension" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Maximum_Dimension}</label>
+        </input>
+        <select1 ref="Raw_material" faims_attribute_name="Raw material" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Raw_material}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 appearance="full" ref="Artefact_Weathering_stage" faims_attribute_name="Artefact Weathering stage" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Artefact_Weathering_stage}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <trigger ref="Update_and_Next">
+          <label>{Update_and_Next}</label>
         </trigger>
         <trigger ref="Delete">
-          <label>Delete {POI}</label>
+          <label>{Delete}</label>
+        </trigger>
+      </group>
+      <group ref="Flake" faims_hidden="true">
+        <label>Flake</label>
+        <input ref="Artefact_ID" faims_certainty="false" faims_annotation="false" faims_read_only="true">
+          <label>{Artefact_ID}</label>
+        </input>
+        <select1 ref="Longitudinal_Portion" faims_attribute_name="Longitudinal Portion" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Longitudinal_Portion}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Transverse_Portion" faims_attribute_name="Transverse Portion" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Transverse_Portion}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Platform_Type" faims_attribute_name="Platform Type" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Platform_Type}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Platform_Cortex" faims_attribute_name="Platform Cortex" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Platform_Cortex}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Termination" faims_attribute_name="Termination" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Termination}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Percentage_Cortical_Coverage" faims_attribute_name="Percentage Cortical Coverage" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Percentage_Cortical_Coverage}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Flake_Typology" faims_attribute_name="Flake Typology" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Flake_Typology}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Scar_Orientation" faims_attribute_name="Scar Orientation" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Scar_Orientation}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <input ref="Number_of_Dorsal_Scars" faims_attribute_name="Number of Dorsal Scars" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Number_of_Dorsal_Scars}</label>
+        </input>
+        <select1 appearance="full" ref="Retouched" faims_attribute_name="Retouched" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Retouched}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <input ref="Flake_Comments" faims_attribute_name="Flake Comments" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
+          <label>{Flake_Comments}</label>
+        </input>
+        <select type="camera" faims_sync="true" ref="Photo" faims_attribute_name="Flake Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+          <label>{Photos}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select>
+        <trigger ref="Attach_Photo">
+          <label>{Attach_Photo}</label>
+        </trigger>
+        <trigger ref="Update_and_Return">
+          <label>{Update_and_Return}</label>
+        </trigger>
+        <trigger ref="Delete">
+          <label>{Delete}</label>
+        </trigger>
+      </group>
+      <group ref="Core" faims_hidden="true">
+        <label>{Core}</label>
+        <input ref="Artefact_ID" faims_certainty="false" faims_annotation="false" faims_read_only="true">
+          <label>{Artefact_ID}</label>
+        </input>
+        <select1 appearance="full" ref="Completeness" faims_attribute_name="Completeness" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Completeness}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Core_Weathering_stage" faims_attribute_name="Core Weathering stage" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Core_Weathering_stage}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Outer_Surface_on_Whole_Core" faims_attribute_name="Outer Surface (Cortex) on Whole Core" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Outer_Surface_on_Whole_Core}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Outer_Surface_on_Upper_Hemisphere" faims_attribute_name="Outer Surface (Cortex) on Upper Hemisphere" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Outer_Surface_on_Upper_Hemisphere}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Outer_Surface_on_Lower_Hemisphere" faims_attribute_name="Outer Surface (Cortex) on Lower Hemisphere" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Outer_Surface_on_Lower_Hemisphere}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <input ref="Number_of_Flake_Scars" faims_attribute_name="Number of Flake Scars" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Number_of_Flake_Scars}</label>
+        </input>
+        <input ref="Number_of_Platforms" faims_attribute_name="Number of Platforms" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Number_of_Platforms}</label>
+        </input>
+        <select1 ref="Flaking_on_Core_Perimeter" faims_attribute_name="Flaking on Core Perimeter" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Flaking_on_Core_Perimeter}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Typology" faims_attribute_name="Core Typology" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Typology}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select type="camera" faims_sync="true" ref="Photo" faims_attribute_name="Core Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+          <label>{Photos}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select>
+        <trigger ref="Attach_Photo">
+          <label>{Attach_Photo}</label>
+        </trigger>
+        <trigger ref="Update_and_Return">
+          <label>{Update_and_Return}</label>
+        </trigger>
+        <trigger ref="Delete">
+          <label>{Delete}</label>
+        </trigger>
+      </group>
+      <group ref="Shatter_Flakes" faims_hidden="true">
+        <label>Shatter_Flakes</label>
+        <input ref="Artefact_ID" faims_certainty="false" faims_annotation="false" faims_read_only="true">
+          <label>{Artefact_ID}</label>
+        </input>
+        <select1 ref="Percentage_Cortical_Coverage" faims_attribute_name="Percentage Cortical Coverage" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Percentage_Cortical_Coverage}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select type="camera" faims_sync="true" ref="Photo" faims_attribute_name="Shatter Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+          <label>{Photos}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select>
+        <trigger ref="Attach_Photo">
+          <label>{Attach_Photo}</label>
+        </trigger>
+        <trigger ref="Update_and_Return">
+          <label>{Update_and_Return}</label>
+        </trigger>
+        <trigger ref="Delete">
+          <label>{Delete}</label>
+        </trigger>
+      </group>
+      <group ref="Other" faims_hidden="true">
+        <label>Other</label>
+        <input ref="Artefact_ID" faims_certainty="false" faims_annotation="false" faims_read_only="true">
+          <label>{Artefact_ID}</label>
+        </input>
+        <select1 ref="Other_Type" faims_attribute_name="Other Type" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Other_Type}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select type="camera" faims_sync="true" ref="Photo" faims_attribute_name="Other Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+          <label>{Photos}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select>
+        <trigger ref="Attach_Photo">
+          <label>{Attach_Photo}</label>
+        </trigger>
+        <trigger ref="Update_and_Return">
+          <label>{Update_and_Return}</label>
+        </trigger>
+        <trigger ref="Delete">
+          <label>{Delete}</label>
         </trigger>
       </group>
     </group>

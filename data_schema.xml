@@ -4,32 +4,297 @@
     <description>Defines relationship between Transect and Survey Unit</description>
   </RelationshipElement>
   <ArchaeologicalElement name="POI">
-    <description>Autoincrement. Device ID, auto-number (e.g. POI-A-0001)</description>
-    <property name="POI ID" isIdentifier="true">
-      <description>Description TBD</description>
+    <description></description>
+    <property name="POI ID" type="freetext">
+      <description/>
     </property>
-    <property name="Feature Type" type="enum">
-      <description>Description TBD</description>
+    <property name="Latitude" type="float">
+      <description/>
+    </property>
+    <property name="Longitude" type="float">
+      <description/>
+    </property>
+    <property name="Object" type="enum">
+      <description/>
       <lookup>
-        <term> {Archaelogical_feature}
-          <description>Description TBD</description>
+        <term> {Core}
+          <description/>
         </term>
-        <term> {Artefact}
-          <description>Description TBD</description>
-        </term>
-        <term> {Landscape}
-          <description>Description TBD</description>
-        </term>
-        <term> {Other}
-          <description>Description TBD</description>
+        <term> {Cobble}
+          <description/>
         </term>
       </lookup>
     </property>
-    <property name="Notes" type="freetext">
-      <description>Description TBD</description>
+    <property name="Weight" type="float">
+      <description/>
+    </property>
+    <property name="Maximum length" type="float">
+      <description/>
+    </property>
+    <property name="Maximum width" type="float">
+      <description/>
+    </property>
+    <property name="Maximum thickness" type="float">
+      <description/>
+    </property>
+    <property name="Raw material" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {aQuartzite}
+          <description/>
+        </term>
+        <term> {bChert}
+          <description/>
+        </term>
+        <term> {cSilcrete}
+          <description/>
+        </term>
+        <term> {zOther_annotation}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Crystal Size" type="enum">
+      <description>Estimated by using a sand gauge (©1984 W.F. McCullough)”</description>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {aFine}
+          <description/>
+        </term>
+        <term> {bMedium}
+          <description/>
+        </term>
+        <term> {cCoarse}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Abundance of Flaws" type="enum">
+      <description>Percentage of impurities mottles, large coarse fragments, and natural fissures measured on two spots on the inside of the cobble in a 2 x 2 cm square, using Munsell Charts for Estimating Proportions of Mottles and Coarse Fragments</description>
+      <lookup>
+        <term> {10_percent}
+          <description/>
+        </term>
+        <term> {20_percent}
+          <description/>
+        </term>
+        <term> {30_percent}
+          <description/>
+        </term>
+        <term> {40_percent}
+          <description/>
+        </term>
+        <term> {50_percent}
+          <description/>
+        </term>
+        <term> {60_percent}
+          <description/>
+        </term>
+        <term> {70_percent}
+          <description/>
+        </term>
+        <term> {80_percent}
+          <description/>
+        </term>
+        <term> {90_percent}
+          <description/>
+        </term>
+        <term> {z100_percent}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Photo File Numbers" type="freetext">
+      <description/>
+    </property>
+    <property name="Other Comments" type="freetext">
+      <description>List the camrera ID of the pictures you have taken of this transect</description>
+    </property>
+    <property name="Angularity" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {Rounded}
+          <description/>
+        </term>
+        <term> {Sub-rounded}
+          <description/>
+        </term>
+        <term> {Sub-angular}
+          <description/>
+        </term>
+        <term> {zOther_annotation_confidence}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Completeness" type="enum">
+      <description/>
+      <lookup>
+        <term> {Complete}
+          <description/>
+        </term>
+        <term> {Broken}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Core Weathering stage" type="enum">
+      <description/>
+      <lookup>
+        <term> {aNo_edge_rounding}
+          <description/>
+        </term>
+        <term> {bEdge_rounding_visible}
+          <description/>
+        </term>
+        <term> {cEdge_rounding_visible_to_eye}
+          <description/>
+        </term>
+        <term> {dEdge_rounding_obscured}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Outer Surface (Cortex) on Whole Core" type="enum">
+      <description/>
+      <lookup>
+        <term> {aNone}
+          <description/>
+        </term>
+        <term> {bLess_than_25}
+          <description/>
+        </term>
+        <term> {c25-50}
+          <description/>
+        </term>
+        <term> {d50-75}
+          <description/>
+        </term>
+        <term> {eGreater_than_75}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Outer Surface (Cortex) on Upper Hemisphere" type="enum">
+      <description>Face with the lowest amount of cortex</description>
+      <lookup>
+        <term> {aNone}
+          <description/>
+        </term>
+        <term> {bLess_than_25}
+          <description/>
+        </term>
+        <term> {c25-50}
+          <description/>
+        </term>
+        <term> {d50-75}
+          <description/>
+        </term>
+        <term> {eGreater_than_75}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Outer Surface (Cortex) on Lower Hemisphere" type="enum">
+      <description>Face with the higest amount of cortex</description>
+      <lookup>
+        <term> {aNone}
+          <description/>
+        </term>
+        <term> {bLess_than_25}
+          <description/>
+        </term>
+        <term> {c25-50}
+          <description/>
+        </term>
+        <term> {d50-75}
+          <description/>
+        </term>
+        <term> {eGreater_than_75}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Number of Flake Scars" type="float">
+      <description>All scars ≥ 10 mm in length and width</description>
+    </property>
+    <property name="Number of Platforms" type="float">
+      <description/>
+    </property>
+    <property name="Flaking on Core Perimeter" type="enum">
+      <description/>
+      <lookup>
+        <term> {aNot_applicable}
+          <description/>
+        </term>
+        <term> {bLess_than_20}
+          <description/>
+        </term>
+        <term> {c20-40}
+          <description/>
+        </term>
+        <term> {d40-60}
+          <description/>
+        </term>
+        <term> {e60-80}
+          <description/>
+        </term>
+        <term> {fGreater_than_80}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Core Typology" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {aLevallois}
+          <description/>
+        </term>
+        <term> {bDisc}
+          <description/>
+        </term>
+        <term> {cDiscoidal}
+          <description/>
+        </term>
+        <term> {dSingle_platformed_Unifacial}
+          <description/>
+        </term>
+        <term> {eSingle_Platformed_Bifacial}
+          <description/>
+        </term>
+        <term> {fDouble_Platformed_Opposed}
+          <description/>
+        </term>
+        <term> {gDouble_Platformed_at_Right_Angles}
+          <description/>
+        </term>
+        <term> {hMultiple_Platformed}
+          <description/>
+        </term>
+        <term> {iShapeless/Miscellaneous}
+          <description/>
+        </term>
+        <term> {jBlade}
+          <description/>
+        </term>
+        <term> {kBipolar}
+          <description/>
+        </term>
+      </lookup>
     </property>
     <property name="Photo" type="file">
-      <description>Description TBD</description>
+      <description/>
     </property>
   </ArchaeologicalElement>
 
@@ -88,79 +353,219 @@
 
   </ArchaeologicalElement>
 
-  <ArchaeologicalElement name="Survey Unit">
+  <ArchaeologicalElement name="Survey Unit" type="freetext">
     <description></description>
-    <property name="Survey Unit ID" type="freetext" isIdentifier="true">
-      <description>The current autonumbering assumes single device in field. If multiple devices are in use, uniqueness rules must be defined.</description>
+    <property name="Survey Unit ID" type="freetext">
+      <description>Unique identifier for this transect</description>
     </property>
-    <property name="Total Transect Width (m)" type="float">
-      <description>Description TBD</description>
+    <property name="Photo file numbers" type="freetext">
+      <description>List the camrera ID of the pictures you have taken of this transect</description>
     </property>
-    <property name="Number of Walkers" type="float">
-      <description>Description TBD</description>
-    </property>
-    <property name="Participants" type="float">
-      <description>Description TBD</description>
-    </property>
-    <property name="Landscape Element" type="enum">
-      <description>Description TBD</description>
+    <property name="Landform" type="enum">
+      <description>Select the type of landform</description>
       <lookup>
-        <term> {aValley}
-          <description>Description TBD</description>
+        <term> {0No_Observation}
+          <description/>
         </term>
-        <term> {bHillside}
-          <description>Description TBD</description>
+        <term> {Range_top}
+          <description/>
         </term>
-        <term> {cRidgeline}
-          <description>Description TBD</description>
+        <term> {Upper_slope}
+          <description/>
         </term>
-        <term> {dPlateau}
-          <description>Description TBD</description>
+        <term> {Middle_slope}
+          <description/>
+        </term>
+        <term> {Lower_slope}
+          <description/>
+        </term>
+        <term> {Flat_land}
+          <description/>
+        </term>
+        <term> {Hill}
+          <description/>
+        </term>
+        <term> {River_flat}
+          <description/>
+        </term>
+        <term> {Creek_flat}
+          <description/>
+        </term>
+        <term> {Long_gradual_slope}
+          <description/>
+        </term>
+        <term> {Short_steep_slope}
+          <description/>
         </term>
       </lookup>
     </property>
-    <property name="Vegetation Structure" type="enum">
-      <description>Description TBD</description>
+    <property name="Remarks on landform" type="freetext">
+      <description>Comments such as: degrees of slope angles measured/estimated with a clinometer, incised stream valleys, size of landform, which geological characteristics are present on the geological map, e.g. Chitimwe, Chiwondo, Dinosaur Beds, etc</description>
+    </property>
+    <property name="Average percentage of visibility of surface of the landform area" type="enum">
+      <description>Visibility determined and recorded to the nearest 10 %, taking into account grass cover, leaf litter, etc.</description>
       <lookup>
-        <term> {aOpen_Forest}
-          <description>Description TBD</description>
+        <term> {10_percent}
+          <description/>
         </term>
-        <term> {bClosed_Forest}
-          <description>Description TBD</description>
+        <term> {20_percent}
+          <description/>
         </term>
-        <term> {cScrub}
-          <description>Description TBD</description>
+        <term> {30_percent}
+          <description/>
         </term>
-        <term> {dGrassland}
-          <description>Description TBD</description>
+        <term> {40_percent}
+          <description/>
         </term>
-        <term> {eSwamp}
-          <description>Description TBD</description>
+        <term> {50_percent}
+          <description/>
+        </term>
+        <term> {60_percent}
+          <description/>
+        </term>
+        <term> {70_percent}
+          <description/>
+        </term>
+        <term> {80_percent}
+          <description/>
+        </term>
+        <term> {90_percent}
+          <description/>
+        </term>
+        <term> {z100_percent}
+          <description/>
         </term>
       </lookup>
     </property>
-    <property name="Ground Surface Visibility" type="enum">
-      <description>Description TBD</description>
+    <property name="Remarks on visibility" type="freetext">
+      <description>Comments such as: open patches, field, short or tall grass, trees, buildings, water surface, etc</description>
+    </property>
+    <property name="Average percentage of exposure of artefacts" type="enum">
+      <description>Exposure estimated to the nearest 10 % as the mean percentage of the surface area of the survey where erosion was sufficient to reveal objects on the surface of the ground.</description>
       <lookup>
-        <term> {aNone}
-          <description>Description TBD</description>
+        <term> {10_percent}
+          <description/>
         </term>
-        <term> {bLow}
-          <description>Description TBD</description>
+        <term> {20_percent}
+          <description/>
         </term>
-        <term> {cGood}
-          <description>Description TBD</description>
+        <term> {30_percent}
+          <description/>
         </term>
-        <term> {dExcellent}
-          <description>Description TBD</description>
+        <term> {40_percent}
+          <description/>
+        </term>
+        <term> {50_percent}
+          <description/>
+        </term>
+        <term> {60_percent}
+          <description/>
+        </term>
+        <term> {70_percent}
+          <description/>
+        </term>
+        <term> {80_percent}
+          <description/>
+        </term>
+        <term> {90_percent}
+          <description/>
+        </term>
+        <term> {z100_percent}
+          <description/>
         </term>
       </lookup>
     </property>
-    <property name="Notes" type="freetext">
-      <description>Description TBD</description>
+    <property name="Remarks on exposure" type="freetext">
+      <description>Comments such as: erosion and other things that can cause erosion; agricultural activity, grazing, road disturbance, etc.</description>
     </property>
-    <property name="Photo" type="file">
-      <description>Description TBD</description>
+    <property name="Basic geomorphic summary" type="enum">
+      <description>Comments such as: erosion and other things that can cause erosion; agricultural activity, grazing, road disturbance, etc.</description>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {Bedrock}
+          <description/>
+        </term>
+        <term> {Lag_on_bedrock}
+          <description/>
+        </term>
+        <term> {Lag_on_sediments}
+          <description/>
+        </term>
+        <term> {Colluvium}
+          <description/>
+        </term>
+        <term> {Alluvial_fan}
+          <description/>
+        </term>
+        <term> {Floodplain_alluvium}
+          <description/>
+        </term>
+        <term> {Fluvially_incised_sediments_strath_terraces}
+          <description/>
+        </term>
+        <term> {Other}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Cobble distribution" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {aNot_present}
+          <description/>
+        </term>
+        <term> {bEvenly_scattered}
+          <description/>
+        </term>
+        <term> {cQuite_evenly}
+          <description/>
+        </term>
+        <term> {dAggregated}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Estimated number of cobbles per m2" type="float">
+      <description>Estimate the number of cobbles per square m</description>
+    </property>
+    <property name="Other remarks on cobbles" type="freetext">
+      <description></description>
+    </property>
+    <property name="Sediment size" type="enum">
+      <description>Select all sediment sizes that apply</description>
+      <lookup>
+        <term> {Fine}
+          <description/>
+        </term>
+        <term> {Coarse}
+          <description/>
+        </term>
+        <term> {Small_Clasts}
+          <description/>
+        </term>
+        <term> {Large_Clasts}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Sediment thickness" type="enum">
+      <description/>
+      <lookup>
+        <term> {Less_than_10cm}
+          <description/>
+        </term>
+        <term> {Greater_than_10cm}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Other remarks on transect" type="freetext">
+      <description>Any other comments on the transect recording</description>
     </property>
     <property name="Team" type="file">
       <description>Description TBD</description>
@@ -169,6 +574,487 @@
        <term>B<description/></term>
        <term>C<description/></term>
       </lookup>
+    </property>
+  </ArchaeologicalElement>
+
+  <ArchaeologicalElement name="Artefact">
+    <description></description>
+    <property name="Artefact ID" type="freetext" isIdentifier="true">
+      <description/>
+    </property>
+    <property name="X" type="float">
+      <description/>
+    </property>
+    <property name="Y" type="float">
+      <description/>
+    </property>
+    <property name="Z" type="float">
+      <description/>
+    </property>
+    <property name="Technological Component" type="enum">
+      <description/>
+      <lookup>
+        <term> {aFlake}
+          <description/>
+        </term>
+        <term> {bCore}
+          <description/>
+        </term>
+        <term> {cShatter_Flake_Piece}
+          <description/>
+        </term>
+        <term> {zOther}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Weight" type="float">
+      <description/>
+    </property>
+    <property name="Maximum length" type="float">
+      <description>For flakes, this must be measured longitudinally, e.g from the platform to the termination</description>
+    </property>
+    <property name="Maximum width" type="float">
+      <description>For flakes, this must be measured transversely, e.g from one lateral margin of the flake to the other</description>
+    </property>
+    <property name="Maximum thickness" type="float">
+      <description/>
+    </property>
+    <property name="Thickness Measurement site" type="enum">
+      <description/>
+      <lookup>
+        <term> {Bulb}
+          <description/>
+        </term>
+        <term> {zOther_describe}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Maximum Dimension" type="float">
+      <description>The maximum dimension across the object</description>
+    </property>
+    <property name="Raw material" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {aQuartzite}
+          <description/>
+        </term>
+        <term> {bChert}
+          <description/>
+        </term>
+        <term> {cSilcrete}
+          <description/>
+        </term>
+        <term> {zOther_annotation}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Artefact Weathering stage" type="enum">
+      <description/>
+      <lookup>
+        <term> 0
+          <description/>
+        </term>
+        <term> 1
+          <description/>
+        </term>
+        <term> 2
+          <description/>
+        </term>
+        <term> 3
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Longitudinal Portion" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {aComplete}
+          <description/>
+        </term>
+        <term> {bProximal}
+          <description/>
+        </term>
+        <term> {cMedial}
+          <description/>
+        </term>
+        <term> {dDistal}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Transverse Portion" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {aComplete}
+          <description/>
+        </term>
+        <term> {bSplit_Left}
+          <description/>
+        </term>
+        <term> {cMiddle}
+          <description/>
+        </term>
+        <term> {dSplit_Right}
+          <description/>
+        </term>
+        <term> {eMargin}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Platform Type" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {aCortical}
+          <description/>
+        </term>
+        <term> {bPlain}
+          <description/>
+        </term>
+        <term> {cDihedral}
+          <description/>
+        </term>
+        <term> {dPolyhedral}
+          <description/>
+        </term>
+        <term> {eFaceted}
+          <description/>
+        </term>
+        <term> {fCrushed_Shattered}
+          <description/>
+        </term>
+        <term> {gPoint}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Platform Cortex" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {aNo_Cortex}
+          <description/>
+        </term>
+        <term> {bPartial_Platform_Cortex}
+          <description/>
+        </term>
+        <term> {cComplete_Platform_Cortex}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Termination" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {aFeather}
+          <description/>
+        </term>
+        <term> {bOvershot}
+          <description/>
+        </term>
+        <term> {cHinge}
+          <description/>
+        </term>
+        <term> {dStep}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Percentage Cortical Coverage" type="enum">
+      <description>Percentage of the dorsal and platform surfaces combined that is covered in cortex.</description>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {a0-24}
+          <description/>
+        </term>
+        <term> {b25-49}
+          <description/>
+        </term>
+        <term> {c50-74}
+          <description/>
+        </term>
+        <term> {d75-99}
+          <description/>
+        </term>
+        <term> {e_100}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Flake Typology" type="enum">
+      <description/>
+      <lookup>
+        <term> {aNone}
+          <description/>
+        </term>
+        <term> {bLevallois}
+          <description/>
+        </term>
+        <term> {cBlade}
+          <description/>
+        </term>
+        <term> {dPoint}
+          <description/>
+        </term>
+        <term> {eBacked}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Scar Orientation" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {aIndeterminate}
+          <description/>
+        </term>
+        <term> {bLevallois}
+          <description/>
+        </term>
+        <term> {cUnidirectional}
+          <description/>
+        </term>
+        <term> {dBidirectional_Opposed}
+          <description/>
+        </term>
+        <term> {eBidirectional_Orthogonal}
+          <description/>
+        </term>
+        <term> {fCentripetal}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Number of Dorsal Scars" type="float">
+      <description>Only count scars >15 mm in the maximum dimension</description>
+    </property>
+    <property name="Retouched" type="enum">
+      <description>Describe the retouch, e.g. invasive, non-invasive, steep, shallow, etc.</description>
+      <lookup>
+        <term> {Yes}
+          <description/>
+        </term>
+        <term> {No}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Flake Comments" type="Freetxt">
+      <description/>
+    </property>
+    <property name="Completeness" type="enum">
+      <description/>
+      <lookup>
+        <term> {Complete}
+          <description/>
+        </term>
+        <term> {Broken}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Core Weathering stage" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {aNo_edge_rounding}
+          <description/>
+        </term>
+        <term> {bEdge_rounding_visible}
+          <description/>
+        </term>
+        <term> {cEdge_rounding_visible_to_eye}
+          <description/>
+        </term>
+        <term> {dEdge_rounding_obscured}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Outer Surface (Cortex) on Whole Core" type="enum">
+      <description/>
+      <lookup>
+        <term> {aNone}
+          <description/>
+        </term>
+        <term> {bLess_than_25}
+          <description/>
+        </term>
+        <term> {c25-50}
+          <description/>
+        </term>
+        <term> {d50-75}
+          <description/>
+        </term>
+        <term> {eGreater_than_75}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Outer Surface (Cortex) on Upper Hemisphere" type="enum">
+      <description>Face with the lowest amount of cortex</description>
+      <lookup>
+        <term> {aNone}
+          <description/>
+        </term>
+        <term> {bLess_than_25}
+          <description/>
+        </term>
+        <term> {c25-50}
+          <description/>
+        </term>
+        <term> {d50-75}
+          <description/>
+        </term>
+        <term> {eGreater_than_75}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Outer Surface (Cortex) on Lower Hemisphere" type="enum">
+      <description>Face with the higest amount of cortex</description>
+      <lookup>
+        <term> {aNone}
+          <description/>
+        </term>
+        <term> {bLess_than_25}
+          <description/>
+        </term>
+        <term> {c25-50}
+          <description/>
+        </term>
+        <term> {d50-75}
+          <description/>
+        </term>
+        <term> {eGreater_than_75}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Number of Flake Scars" type="float">
+      <description>All scars ≥ 10 mm in length and width</description>
+    </property>
+    <property name="Number of Platforms" type="float">
+      <description/>
+    </property>
+    <property name="Flaking on Core Perimeter" type="enum">
+      <description/>
+      <lookup>
+        <term> {aNot_applicable}
+          <description/>
+        </term>
+        <term> {bLess_than_20}
+          <description/>
+        </term>
+        <term> {c20-40}
+          <description/>
+        </term>
+        <term> {d40-60}
+          <description/>
+        </term>
+        <term> {e60-80}
+          <description/>
+        </term>
+        <term> {fGreater_than_80}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Core Typology" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {aLevallois}
+          <description/>
+        </term>
+        <term> {bDisc}
+          <description/>
+        </term>
+        <term> {cDiscoidal}
+          <description/>
+        </term>
+        <term> {dSingle_platformed_Unifacial}
+          <description/>
+        </term>
+        <term> {eSingle_Platformed_Bifacial}
+          <description/>
+        </term>
+        <term> {fDouble_Platformed_Opposed}
+          <description/>
+        </term>
+        <term> {gDouble_Platformed_at_Right_Angles}
+          <description/>
+        </term>
+        <term> {hMultiple_Platformed}
+          <description/>
+        </term>
+        <term> {iShapeless/Miscellaneous}
+          <description/>
+        </term>
+        <term> {jBlade}
+          <description/>
+        </term>
+        <term> {kBipolar}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Other Type" type="enum">
+      <description/>
+      <lookup>
+        <term> {0No_Observation}
+          <description/>
+        </term>
+        <term> {Manuport}
+          <description/>
+        </term>
+        <term> {Hammerstone}
+          <description/>
+        </term>
+        <term> {Grindstone}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Other Photo" type="file">
+      <description/>
+    </property>
+    <property name="Flake Photo" type="file">
+      <description/>
+    </property>
+    <property name="Core Photo" type="file">
+      <description/>
+    </property>
+    <property name="Shatter Photo" type="file">
+      <description/>
     </property>
   </ArchaeologicalElement>
 </dataSchema>
