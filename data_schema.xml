@@ -5,11 +5,7 @@
   </RelationshipElement>
   <ArchaeologicalElement name="POI">
     <description></description>
-<<<<<<< HEAD
     <property name="POI ID" type="freetext" isIdentifier="true">
-=======
-    <property name="POI ID" type="freetext">
->>>>>>> f6952e0cbb680d9d8cc642641ccab3ec97982502
       <description/>
     </property>
     <property name="Latitude" type="float">
@@ -359,7 +355,6 @@
 
   <ArchaeologicalElement name="Survey Unit" type="freetext">
     <description></description>
-<<<<<<< HEAD
     <property name="Survey Unit ID" type="freetext" isIdentifier="true">
       <description>Unique identifier for this transect</description>
     </property>
@@ -410,55 +405,6 @@
     <property name="Remarks on landform" type="freetext">
       <description>Comments such as: degrees of slope angles measured/estimated with a clinometer, incised stream valleys, size of landform, which geological characteristics are present on the geological map, e.g. Chitimwe, Chiwondo, Dinosaur Beds, etc</description>
     </property>
-=======
-    <property name="Survey Unit ID" type="freetext">
-      <description>Unique identifier for this transect</description>
-    </property>
-    <property name="Photo file numbers" type="freetext">
-      <description>List the camrera ID of the pictures you have taken of this transect</description>
-    </property>
-    <property name="Landform" type="enum">
-      <description>Select the type of landform</description>
-      <lookup>
-        <term> {0No_Observation}
-          <description/>
-        </term>
-        <term> {Range_top}
-          <description/>
-        </term>
-        <term> {Upper_slope}
-          <description/>
-        </term>
-        <term> {Middle_slope}
-          <description/>
-        </term>
-        <term> {Lower_slope}
-          <description/>
-        </term>
-        <term> {Flat_land}
-          <description/>
-        </term>
-        <term> {Hill}
-          <description/>
-        </term>
-        <term> {River_flat}
-          <description/>
-        </term>
-        <term> {Creek_flat}
-          <description/>
-        </term>
-        <term> {Long_gradual_slope}
-          <description/>
-        </term>
-        <term> {Short_steep_slope}
-          <description/>
-        </term>
-      </lookup>
-    </property>
-    <property name="Remarks on landform" type="freetext">
-      <description>Comments such as: degrees of slope angles measured/estimated with a clinometer, incised stream valleys, size of landform, which geological characteristics are present on the geological map, e.g. Chitimwe, Chiwondo, Dinosaur Beds, etc</description>
-    </property>
->>>>>>> f6952e0cbb680d9d8cc642641ccab3ec97982502
     <property name="Average percentage of visibility of surface of the landform area" type="enum">
       <description>Visibility determined and recorded to the nearest 10 %, taking into account grass cover, leaf litter, etc.</description>
       <lookup>
