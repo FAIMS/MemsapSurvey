@@ -65,6 +65,10 @@ updateCurrentTransect(){
     }
 }
 
+updateCurrentTransect(){
+    populateList("control/Start/currentSurveyUnit", fetchAll("select uuid, response from identifierAsSpreadsheet where uuid = "+survey_unit_id+""));
+}
+
 loadRecord(){
     if (getListItemValue() != ""  && !getListItemValue().equals("No entries found")){
         if (getFieldValue("control/Start/archentsRadio").equals("Survey Unit")){

@@ -460,7 +460,6 @@
          <input ref="map" faims_map="true" faims_certainty="false">
           <label/>
         </input>
-
         <trigger ref="centre">
           <label>Centre Me</label>
         </trigger>
