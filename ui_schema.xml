@@ -90,7 +90,17 @@
           <Survey_Unit>
             <Survey_Unit>
               <Survey_Unit_ID/>
+              <container1>
+                <child1>
+                  <Timestamp/>
+                </child1>
+                <child2>
+                  <Recorded_by/>
+                </child2>
+              </container1>
               <Total_Transect_Width/>
+              <Participants/>
+              <Number_of_Walkers/>
               <Photo_file_numbers/>
               <Landform/>
               <Remarks_on_landform/>
@@ -103,6 +113,7 @@
               <Estimated_number_of_cobbles_per_m2/>
               <Other_remarks_on_cobbles/>
               <Sediment_size/>
+              <Sediment_thickness/>
               <Other_remarks_on_transect/>
               <Photo/>
               <Attach_Photo/>
@@ -123,9 +134,17 @@
                 </child2>
               </container1>
               <Take_GPS/>
+              <container2>
+                <child1>
+                  <Timestamp/>
+                </child1>
+                <child2>
+                  <Recorded_by/>
+                </child2>
+              </container2>
               <Object/>
               <Weight/>
-              <container2>
+              <container3>
                 <child1>
                   <Maximum_length/>
                 </child1>
@@ -135,7 +154,7 @@
                 <child3>
                   <Maximum_thickness/>
                 </child3>
-              </container2>
+              </container3>
               <Raw_material/>
               <Crystal_Size/>
               <Abundance_of_Flaws/>
@@ -162,6 +181,7 @@
               <Number_of_Flake_Scars/>
               <Number_of_Platforms/>
               <Flaking_on_Core_Perimeter/>
+              <Typology/>
               <Update_and_Return/>
               <Delete/>
             </Core>
@@ -242,17 +262,18 @@
           </Artefact>
         </faims>
       </instance>
+      <bind nodeset="/faims/control/Start/container1/child2/Walker" type="decimal"/>
       <bind nodeset="/faims/Survey_Unit/Survey_Unit/Estimated_number_of_cobbles_per_m2" type="decimal"/>
-      <bind nodeset="/faims/Survey_Unit/Survey_Unit/Total_Transect_Width" type="decimal"/>      
+      <bind nodeset="/faims/Survey_Unit/Survey_Unit/Total_Transect_Width" type="decimal"/>
+      <bind nodeset="/faims/Survey_Unit/Survey_Unit/Number_of_Walkers" type="decimal"/>
       <bind nodeset="/faims/POI/POI/container1/child1/Latitude" type="decimal"/>
       <bind nodeset="/faims/POI/POI/container1/child2/Longitude" type="decimal"/>
       <bind nodeset="/faims/POI/POI/Weight" type="decimal"/>
-      <bind nodeset="/faims/POI/POI/container2/child1/Maximum_length" type="decimal"/>
-      <bind nodeset="/faims/POI/POI/container2/child2/Maximum_width" type="decimal"/>
-      <bind nodeset="/faims/POI/POI/container2/child3/Maximum_thickness" type="decimal"/>
+      <bind nodeset="/faims/POI/POI/container3/child1/Maximum_length" type="decimal"/>
+      <bind nodeset="/faims/POI/POI/container3/child2/Maximum_width" type="decimal"/>
+      <bind nodeset="/faims/POI/POI/container3/child3/Maximum_thickness" type="decimal"/>
       <bind nodeset="/faims/POI/Core/Number_of_Flake_Scars" type="decimal"/>
       <bind nodeset="/faims/POI/Core/Number_of_Platforms" type="decimal"/>
-      <bind nodeset="/faims/control/Start/Walker" type="decimal"/>
       <bind nodeset="/faims/Artefact/Artefact/Weight" type="decimal"/>
       <bind nodeset="/faims/Artefact/Artefact/container1/child1/Maximum_length" type="decimal"/>
       <bind nodeset="/faims/Artefact/Artefact/container1/child2/Maximum_width" type="decimal"/>
@@ -390,13 +411,13 @@
           <group faims_style="even" ref="child1">
             <label/>
             <input faims_certainty="false" faims_read_only="false" ref="TeamMember">
-              <label>Team Members</label>
+              <label>{Participants}</label>
             </input>
           </group>
           <group faims_style="even" ref="child2">
             <label/>
             <input faims_certainty="false" faims_read_only="false" ref="Walker">
-              <label>Number of Walkers</label>
+              <label>{Number_of_Walkers}</label>
             </input>
           </group>
         </group>      
@@ -472,8 +493,29 @@
         <input ref="Survey_Unit_ID" faims_attribute_name="Survey Unit ID" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>{Survey_Unit_ID}</label>
         </input>
+        <group ref="container1" faims_style="orientation">
+          <label></label>
+          <group faims_style="even" ref="child1">
+            <label></label>
+            <input ref="Timestamp" faims_read_only="true" faims_certainty="false">
+              <label>{Timestamp}</label>
+            </input>
+          </group>
+          <group faims_style="even" ref="child2">
+            <label></label>
+            <input ref="Recorded_by" faims_read_only="true" faims_certainty="false">
+              <label>{Recorded_by}</label>
+            </input>
+          </group>
+        </group>
         <input ref="Total_Transect_Width" faims_attribute_name="Total Transect Width" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
-          <label>Total Transect Width</label>
+          <label>{Total_Transect_Width}</label>
+        </input>
+        <input ref="Participants" faims_attribute_name="Participants" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
+          <label>Participants</label>
+        </input>
+        <input ref="Number_of_Walkers" faims_attribute_name="Number of Walkers" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Number_of_Walkers}</label>
         </input>
         <input ref="Photo_file_numbers" faims_attribute_name="Photo file numbers" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
           <label>{Photo_file_numbers}</label>
@@ -528,8 +570,15 @@
         <input ref="Other_remarks_on_cobbles" faims_attribute_name="Other remarks on cobbles" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
           <label>{Other_remarks_on_cobbles}</label>
         </input>
-        <select1 appearance="full" ref="Sediment_size" faims_attribute_name="Sediment size" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+        <select ref="Sediment_size" faims_attribute_name="Sediment size" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
           <label>{Sediment_size}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select>
+        <select1 appearance="full" ref="Sediment_thickness" faims_attribute_name="Sediment thickness" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Sediment_thickness}</label>
           <item>
             <label>placeholder</label>
             <value>placeholder</value>
@@ -584,7 +633,22 @@
         <trigger ref="Take_GPS">
           <label>{Take_GPS}</label>
         </trigger>
-        <select1 appearance="full" ref="Object" faims_attribute_name="Object" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+        <group ref="container2" faims_style="orientation">
+          <label></label>
+          <group faims_style="even" ref="child1">
+            <label></label>
+            <input ref="Timestamp" faims_read_only="true" faims_certainty="false">
+              <label>{Timestamp}</label>
+            </input>
+          </group>
+          <group faims_style="even" ref="child2">
+            <label></label>
+            <input ref="Recorded_by" faims_read_only="true" faims_certainty="false">
+              <label>{Recorded_by}</label>
+            </input>
+          </group>
+        </group>
+        <select1 appearance="full" ref="Object" faims_attribute_name="Object" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
           <label>{Object}</label>
           <item>
             <label>placeholder</label>
@@ -594,22 +658,22 @@
         <input ref="Weight" faims_attribute_name="Weight" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
           <label>{Weight}</label>
         </input>
-        <group ref="container2" faims_style="orientation">
-          <label>container2</label>
+        <group ref="container3" faims_style="orientation">
+          <label></label>
           <group faims_style="even" ref="child1">
-            <label>child1</label>
+            <label></label>
             <input ref="Maximum_length" faims_attribute_name="Maximum length" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
               <label>{Maximum_length}</label>
             </input>
           </group>
           <group faims_style="even" ref="child2">
-            <label>child2</label>
+            <label></label>
             <input ref="Maximum_width" faims_attribute_name="Maximum width" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
               <label>{Maximum_width}</label>
             </input>
           </group>
           <group faims_style="even" ref="child3">
-            <label>child3</label>
+            <label></label>
             <input ref="Maximum_thickness" faims_attribute_name="Maximum thickness" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
               <label>{Maximum_thickness}</label>
             </input>
@@ -726,6 +790,13 @@
         </input>
         <select1 ref="Flaking_on_Core_Perimeter" faims_attribute_name="Flaking on Core Perimeter" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
           <label>{Flaking_on_Core_Perimeter}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Typology" faims_attribute_name="Core Typology" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Typology}</label>
           <item>
             <label>placeholder</label>
             <value>placeholder</value>
