@@ -1,6 +1,7 @@
 /*** 'Editable' - you can edit the code below based on the needs ***/
 User user; // don't touch
 String userid;
+Boolean transectEnabled = false;
 
 /*setSyncEnabled(true);
 setFileSyncEnabled(true);*/
@@ -61,12 +62,8 @@ updateCurrentTransect(){
                                         "where attributename = 'State') state on (transect.uuid = state.uuid) " +
                                         "group by surveyUnit.uuid " +
                                         "having min(freetext) != 'End') join identifierAsSpreadsheet using (uuid);").get(0);
-        showWarning("Warning", "The following Transects have not been finished: " +unfinished);
+        if(!isNull(unfinished)) showWarning("Warning", "The following Transects have not been finished: " +unfinished+". To finish, load the Transect below as this will make it the current Transect.");
     }
-}
-
-updateCurrentTransect(){
-    populateList("control/Start/currentSurveyUnit", fetchAll("select uuid, response from identifierAsSpreadsheet where uuid = "+survey_unit_id+""));
 }
 
 loadRecord(){
@@ -117,19 +114,18 @@ String tracklogState = "Stop";
 numTracklogPoints = 0;
 tracklogCurrentStatus = "";
 numTransectPoints = 0;
-stateAppend = "";
 
 startTimeTrack(){
     stopTrack();
     tracklogState = "Time";
-    startTrackingGPS("time",  Integer.parseInt(getFieldValue("control/Control/tracktimeText")), "saveGPSTrack()");
+    startTrackingGPS("time",  Integer.parseInt(getFieldValue("control/Control/tracktimeText")), "saveGPSTrack(\"\")");
     updateTrackStatus();
 }
 
 startDistTrack(){
     stopTrack();
     tracklogState = "Distance";
-    startTrackingGPS("distance", Integer.parseInt(getFieldValue("control/Control/trackdistText")), "saveGPSTrack()");
+    startTrackingGPS("distance", Integer.parseInt(getFieldValue("control/Control/trackdistText")), "saveGPSTrack(\"\")");
     updateTrackStatus();
 }
 
@@ -160,9 +156,9 @@ updateTrackStatus(){
     setFieldValue("control/Control/trackStatus", tracklogStatus);
     setFieldValue("Survey_Unit/Survey_Unit/trackStatus", tracklogStatus);
 }
-Boolean transectEnabled = false;
 
-saveGPSTrack() {
+
+saveGPSTrack(String stateAppend) {
     position = getGPSPosition();
     if (position == null) {
         tracklogState = "Bad GPS Fix";
@@ -204,10 +200,9 @@ saveGPSTrack() {
         l = new ArrayList();
         l.add(p);
         
-       transect_id = saveArchEnt(null, "Transect", l, attributes);
+        transect_id = saveArchEnt(null, "Transect", l, attributes);
           
-
-        saveEntitiesToRel("TransectSUI", transect_id, survey_unit_id); 
+        saveEntitiesToRel("TransectSUI", transect_id, survey_unit_id);
     }
     updateTrackStatus();
 }
@@ -231,10 +226,9 @@ finishSurveyUnit(){
         showWarning("Warning", "You have lost your GPS signal, please wait until the GPS icon is blue before you finish you Survey Unit.");
         return;
     }
-    saveSurveyUnit("stateAppend=\"End\";saveGPSTrack();transectEnabled=false;updateCurrentTransect();");
+    saveSurveyUnit("saveGPSTrack(\"End\");transectEnabled=false;updateCurrentTransect();");
 }
 newSurveyUnit(){
-
     if (transectEnabled) {
         showWarning("Already tracking!", "You're already in a Transect! Loading it now.");
         loadSurveyUnitFrom(survey_unit_id);
@@ -249,17 +243,16 @@ newSurveyUnit(){
 
     survey_unit_id = null;
     numTransectPoints = 0;
-    stateAppend = "Start";
     newTabGroup("Survey_Unit");
     datetime = fetchOne("select datetime('now', 'localtime');");
-
-    // TODO: CHECK IF WE STILL NEED THESE FIELDS
-    // setFieldValue("Survey_Unit/Survey_Unit/Timestamp", datetime.get(0));
-    // setFieldValue("Survey_Unit/Survey_Unit/Participants", getFieldValue("control/Start/TeamMember"));
-    // setFieldValue("Survey_Unit/Survey_Unit/Number_of_Walkers", getFieldValue("control/Start/Walker"));
+    setFieldValue("Survey_Unit/Survey_Unit/Timestamp", datetime.get(0));
+    setFieldValue("Survey_Unit/Survey_Unit/Recorded_by", username);
+    setFieldValue("Survey_Unit/Survey_Unit/Participants", getFieldValue("control/Start/TeamMember"));
+    setFieldValue("Survey_Unit/Survey_Unit/Number_of_Walkers", getFieldValue("control/Start/Walker"));
     autoNumSurveyUnit();
-    transectEnabled = true;
-    saveSurveyUnit("saveGPSTrack();");
+    
+
+    saveSurveyUnit("transectEnabled = true;saveGPSTrack(\"Start\");");
 }
 
 loadSurveyUnit() {
@@ -293,14 +286,17 @@ loadSurveyUnitFrom(archentid) {
     } else {
         transectEnabled = true;
     }
+    
     survey_unit_id = archentid;
     if (isNull(survey_unit_id)) {
         showToast("No Survey Unit selected");
         return;
     }
     showTabGroup("Survey_Unit", survey_unit_id);
-//     Object bar = fetchOne("select datetime(aentTimestamp, 'localtime')  from archentity where uuid = '"+survey_unit_id+"' group by uuid having min(aenttimestamp);");
-//     setFieldValue("Survey_Unit/Survey_Unit/Timestamp", bar.get(0));
+    Object foo = fetchOne("select fname || ' ' || lname from user join archentity using (userid) where uuid = '"+survey_unit_id+"' group by uuid having min(aenttimestamp)");
+    setFieldValue("Survey_Unit/Survey_Unit/Recorded_by", foo.get(0));
+    Object bar = fetchOne("select datetime(aentTimestamp, 'localtime')  from archentity where uuid = '"+survey_unit_id+"' group by uuid having min(aenttimestamp);");
+    setFieldValue("Survey_Unit/Survey_Unit/Timestamp", bar.get(0));
 }
 
 saveSurveyUnit(String callback) {
@@ -325,6 +321,22 @@ deleteSurveyUnit(){
 }
 
 reallyDeleteSurveyUnit() {
+    transects = fetchAll("select transect.uuid " +
+            "from " +
+            "(select uuid, relationshipid " +
+            "from (select aenttypeid from aenttype where aenttypename = 'Survey Unit')  " +
+                    "join latestnondeletedarchent using (aenttypeid) " +
+                    "join latestnondeletedaentreln using (uuid)) surveyUnit  " +
+            "join ((select aenttypeid from aenttype where aenttypename = 'Transect')  " +
+                    "join latestnondeletedarchent using (aenttypeid) " +
+                    "join latestnondeletedaentreln using (uuid)) transect using (relationshipid) " +
+            "where surveyUnit.uuid = " + survey_unit_id + ";");
+    print(transects);
+    if(!isNull(transects)) {
+        for(transect:transects) {
+            deleteArchEnt(transect.get(0));
+        }
+    }
     deleteArchEnt(survey_unit_id);
     cancelTabGroup("Survey_Unit", false);
     transectEnabled = false;
@@ -336,7 +348,9 @@ loadSurveyUnitAttributes() {
     populateDropDown("Survey_Unit/Survey_Unit/Average_percentage_of_exposure_of_artefacts", makeVocab("Average percentage of exposure of artefacts"));
     populateDropDown("Survey_Unit/Survey_Unit/Basic_geomorphic_summary", makeVocab("Basic geomorphic summary"));
     populateDropDown("Survey_Unit/Survey_Unit/Cobble_distribution", makeVocab("Cobble distribution"));
-    populateRadioGroup("Survey_Unit/Survey_Unit/Sediment_size", makeVocab("Sediment size"));
+    populateCheckBoxGroup("Survey_Unit/Survey_Unit/Sediment_size", makeVocab("Sediment size"));
+    populateRadioGroup("Survey_Unit/Survey_Unit/Sediment_thickness", makeVocab("Sediment thickness"));
+
 }
 
 
@@ -381,10 +395,10 @@ String poi_id = null;
 newPOI(){
     poi_id = null;
     newTabGroup("POI");
-    // TODO: Ask Adela if we still need these fields
-    // setFieldValue("POI/POI/Recorded_By", username);
-    // datetime = fetchOne("select datetime('now', 'localtime');");
-    // setFieldValue("POI/POI/Timestamp", datetime.get(0));
+    setFieldValue("POI/POI/Recorded_by", username);
+    datetime = fetchOne("select datetime('now', 'localtime');");
+    setFieldValue("POI/POI/Timestamp", datetime.get(0));
+    fillInGPS("POI/POI/");
     autoNumPOI();
 }
 
@@ -402,7 +416,7 @@ loadPOIFrom(archentid) {
 
     showTabGroup("POI", poi_id);
     Object foo = fetchOne("select fname || ' ' || lname from user join archentity using (userid) where uuid = '"+poi_id+"' group by uuid having min(aenttimestamp)");
-    setFieldValue("POI/POI/Recorded_By", foo.get(0));
+    setFieldValue("POI/POI/Recorded_by", foo.get(0));
     Object bar = fetchOne("select datetime(aentTimestamp, 'localtime')  from archentity where uuid = '"+poi_id+"' group by uuid having min(aenttimestamp);");
     setFieldValue("POI/POI/Timestamp", bar.get(0));
 }
@@ -416,7 +430,11 @@ savePOI(String callback) {
     if (!isNull(poi_id)) {
         entity = fetchArchEnt(poi_id);
     }
-    saveTabGroup("POI", poi_id, null, null, "poi_id = getLastSavedRecordId();" + callback);
+    positionProj = getGPSPositionProjected();
+    Point p = new Point(new MapPos(positionProj.getLongitude(), positionProj.getLatitude()), null, (PointStyle) null, null);
+    l = new ArrayList();
+    l.add(p);
+    saveTabGroup("POI", poi_id, l, null, "poi_id = getLastSavedRecordId();" + callback);
 }
 
 deletePOI(){
@@ -444,6 +462,8 @@ loadPOIAttributes() {
     populateDropDown("POI/Core/Outer_Surface_on_Whole_Core", makeVocab("Outer Surface (Cortex) on Whole Core"));
     populateDropDown("POI/Core/Outer_Surface_on_Upper_Hemisphere", makeVocab("Outer Surface (Cortex) on Upper Hemisphere"));
     populateDropDown("POI/Core/Outer_Surface_on_Lower_Hemisphere", makeVocab("Outer Surface (Cortex) on Lower Hemisphere"));
+    populateDropDown("POI/Core/Typology", makeVocab("Core Typology"));
+
 }
 
 showPOITabs(Boolean onSave) {
@@ -678,7 +698,7 @@ fillInGPS(String path){
 
 /*** 'Uneditable' - you can edit the code below with extreme precaution ***/
 
-DATA_ENTRY_LAYER = "Transect Layer";
+DATA_ENTRY_LAYER = "Data Entry Layer";
 DATA_ENTRY_LAYER_ID = 0;
 
 onEvent("control/Map", "show", "drawTransects()");
@@ -731,7 +751,21 @@ initMap() {
     pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
     ts = createTextStyle(10, Color.RED, 30, Typeface.SANS_SERIF);
 
-    showDatabaseLayer("control/Map/map", "Saved Data Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
+    showDatabaseLayer("control/Map/map", "Transect Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
+
+
+    poiName = "Points of Interest";
+    poiSQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'POI'";
+    poiPS = createPointStyle(10, Color.GREEN, 0.2f, 0.5f);
+    poiTS = createTextStyle(10, Color.WHITE, 30, Typeface.SERIF);
+
+        
+    addDatabaseLayerQuery("control/Map/map", poiName, poiSQL);
+    showDatabaseLayer("control/Map/map", "Points of Interest Layer", isEntity, poiName, poiSQL, poiPS, ls, pos, poiTS);
+
+
+
+
 }
 
 initMap();
