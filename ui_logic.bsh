@@ -340,6 +340,7 @@ reallyDeleteSurveyUnit() {
     deleteArchEnt(survey_unit_id);
     cancelTabGroup("Survey_Unit", false);
     transectEnabled = false;
+    showTab("control/Start");
 }
 
 loadSurveyUnitAttributes() {
@@ -431,9 +432,13 @@ savePOI(String callback) {
         entity = fetchArchEnt(poi_id);
     }
     positionProj = getGPSPositionProjected();
-    Point p = new Point(new MapPos(positionProj.getLongitude(), positionProj.getLatitude()), null, (PointStyle) null, null);
     l = new ArrayList();
-    l.add(p);
+    if (positionProj != null){
+        Point p = new Point(new MapPos(positionProj.getLongitude(), positionProj.getLatitude()), null, (PointStyle) null, null);
+        l.add(p);
+    } else {
+        l = null;
+    }
     saveTabGroup("POI", poi_id, l, null, "poi_id = getLastSavedRecordId();" + callback);
 }
 
@@ -448,6 +453,7 @@ deletePOI(){
 reallyDeletePOI() {
     deleteArchEnt(poi_id);
     cancelTabGroup("POI", false);
+    showTab("control/Start");
 }
 
 loadPOIAttributes() {
@@ -575,6 +581,7 @@ deleteArtefact(){
 reallyDeleteArtefact() {
     deleteArchEnt(artefact_id);
     cancelTabGroup("Artefact", false);
+    showTab("control/Start");
 }
 
 loadArtefactAttributes() {

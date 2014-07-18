@@ -587,7 +587,7 @@
         <input ref="Other_remarks_on_transect" faims_attribute_name="Other remarks on transect" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
           <label>{Other_remarks_on_transect}</label>
         </input>
-        <select type="camera" faims_sync="true" ref="Photo" faims_attribute_name="Transect Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+        <select type="camera" faims_sync="false" ref="Photo" faims_attribute_name="Transect Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>{Photos}</label>
           <item>
             <label>placeholder</label>
@@ -706,7 +706,7 @@
         <input ref="Other_Comments" faims_attribute_name="Other Comments" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
           <label>{Other_Comments}</label>
         </input>
-        <select type="camera" faims_sync="true" ref="Photo" faims_attribute_name="Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+        <select type="camera" faims_sync="false" ref="Photo" faims_attribute_name="Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>{Photos}</label>
           <item>
             <label>placeholder</label>
@@ -953,7 +953,7 @@
         <input ref="Flake_Comments" faims_attribute_name="Flake Comments" faims_attribute_type="freetext" faims_certainty="true" faims_annotation="false" faims_read_only="false">
           <label>{Flake_Comments}</label>
         </input>
-        <select type="camera" faims_sync="true" ref="Photo" faims_attribute_name="Flake Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+        <select type="camera" faims_sync="false" ref="Photo" faims_attribute_name="Flake Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>{Photos}</label>
           <item>
             <label>placeholder</label>
@@ -1030,7 +1030,7 @@
             <value>placeholder</value>
           </item>
         </select1>
-        <select type="camera" faims_sync="true" ref="Photo" faims_attribute_name="Core Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+        <select type="camera" faims_sync="false" ref="Photo" faims_attribute_name="Core Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>{Photos}</label>
           <item>
             <label>placeholder</label>
@@ -1059,7 +1059,7 @@
             <value>placeholder</value>
           </item>
         </select1>
-        <select type="camera" faims_sync="true" ref="Photo" faims_attribute_name="Shatter Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+        <select type="camera" faims_sync="false" ref="Photo" faims_attribute_name="Shatter Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>{Photos}</label>
           <item>
             <label>placeholder</label>
@@ -1088,7 +1088,7 @@
             <value>placeholder</value>
           </item>
         </select1>
-        <select type="camera" faims_sync="true" ref="Photo" faims_attribute_name="Other Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+        <select type="camera" faims_sync="false" ref="Photo" faims_attribute_name="Other Photo" faims_attribute_type="freetext" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>{Photos}</label>
           <item>
             <label>placeholder</label>
