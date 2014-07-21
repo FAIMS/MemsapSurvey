@@ -1048,7 +1048,7 @@
         </trigger>
       </group>
       <group ref="Shatter_Flakes" faims_hidden="true">
-        <label>Shatter_Flakes</label>
+        <label>{cShatter_Flake_Piece}</label>
         <input ref="Artefact_ID" faims_certainty="false" faims_annotation="false" faims_read_only="true">
           <label>{Artefact_ID}</label>
         </input>
