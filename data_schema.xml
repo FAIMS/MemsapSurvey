@@ -14,6 +14,12 @@
     <property name="Longitude" type="float">
       <description/>
     </property>
+    <property name="Northing" type="float">
+      <description/>
+    </property>
+    <property name="Easting" type="float">
+      <description/>
+    </property>
     <property name="Object" type="enum">
       <description/>
       <lookup>

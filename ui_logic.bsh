@@ -695,12 +695,17 @@ doNotDelete(){
 }
 
 fillInGPS(String path){
+    Object position = getGPSPosition();    
     Object projPosition = getGPSPositionProjected();
     if (projPosition != null ){
-        Double latitude = projPosition.getLatitude();
-        Double longitude = projPosition.getLongitude();
+        Double latitude = position.getLatitude();
+        Double longitude = position.getLongitude();
+        Double northing = projPosition.getLatitude();
+        Double easting = projPosition.getLongitude();
         setFieldValue(path+"Latitude", latitude);
         setFieldValue(path+"Longitude", longitude);
+        setFieldValue(path+"Northing", northing);
+        setFieldValue(path+"Easting", easting);
     } else {
         showToast("GPS Not initialized");
     }

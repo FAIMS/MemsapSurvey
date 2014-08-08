@@ -133,6 +133,14 @@
                   <Longitude/>
                 </child2>
               </container1>
+              <container12>
+                <child1>
+                  <Northing/>
+                </child1>
+                <child2>
+                  <Easting/>
+                </child2>
+              </container12>
               <Take_GPS/>
               <container2>
                 <child1>
@@ -627,6 +635,21 @@
             <label></label>
             <input ref="Longitude" faims_attribute_name="Longitude" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
               <label>{Longitude}</label>
+            </input>
+          </group>
+        </group>
+        <group ref="container12" faims_style="orientation">
+          <label></label>
+          <group faims_style="even" ref="child1">
+            <label></label>
+            <input ref="Northing" faims_attribute_name="Northing" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+              <label>{Northing}</label>
+            </input>
+          </group>
+          <group faims_style="even" ref="child2">
+            <label></label>
+            <input ref="Easting" faims_attribute_name="Easting" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+              <label>{Easting}</label>
             </input>
           </group>
         </group>
