@@ -14,6 +14,9 @@ makeLocalID(){
 
 makeLocalID();
 
+showWarning("Transect Survey with Artefact recording Demo", "This module was created by the FAIMS team for the needs of the MEMSAP project led by Jessica Thompson of UQ. It was funded by Australian Research Council LIEF grant and is available for Demonstration purposes. You can customise the module yourself or we can help you. Contact info@fedarch.org for help. ");
+
+
 onEvent("control/Start/newSurveyUnit", "delayclick", "newSurveyUnit()");
 onEvent("control/Start/newPOI", "delayclick", "newPOI()");
 onEvent("control/Start/newArtefact", "delayclick", "newArtefact()");
