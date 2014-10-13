@@ -1,21 +1,143 @@
+import java.util.concurrent.Callable;
 /*** 'Editable' - you can edit the code below based on the needs ***/
 User user; // don't touch
 String userid;
 Boolean transectEnabled = false;
 
-/*setSyncEnabled(true);
-setFileSyncEnabled(true);*/
+addActionBarItem("sync", new ToggleActionButtonCallback() {
+    actionOnLabel() {
+        "Sync enabled";
+    }
+    actionOn() {
+        setSyncEnabled(false);
+        setFileSyncEnabled(false);
+        showToast("Sync disabled.");
+    }
+    isActionOff() {
+        isSyncEnabled();
+    }
+    actionOffLabel() {
+        "Sync disabled";
+    }
+    actionOff() {
+        setSyncEnabled(true);
+        setFileSyncEnabled(true);
+        showToast("Sync enabled.");
+    }
+});
+
+addActionBarItem("internal_gps", new ToggleActionButtonCallback() {
+    actionOnLabel() {
+        "Internal GPS enabled";
+    }
+    actionOn() {
+        stopGPS();
+        showToast("GPS disabled.");
+    }
+    isActionOff() {
+        isInternalGPSOn();
+    }
+    actionOffLabel() {
+        "Internal GPS disabled";
+    }
+    actionOff() {
+        if(isExternalGPSOn()) {
+            stopGPS();
+        }
+        startInternalGPS();
+        showToast("GPS enabled. GPS refresh rate set to " + getFieldValue("control/Control/refreshText") + ". You can change it in the Control tab.");
+    }
+});
+
+addActionBarItem("external_gps", new ToggleActionButtonCallback() {
+    actionOnLabel() {
+        "External GPS enabled";
+    }
+    actionOn() {
+        stopGPS();
+        showToast("GPS disabled.");
+    }
+    isActionOff() {
+        isExternalGPSOn();
+    }
+    actionOffLabel() {
+        "External GPS disabled";
+    }
+    actionOff() {
+        if(isInternalGPSOn()) {
+            stopGPS();
+        }
+        startExternalGPS();
+        if(isBluetoothConnected()) {
+            showToast("GPS enabled. GPS refresh rate set to " + getFieldValue("control/Control/refreshText") + ". You can change it in the Control tab.");
+        } else {
+            showToast("Please enable bluetooth.");
+            this.isActionOff();
+        }
+        
+    }
+});
+
+addActionBarItem("time_tracklog", new ToggleActionButtonCallback() {
+    actionOnLabel() {
+        "Time Tracklog enabled";
+    }
+    actionOn() {
+        stopTrack();
+        showToast("Tracklog disabled.");
+    }
+    isActionOff() {
+        tracklogState.equals("Time");
+    }
+    actionOffLabel() {
+        "Time Tracklog disabled";
+    }
+    actionOff() {
+        if(isInternalGPSOn() || isInternalGPSOn()) {
+            startTimeTrack();
+            showToast("Tracklog enabled. Tracklog time interval set to " + getFieldValue("control/Control/tracktimeText") + " seconds. You can change it in the Control tab.");    
+        } else {
+            showToast("GPS is not turned on.");
+            this.isActionOff();
+        }
+        
+    }
+});
+
+addActionBarItem("distance_tracklog", new ToggleActionButtonCallback() {
+    actionOnLabel() {
+        "Distance Tracklog enabled";
+    }
+    actionOn() {
+        stopTrack();
+        showToast("Tracklog disabled.");
+    }
+    isActionOff() {
+        tracklogState.equals("Distance");
+    }
+    actionOffLabel() {
+        "Distance Tracklog disabled";
+    }
+    actionOff() {
+        if(isInternalGPSOn() || isInternalGPSOn()) {
+            startDistTrack();
+        showToast("Tracklog enabled. Tracklog distance interval set to " + getFieldValue("control/Control/trackdistText") + " metres. You can change it in the Control tab.");
+        } else {
+            showToast("GPS is not turned on.");
+            this.isActionOff();
+        }
+    }
+});
 
 makeLocalID(){
-    fetchOne("CREATE TABLE IF NOT EXISTS localSettings (key text primary key, value text);");
-    fetchOne("drop view if exists identifierAsSpreadsheet;");
-    fetchOne("create view identifierAsSpreadsheet as select uuid, group_concat(coalesce(measure || ' ' || vocabname || '(' ||freetext||')',  measure || ' (' || freetext ||')',  vocabname || ' (' || freetext ||')',  measure || ' ' || vocabname ,  vocabname || ' (' || freetext || ')',  measure || ' (' || freetext || ')',  measure,  vocabname,  freetext,  measure,  vocabname,  freetext), ' ') as response from (select * from latestNonDeletedArchentIdentifiers order by attributename) group by uuid;");
+    fetchOne("CREATE TABLE IF NOT EXISTS localSettings (key text primary key, value text);", null);
+    fetchOne("drop view if exists identifierAsSpreadsheet;", null);
+    fetchOne("create view identifierAsSpreadsheet as select uuid, group_concat(coalesce(measure || ' ' || vocabname || '(' ||freetext||')',  measure || ' (' || freetext ||')',  vocabname || ' (' || freetext ||')',  measure || ' ' || vocabname ,  vocabname || ' (' || freetext || ')',  measure || ' (' || freetext || ')',  measure,  vocabname,  freetext,  measure,  vocabname,  freetext), ' ') as response from (select * from latestNonDeletedArchentIdentifiers order by attributename) group by uuid;", null);
 }
 
 makeLocalID();
 
 showWarning("Transect Survey with Artefact recording Demo", "This module was created by the FAIMS team for the needs of the MEMSAP project led by Jessica Thompson of UQ. It was funded by Australian Research Council LIEF grant and is available for Demonstration purposes. You can customise the module yourself or we can help you. Contact info@fedarch.org for help. ");
-
 
 onEvent("control/Start/newSurveyUnit", "delayclick", "newSurveyUnit()");
 onEvent("control/Start/newPOI", "delayclick", "newPOI()");
@@ -33,22 +155,29 @@ onEvent("control/Start/listOfLast", "click", "loadRecord()");
 showRecords(){
     type = getFieldValue("control/Start/archentsRadio");
     query = "select uuid, response from identifierAsSpreadsheet join latestnondeletedArchEnt using (uuid) join aenttype using (aenttypeid) where aenttypename like '%"+type+"%' order by aenttimestamp desc limit "+getFieldValue("control/Start/listOfLastText")+";";
-    results = fetchAll(query);
-    if (!isNull(results)){
-        populateList("control/Start/listOfLast", results);
-    } else {
-        ArrayList none = new ArrayList();
-        none.add("No entries found");
-        populateList("control/Start/listOfLast", none);
-    }
+    fetchAll(query, new FetchCallback() {
+        onFetch(result) {
+            if (!isNull(result)){
+                populateList("control/Start/listOfLast", result);
+            } else {
+                ArrayList none = new ArrayList();
+                none.add("No entries found");
+                populateList("control/Start/listOfLast", none);
+            }
+        }
+    });
 }
 
 updateCurrentTransect(){
     if(transectEnabled){
-        populateList("control/Start/currentSurveyUnit", fetchAll("select uuid, response from identifierAsSpreadsheet where uuid = "+survey_unit_id+""));
+        fetchAll("select uuid, response from identifierAsSpreadsheet where uuid = "+survey_unit_id+"", new FetchCallback() {
+            onFetch(result) {
+                populateList("control/Start/currentSurveyUnit", result);
+            }
+        });
     } else {
         populateList("control/Start/currentSurveyUnit", new ArrayList());
-        String unfinished = fetchOne("select group_concat(response) from " +
+        fetchOne("select group_concat(response) from " +
                                         "(select surveyUnit.uuid " +
                                         "from " +
                                         "(select uuid, relationshipid " +
@@ -58,14 +187,18 @@ updateCurrentTransect(){
                                         "join ((select aenttypeid from aenttype where aenttypename = 'Transect') " +
                                         "        join latestnondeletedarchent using (aenttypeid) " +
                                         "        join latestnondeletedaentreln using (uuid)) transect using (relationshipid) " +
-                                        "join (select uuid, freetext " +
+                                        "join (select uuid, measure " +
                                         "from (select aenttypeid from aenttype where aenttypename = 'Transect') " +
                                         "join latestnondeletedarchent using (aenttypeid) " +
                                         "join latestnondeletedaentvalue using (uuid) join attributekey using (attributeid) " +
                                         "where attributename = 'State') state on (transect.uuid = state.uuid) " +
                                         "group by surveyUnit.uuid " +
-                                        "having min(freetext) != 'End') join identifierAsSpreadsheet using (uuid);").get(0);
-        if(!isNull(unfinished)) showWarning("Warning", "The following Transects have not been finished: " +unfinished+". To finish, load the Transect below as this will make it the current Transect.");
+                                        "having min(measure) != 'End') join identifierAsSpreadsheet using (uuid);", new FetchCallback() {
+            onFetch(result) {
+                unfinished = result.get(0);
+                if(!isNull(unfinished)) showWarning("Warning", "The following Transects have not been finished: " +unfinished+". To finish, load the Transect below as this will make it the current Transect.");
+            }
+        });
     }
 }
 
@@ -83,8 +216,8 @@ loadRecord(){
 
 //Control Logic
 
-onEvent("control/Control/refreshGPSButton", "click", "startGPS()");
-//onEvent("control/Control/refreshButton", "click", "setGPSUpdateInterval("+getFieldValue("control/Control/refreshText")+")");
+onEvent("control/Control/startGPSButton", "click", "startGPS()");
+onEvent("control/Control/stopGPSButton", "click", "stopGPSLogic()");
 
 startGPS(){
     Object intext = getFieldValue("control/Control/internalExternalGPS");
@@ -93,15 +226,27 @@ startGPS(){
         return;
     }
     setGPSUpdateInterval(Integer.parseInt(getFieldValue("control/Control/refreshText")));
-    if(intext.equals("I")) startInternalGPS();
-    if(intext.equals("E")) startExternalGPS();
-    showToast("Note, this can only be done once. To change the update interval, close the module and start again.");
+    showToast("GPS enabled. GPS refresh rate set to " + getFieldValue("control/Control/refreshText") + ".");
+    if(intext.equals("I")) { 
+        if(isExternalGPSOn()) stopGPS();
+        startInternalGPS();
+    }
+    if(intext.equals("E")) {
+        if(isInternalGPSOn()) stopGPS();
+        startExternalGPS();
+    }
 }
 
-
+stopGPSLogic() {
+    if(!isInternalGPSOn() && !isExternalGPSOn()) {
+        showToast("GPS disabled.");
+        stopGPS();    
+    } else {
+        showToast("GPS is not turned on.");
+    }
+}
 
 //Tracklog
-
 
 onEvent("control/Control/tracktimeButton", "click", "startTimeTrack()");
 onEvent("control/Control/trackdistButton", "click", "startDistTrack()");
@@ -120,16 +265,26 @@ numTransectPoints = 0;
 
 startTimeTrack(){
     stopTrack();
-    tracklogState = "Time";
-    startTrackingGPS("time",  Integer.parseInt(getFieldValue("control/Control/tracktimeText")), "saveGPSTrack(\"\")");
-    updateTrackStatus();
+    if(isInternalGPSOn() || isExternalGPSOn()) {
+        tracklogState = "Time";
+        showToast("Tracklog enabled. Tracklog time interval set to " + getFieldValue("control/Control/tracktimeText") + " seconds.");    
+        startTrackingGPS("time", Integer.parseInt(getFieldValue("control/Control/tracktimeText")), "saveGPSTrack(\"\")");
+        updateTrackStatus();
+    } else {
+        showToast("GPS is not turned on.");
+    }
 }
 
 startDistTrack(){
     stopTrack();
-    tracklogState = "Distance";
-    startTrackingGPS("distance", Integer.parseInt(getFieldValue("control/Control/trackdistText")), "saveGPSTrack(\"\")");
-    updateTrackStatus();
+    if(isInternalGPSOn() || isExternalGPSOn()) {
+        tracklogState = "Distance";
+        showToast("Tracklog enabled. Tracklog distance interval set to " + getFieldValue("control/Control/trackdistText") + " metres.");
+        startTrackingGPS("distance", Integer.parseInt(getFieldValue("control/Control/trackdistText")), "saveGPSTrack(\"\")");
+        updateTrackStatus();
+    } else {
+        showToast("GPS is not turned on.");
+    }
 }
 
 stopTrack(){
@@ -137,6 +292,7 @@ stopTrack(){
     numTracklogPoints = 0;
     numTransectPoints = 0;
     tracklogState = "Stopped";
+    showToast("Tracklog disabled.");
     updateTrackStatus();
 }
 
@@ -162,75 +318,79 @@ updateTrackStatus(){
 
 
 saveGPSTrack(String stateAppend) {
-    position = getGPSPosition();
-    if (position == null) {
-        tracklogState = "Bad GPS Fix";
-        return;
-    }
-    numTracklogPoints++;
-    
-    List attributes = createAttributeList();
-    
-    attributes.add(createEntityAttribute("Longitude", null, null, "" + position.getLongitude(), null));
-    attributes.add(createEntityAttribute("Latitude", null, null, "" + position.getLatitude(), null ));
-    attributes.add(createEntityAttribute("Heading", null, null, "" + getGPSHeading(), null));
-    attributes.add(createEntityAttribute("Accuracy", null, null, "" + getGPSEstimatedAccuracy(), null));
-    String date = new java.text.SimpleDateFormat("d-MMM-yy HH:MM:ss z").format(new Date());
-    attributes.add(createEntityAttribute("Timestamp", null, null, "" + date, null));
-    teamQuery = fetchOne("select vocabname from vocabulary where vocabid = "+getFieldValue("user/usertab/Team"));
-    attributes.add(createEntityAttribute("TracklogTeam", teamQuery.get(0), null, null, null));
+    fetchOne("select vocabname from vocabulary where vocabid = "+getFieldValue("user/usertab/Team"), new FetchCallback() {
+        onFetch(teamQuery) {
+            position = getGPSPosition();
+            if (position == null) {
+                tracklogState = "Bad GPS Fix";
+                return;
+            }
+            numTracklogPoints++;
+            
+            List attributes = createAttributeList();
+            
+            attributes.add(createEntityAttribute("Longitude", null, null, "" + position.getLongitude(), null));
+            attributes.add(createEntityAttribute("Latitude", null, null, "" + position.getLatitude(), null ));
+            attributes.add(createEntityAttribute("Heading", null, null, "" + getGPSHeading(), null));
+            attributes.add(createEntityAttribute("Accuracy", null, null, "" + getGPSEstimatedAccuracy(), null));
+            String date = new java.text.SimpleDateFormat("d-MMM-yy HH:MM:ss z").format(new Date());
+            attributes.add(createEntityAttribute("Timestamp", null, null, "" + date, null));
+            attributes.add(createEntityAttribute("TracklogTeam", teamQuery.get(0), null, null, null));
 
-    
-    positionProj = getGPSPositionProjected();
-    Point p = new Point(new MapPos(positionProj.getLongitude(), positionProj.getLatitude()), null, (PointStyle) null, null);
-    ArrayList l = new ArrayList();
-    l.add(p);
-    
-    saveArchEnt(null, "Tracklog", l, attributes);
+            
+            positionProj = getGPSPositionProjected();
+            Point p = new Point(new MapPos(positionProj.getLongitude(), positionProj.getLatitude()), null, (PointStyle) null, null);
+            ArrayList l = new ArrayList();
+            l.add(p);
+            
+            saveArchEnt(null, "Tracklog", l, attributes, new SaveCallback() {
+                onSave(uuid, newRecord) {
+                    if (transectEnabled){
+                        numTransectPoints++;
+                        attributes.add(createEntityAttribute("SUID", null, null, getFieldValue("Survey_Unit/Survey_Unit/Survey_Unit_ID"), null));
+                        attributes.add(createEntityAttribute("Width", null, null, getFieldValue("Survey_Unit/Survey_Unit/Total_Transect_Width"), null));
+                        Boolean end = false;
+                        if(stateAppend.equals("End")) {
+                            end = true;
+                            transectEnabled = false;
+                        }
+                        if (!stateAppend.equals("")){
+                            attributes.add(createEntityAttribute("State", null, null, stateAppend, null));
+                            stateAppend = "";
+                        }
 
-    if (transectEnabled){
-        numTransectPoints++;
-        attributes.add(createEntityAttribute("SUID", getFieldValue("Survey_Unit/Survey_Unit/Survey_Unit_ID"), null, null, null));
-        attributes.add(createEntityAttribute("Width", getFieldValue("Survey_Unit/Survey_Unit/Total_Transect_Width"), null, null, null));
-
-        if (!stateAppend.equals("")){
-            attributes.add(createEntityAttribute("State", stateAppend, null, null, null));
-
-            stateAppend = "";
+                        p = new Point(new MapPos(positionProj.getLongitude(), positionProj.getLatitude()), null, (PointStyle) null, null);
+                        l = new ArrayList();
+                        l.add(p);
+                        
+                        saveArchEnt(null, "Transect", l, attributes, new SaveCallback() {
+                            onSave(uuid, newRecord) {
+                                transect_id = uuid;
+                                Callable callback = new Callable() {
+                                    call() {
+                                        if(end) updateCurrentTransect();
+                                    }
+                                };
+                                saveEntitiesToRel("TransectSUI", transect_id, survey_unit_id, callback);
+                                
+                            }
+                        });
+                    }
+                    updateTrackStatus();
+                }
+            });
         }
-
-        p = new Point(new MapPos(positionProj.getLongitude(), positionProj.getLatitude()), null, (PointStyle) null, null);
-        l = new ArrayList();
-        l.add(p);
-        
-        transect_id = saveArchEnt(null, "Transect", l, attributes);
-          
-        saveEntitiesToRel("TransectSUI", transect_id, survey_unit_id);
-    }
-    updateTrackStatus();
+    });
 }
 
-
-
 //Survey Unit Logic
-onEvent("Survey_Unit/Survey_Unit/Update_and_Return", "delayclick", "saveSurveyUnit(\"cancelTabGroup(\\\"Survey_Unit\\\", false);showTab(\\\"control/Start\\\");\")");
+onEvent("Survey_Unit", "show", "addSurveyUnitNavigation();");
+onEvent("Survey_Unit/Survey_Unit/Update_and_Return", "delayclick", "saveAndReturnSurveyUnit();");
 onEvent("Survey_Unit/Survey_Unit/Delete", "delayclick", "deleteSurveyUnit()");
 onEvent("Survey_Unit/Survey_Unit/Attach_Photo", "click", "attachPictureTo(\"Survey_Unit/Survey_Unit/Photo\")");
 
-
 String survey_unit_id = null;
-finishSurveyUnit(){
-    if(!transectEnabled){
-        showWarning("Warning","There is no currently active Transect.");
-        return;
-    }
-    position = getGPSPosition();
-    if (position == null) {
-        showWarning("Warning", "You have lost your GPS signal, please wait until the GPS icon is blue before you finish you Survey Unit.");
-        return;
-    }
-    saveSurveyUnit("saveGPSTrack(\"End\");transectEnabled=false;updateCurrentTransect();");
-}
+
 newSurveyUnit(){
     if (transectEnabled) {
         showWarning("Already tracking!", "You're already in a Transect! Loading it now.");
@@ -242,20 +402,19 @@ newSurveyUnit(){
         showWarning("Warning", "Your GPS is not initialized, you cannot create a Survey Unit until the GPS icon is blue.");
         return;
     }
-    print(position);
 
     survey_unit_id = null;
     numTransectPoints = 0;
     newTabGroup("Survey_Unit");
-    datetime = fetchOne("select datetime('now', 'localtime');");
-    setFieldValue("Survey_Unit/Survey_Unit/Timestamp", datetime.get(0));
+    fetchOne("select datetime('now', 'localtime');", new FetchCallback() {
+        onFetch(result) {
+            setFieldValue("Survey_Unit/Survey_Unit/Timestamp", result.get(0));
+        }
+    });
     setFieldValue("Survey_Unit/Survey_Unit/Recorded_by", username);
     setFieldValue("Survey_Unit/Survey_Unit/Participants", getFieldValue("control/Start/TeamMember"));
     setFieldValue("Survey_Unit/Survey_Unit/Number_of_Walkers", getFieldValue("control/Start/Walker"));
     autoNumSurveyUnit();
-    
-
-    saveSurveyUnit("transectEnabled = true;saveGPSTrack(\"Start\");");
 }
 
 loadSurveyUnit() {
@@ -263,55 +422,100 @@ loadSurveyUnit() {
     loadSurveyUnitFrom(survey_unit_id);
 }
 
-loadSurveyUnitFrom(archentid) {
-
-    print("loadSurveyUnitFrom: '"+archentid+"' ");
-    Object finished = fetchOne("select surveyUnit.uuid "+
-                                "from " +
-                                "(select uuid, relationshipid " +
-                                "from (select aenttypeid from aenttype where aenttypename = 'Survey Unit')  " +
-                                "        join latestnondeletedarchent using (aenttypeid) " +
-                                "        join latestnondeletedaentreln using (uuid)) surveyUnit  " +
-                                "join ((select aenttypeid from aenttype where aenttypename = 'Transect')  " +
-                                "        join latestnondeletedarchent using (aenttypeid) " +
-                                "        join latestnondeletedaentreln using (uuid)) transect using (relationshipid) " +
-                                "join (select uuid, freetext  " +
-                                "from (select aenttypeid from aenttype where aenttypename = 'Transect')  " +
-                                "join latestnondeletedarchent using (aenttypeid)  " +
-                                "join latestnondeletedaentvalue using (uuid) join attributekey using (attributeid) " +
-                                "where attributename = 'State') state on (transect.uuid = state.uuid) " +
-                                "where surveyUnit.uuid = "+archentid +" "+
-                                "group by surveyUnit.uuid " +
-                                "having min(freetext) != 'End' ");
-
-    if(isNull(finished)){
-        transectEnabled = false;
-    } else {
-        transectEnabled = true;
-    }
-    
+loadSurveyUnitFrom(archentid) {    
     survey_unit_id = archentid;
     if (isNull(survey_unit_id)) {
         showToast("No Survey Unit selected");
         return;
     }
-    showTabGroup("Survey_Unit", survey_unit_id);
-    Object foo = fetchOne("select fname || ' ' || lname from user join archentity using (userid) where uuid = '"+survey_unit_id+"' group by uuid having min(aenttimestamp)");
-    setFieldValue("Survey_Unit/Survey_Unit/Recorded_by", foo.get(0));
-    Object bar = fetchOne("select datetime(aentTimestamp, 'localtime')  from archentity where uuid = '"+survey_unit_id+"' group by uuid having min(aenttimestamp);");
-    setFieldValue("Survey_Unit/Survey_Unit/Timestamp", bar.get(0));
+    showTabGroup("Survey_Unit", survey_unit_id, new FetchCallback() {
+        onFetch(result) {
+            fetchOne("select surveyUnit.uuid "+
+            "from " +
+            "(select uuid, relationshipid " +
+            "from (select aenttypeid from aenttype where aenttypename = 'Survey Unit')  " +
+            "        join latestnondeletedarchent using (aenttypeid) " +
+            "        join latestnondeletedaentreln using (uuid)) surveyUnit  " +
+            "join ((select aenttypeid from aenttype where aenttypename = 'Transect')  " +
+            "        join latestnondeletedarchent using (aenttypeid) " +
+            "        join latestnondeletedaentreln using (uuid)) transect using (relationshipid) " +
+            "join (select uuid, measure  " +
+            "from (select aenttypeid from aenttype where aenttypename = 'Transect')  " +
+            "join latestnondeletedarchent using (aenttypeid)  " +
+            "join latestnondeletedaentvalue using (uuid) join attributekey using (attributeid) " +
+            "where attributename = 'State') state on (transect.uuid = state.uuid) " +
+            "where surveyUnit.uuid = "+archentid +" "+
+            "group by surveyUnit.uuid " +
+            "having min(measure) != 'End' ", 
+            new FetchCallback() {
+                onFetch(result) {
+                    if(isNull(result)){
+                        transectEnabled = false;
+                    } else {
+                        transectEnabled = true;
+                    }
+                }
+            });
+            fetchOne("select fname || ' ' || lname from user join archentity using (userid) where uuid = '"+survey_unit_id+"' group by uuid having min(aenttimestamp)",
+                new FetchCallback() {
+                    onFetch(result){
+                        setFieldValue("Survey_Unit/Survey_Unit/Recorded_by", result.get(0));
+                    }
+                });
+        
+            fetchOne("select datetime(aentTimestamp, 'localtime')  from archentity where uuid = '"+survey_unit_id+"' group by uuid having min(aenttimestamp);",
+                new FetchCallback() {
+                    onFetch(result){
+                        setFieldValue("Survey_Unit/Survey_Unit/Timestamp", result.get(0));
+                    }
+                });
+            saveTabGroup("Survey_Unit", survey_unit_id, null, null, new SaveCallback() {
+                onSave(uuid, newRecord) {
+                    survey_unit_id = uuid;
+                }
+            }, true);
+            updateTrackStatus();
+        }
+    });
+    
 }
 
-saveSurveyUnit(String callback) {
+saveSurveyUnit(SaveCallback callback) {
     if (isNull(getFieldValue("Survey_Unit/Survey_Unit/Survey_Unit_ID"))) {
         showWarning("Validation Error", "Cannot save Transect without Transect number");
         return;
     }
     
-    if (!isNull(survey_unit_id)) {
-        entity = fetchArchEnt(survey_unit_id);
+    saveTabGroup("Survey_Unit", survey_unit_id, null, null, callback);
+}
+
+saveAndReturnSurveyUnit() {
+    saveSurveyUnit(new SaveCallback() {
+        onSave(uuid, newRecord) {
+            survey_unit_id = uuid;
+            cancelTabGroup("Survey_Unit", false);
+            showTab("control/Start");
+        }
+    });
+}
+
+finishSurveyUnit(){
+    if(!transectEnabled){
+        showWarning("Warning","There is no currently active Transect.");
+        return;
     }
-    saveTabGroup("Survey_Unit", survey_unit_id, null, null, "survey_unit_id = getLastSavedRecordId();" + callback);
+    position = getGPSPosition();
+    if (position == null) {
+        showWarning("Warning", "You have lost your GPS signal, please wait until the GPS icon is blue before you finish you Survey Unit.");
+        return;
+    }
+
+    saveSurveyUnit(new SaveCallback() {
+        onSave(uuid, newRecord) {
+            survey_unit_id = uuid;
+            saveGPSTrack("End");
+        }
+    });
 }
 
 deleteSurveyUnit(){
@@ -324,7 +528,7 @@ deleteSurveyUnit(){
 }
 
 reallyDeleteSurveyUnit() {
-    transects = fetchAll("select transect.uuid " +
+    fetchAll("select transect.uuid " +
             "from " +
             "(select uuid, relationshipid " +
             "from (select aenttypeid from aenttype where aenttypename = 'Survey Unit')  " +
@@ -333,66 +537,108 @@ reallyDeleteSurveyUnit() {
             "join ((select aenttypeid from aenttype where aenttypename = 'Transect')  " +
                     "join latestnondeletedarchent using (aenttypeid) " +
                     "join latestnondeletedaentreln using (uuid)) transect using (relationshipid) " +
-            "where surveyUnit.uuid = " + survey_unit_id + ";");
-    print(transects);
-    if(!isNull(transects)) {
-        for(transect:transects) {
-            deleteArchEnt(transect.get(0));
-        }
-    }
+            "where surveyUnit.uuid = " + survey_unit_id + ";", new FetchCallback() {
+                onFetch(transects) {
+                    if(!isNull(transects)) {
+                        for(transect:transects) {
+                            deleteArchEnt(transect.get(0));
+                        }
+                    }
+                }
+            });
     deleteArchEnt(survey_unit_id);
     cancelTabGroup("Survey_Unit", false);
     transectEnabled = false;
     showTab("control/Start");
 }
 
-loadSurveyUnitAttributes() {
-    populateDropDown("Survey_Unit/Survey_Unit/Landform", makeVocab("Landform"));
-    populateDropDown("Survey_Unit/Survey_Unit/Average_percentage_of_visibility_of_surface_of_the_landform_area", makeVocab("Average percentage of visibility of surface of the landform area"));
-    populateDropDown("Survey_Unit/Survey_Unit/Average_percentage_of_exposure_of_artefacts", makeVocab("Average percentage of exposure of artefacts"));
-    populateDropDown("Survey_Unit/Survey_Unit/Basic_geomorphic_summary", makeVocab("Basic geomorphic summary"));
-    populateDropDown("Survey_Unit/Survey_Unit/Cobble_distribution", makeVocab("Cobble distribution"));
-    populateCheckBoxGroup("Survey_Unit/Survey_Unit/Sediment_size", makeVocab("Sediment size"));
-    populateRadioGroup("Survey_Unit/Survey_Unit/Sediment_thickness", makeVocab("Sediment thickness"));
+addSurveyUnitNavigation() {
+    removeNavigationButton("save");
+    removeNavigationButton("delete");
 
+    addNavigationButton("save", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Save {Survey_Unit}";
+        }
+        actionOn() {
+            saveSurveyUnit(new SaveCallback() {
+                onSave(uuid, newRecord) {
+                    survey_unit_id = uuid;
+                }
+            });
+        }
+    }, "success");
+
+    addNavigationButton("delete", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Delete {Survey_Unit}";
+        }
+        actionOn() {
+            deleteSurveyUnit();
+        }
+    }, "danger");
 }
 
+loadSurveyUnitAttributes() {
+    makeVocab("DropDown", "Survey_Unit/Survey_Unit/Landform", "Landform");
+    makeVocab("DropDown", "Survey_Unit/Survey_Unit/Average_percentage_of_visibility_of_surface_of_the_landform_area", "Average percentage of visibility of surface of the landform area");
+    makeVocab("DropDown", "Survey_Unit/Survey_Unit/Average_percentage_of_exposure_of_artefacts", "Average percentage of exposure of artefacts");
+    makeVocab("DropDown", "Survey_Unit/Survey_Unit/Basic_geomorphic_summary", "Basic geomorphic summary");
+    makeVocab("DropDown", "Survey_Unit/Survey_Unit/Cobble_distribution", "Cobble distribution");
+    makeVocab("CheckBoxGroup", "Survey_Unit/Survey_Unit/Sediment_size", "Sediment size");
+    makeVocab("RadioGroup", "Survey_Unit/Survey_Unit/Sediment_thickness", "Sediment thickness");
+}
 
-//brian todo make sure localsettings working.
 autoNumSurveyUnit() {
-    Object counter = fetchOne("select 'T' ||foo as foo " +
-      "from (select max(cast(substr(freetext,2) as integer))+1 as foo " +
+    fetchOne("select 'T' ||foo as foo " +
+      "from (select max(cast(substr(measure,2) as integer))+1 as foo " +
              "from latestnondeletedaentvalue join attributekey using (attributeid) " +
             "where uuid in (select uuid " +
                              "from latestnondeletedaentvalue ae " +
                              "join latestnondeletedarchent using (uuid) join aenttype using (aenttypeid) " +
                             "where aenttypename = 'Survey Unit') " +
-              "and attributename = 'Survey Unit ID');");
-    if(isNull(counter.get(0))) {
-        setFieldValue("Survey_Unit/Survey_Unit/Survey_Unit_ID", "T1");
-    } else {
-        setFieldValue("Survey_Unit/Survey_Unit/Survey_Unit_ID", counter.get(0));    
-    }
+              "and attributename = 'Survey Unit ID');", new FetchCallback() {
+        onFetch(result) {
+            print(result);
+            if(isNull(result.get(0))) {
+                setFieldValue("Survey_Unit/Survey_Unit/Survey_Unit_ID", "T1");
+            } else {
+                setFieldValue("Survey_Unit/Survey_Unit/Survey_Unit_ID", result.get(0));    
+            }
+            transectEnabled = true;
+            saveSurveyUnit(new SaveCallback() {
+                onSave(uuid, newRecord) {
+                    survey_unit_id = uuid;
+                    saveGPSTrack("Start");
+                    saveTabGroup("Survey_Unit", survey_unit_id, null, null, new SaveCallback() {
+                        onSave(uuid, newRecord) {
+                            survey_unit_id = uuid;
+                        }
+                    }, true);
+                }
+            });
+        }
+    });
+    
 }
 
 //Point of Interest Logic
-
-onEvent("POI", "show", "showPOITabs(false);");
+onEvent("POI", "show", "addPOINavigation();showPOITabs(false);");
 
 onEvent("POI/POI/Take_GPS", "click", "fillInGPS(\"POI/POI/\")");
 
 onEvent("POI/Cobble", "show", "setFieldValue(\"POI/Cobble/POI_ID\", getFieldValue(\"POI/POI/POI_ID\"));");
 onEvent("POI/Core", "show", "setFieldValue(\"POI/Core/POI_ID\", getFieldValue(\"POI/POI/POI_ID\"));");
 
-onEvent("POI/POI/Update_and_Next", "delayclick", "savePOI(\"showPOITabs(true);\")");
-onEvent("POI/POI/Delete", "delayclick", "deletePOI()");
-onEvent("POI/POI/Attach_Photo", "click", "attachPictureTo(\"POI/POI/Photo\")");
+onEvent("POI/POI/Update_and_Next", "delayclick", "saveAndNextPOI();");
+onEvent("POI/POI/Delete", "delayclick", "deletePOI();");
+onEvent("POI/POI/Attach_Photo", "click", "attachPictureTo(\"POI/POI/Photo\");");
 
-onEvent("POI/Cobble/Update_and_Return", "delayclick", "savePOI(\"cancelTabGroup(\\\"POI\\\", false);showTab(\\\"control/Start\\\");\")");
-onEvent("POI/Cobble/Delete", "delayclick", "deletePOI()");
+onEvent("POI/Cobble/Update_and_Return", "delayclick", "saveAndReturnPOI();");
+onEvent("POI/Cobble/Delete", "delayclick", "deletePOI();");
 
-onEvent("POI/Core/Update_and_Return", "delayclick", "savePOI(\"cancelTabGroup(\\\"POI\\\", false);showTab(\\\"control/Start\\\");\")");
-onEvent("POI/Core/Delete", "delayclick", "deletePOI()");
+onEvent("POI/Core/Update_and_Return", "delayclick", "saveAndReturnPOI();");
+onEvent("POI/Core/Delete", "delayclick", "deletePOI();");
 
 String poi_id = null;
 
@@ -400,8 +646,11 @@ newPOI(){
     poi_id = null;
     newTabGroup("POI");
     setFieldValue("POI/POI/Recorded_by", username);
-    datetime = fetchOne("select datetime('now', 'localtime');");
-    setFieldValue("POI/POI/Timestamp", datetime.get(0));
+    fetchOne("select datetime('now', 'localtime');", new FetchCallback() {
+        onFetch(result) {
+            setFieldValue("POI/POI/Timestamp", result.get(0));
+        }
+    });
     fillInGPS("POI/POI/");
     autoNumPOI();
 }
@@ -417,23 +666,37 @@ loadPOIFrom(archentid) {
         showToast("No POI selected");
         return;
     }
-
-    showTabGroup("POI", poi_id);
-    Object foo = fetchOne("select fname || ' ' || lname from user join archentity using (userid) where uuid = '"+poi_id+"' group by uuid having min(aenttimestamp)");
-    setFieldValue("POI/POI/Recorded_by", foo.get(0));
-    Object bar = fetchOne("select datetime(aentTimestamp, 'localtime')  from archentity where uuid = '"+poi_id+"' group by uuid having min(aenttimestamp);");
-    setFieldValue("POI/POI/Timestamp", bar.get(0));
+    showTabGroup("POI", poi_id, new FetchCallback() {
+        onFetch(result) {
+            fetchOne("select fname || ' ' || lname from user join archentity using (userid) where uuid = '"+poi_id+"' group by uuid having min(aenttimestamp)",
+                new FetchCallback() {
+                    onFetch(result) {
+                        setFieldValue("POI/POI/Recorded_by", result.get(0));
+                    }
+                });
+            
+            fetchOne("select datetime(aentTimestamp, 'localtime')  from archentity where uuid = '"+poi_id+"' group by uuid having min(aenttimestamp);",
+                new FetchCallback() {
+                    onFetch(result) {
+                        setFieldValue("POI/POI/Timestamp", result.get(0));
+                    }
+                });
+            saveTabGroup("POI", poi_id, l, null, new SaveCallback() {
+                onSave(uuid, newRecord) {
+                    poi_id = uuid;
+                }
+            }, true);
+        }
+    });
+    
 }
 
-savePOI(String callback) {
+savePOI(SaveCallback callback) {
     if (isNull(getFieldValue("POI/POI/POI_ID"))) {
         showWarning("Validation Error", "Cannot save Transect Object without Transect Object ID");
         return;
     }
     
-    if (!isNull(poi_id)) {
-        entity = fetchArchEnt(poi_id);
-    }
     positionProj = getGPSPositionProjected();
     l = new ArrayList();
     if (positionProj != null){
@@ -442,7 +705,26 @@ savePOI(String callback) {
     } else {
         l = null;
     }
-    saveTabGroup("POI", poi_id, l, null, "poi_id = getLastSavedRecordId();" + callback);
+    saveTabGroup("POI", poi_id, l, null, callback);
+}
+
+saveAndReturnPOI() {
+    savePOI(new SaveCallback() {
+        onSave(uuid, newRecord) {
+            poi_id = uuid;
+            cancelTabGroup("POI", false);
+            showTab("control/Start");
+        }
+    });
+}
+
+saveAndNextPOI() {
+    savePOI(new SaveCallback() {
+        onSave(uuid, newRecord) {
+            poi_id = uuid;
+            showPOITabs(true);
+        }
+    });
 }
 
 deletePOI(){
@@ -450,6 +732,7 @@ deletePOI(){
         showAlert("Confirm Deletion", "Press OK to Delete this Transect Object!", "reallyDeletePOI()", "doNotDelete()");
     } else {
         cancelTabGroup("POI", true);
+        showTab("control/Start");
     }
 }
 
@@ -459,82 +742,129 @@ reallyDeletePOI() {
     showTab("control/Start");
 }
 
-loadPOIAttributes() {
-    populateRadioGroup("POI/POI/Object", makeVocab("Object"));
-    populateDropDown("POI/POI/Raw_material", makeVocab("Raw material"));
-    populateDropDown("POI/POI/Crystal_Size", makeVocab("Crystal Size"));
-    populateDropDown("POI/POI/Abundance_of_Flaws", makeVocab("Abundance of Flaws"));
-    populateDropDown("POI/Cobble/Angularity", makeVocab("Angularity"));
-    populateRadioGroup("POI/Core/Completeness", makeVocab("Completeness"));
-    populateDropDown("POI/Core/Core_Weathering_stage", makeVocab("Core Weathering stage"));
-    populateDropDown("POI/Core/Flaking_on_Core_Perimeter", makeVocab("Flaking on Core Perimeter"));
-    populateDropDown("POI/Core/Outer_Surface_on_Whole_Core", makeVocab("Outer Surface (Cortex) on Whole Core"));
-    populateDropDown("POI/Core/Outer_Surface_on_Upper_Hemisphere", makeVocab("Outer Surface (Cortex) on Upper Hemisphere"));
-    populateDropDown("POI/Core/Outer_Surface_on_Lower_Hemisphere", makeVocab("Outer Surface (Cortex) on Lower Hemisphere"));
-    populateDropDown("POI/Core/Typology", makeVocab("Core Typology"));
+reallyDeletePOI() {
+    deleteArchEnt(poi_id);
+    cancelTabGroup("POI", false);
+}
 
+addPOINavigation() {
+    removeNavigationButton("save");
+    removeNavigationButton("delete");
+
+    addNavigationButton("save", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Save {POI}";
+        }
+        actionOn() {
+            savePOI(new SaveCallback() {
+                onSave(uuid, newRecord) {
+                    poi_id = uuid;
+                }
+            });
+        }
+    }, "success");
+
+    addNavigationButton("delete", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Delete {POI}";
+        }
+        actionOn() {
+            deletePOI();
+        }
+    }, "danger");
+}
+
+loadPOIAttributes() {
+    makeVocab("RadioGroup", "POI/POI/Object", "Object");
+    makeVocab("DropDown", "POI/POI/Raw_material", "Raw material");
+    makeVocab("DropDown", "POI/POI/Crystal_Size", "Crystal Size");
+    makeVocab("DropDown", "POI/POI/Abundance_of_Flaws", "Abundance of Flaws");
+    makeVocab("DropDown", "POI/Cobble/Angularity", "Angularity");
+    makeVocab("RadioGroup", "POI/Core/Completeness", "Completeness");
+    makeVocab("DropDown", "POI/Core/Core_Weathering_stage", "Core Weathering stage");
+    makeVocab("DropDown", "POI/Core/Flaking_on_Core_Perimeter", "Flaking on Core Perimeter");
+    makeVocab("DropDown", "POI/Core/Outer_Surface_on_Whole_Core", "Outer Surface (Cortex) on Whole Core");
+    makeVocab("DropDown", "POI/Core/Outer_Surface_on_Upper_Hemisphere", "Outer Surface (Cortex) on Upper Hemisphere");
+    makeVocab("DropDown", "POI/Core/Outer_Surface_on_Lower_Hemisphere", "Outer Surface (Cortex) on Lower Hemisphere");
+    makeVocab("DropDown", "POI/Core/Typology", "Core Typology");
 }
 
 showPOITabs(Boolean onSave) {
-    Object name = fetchOne("select vocabName from vocabulary where vocabid = '"+getFieldValue("POI/POI/Object")+"';");
-    if (!isNull(name)){
-        String vocab = name.get(0);
-        if (vocab.equals("{Cobble}")){
-            cancelTab("POI/Core", false);
-            showTab("POI/Cobble");
-        } else if (vocab.equals("{Core}")){
-            cancelTab("POI/Cobble", false);
-            showTab("POI/Core");
+    fetchOne("select vocabName from vocabulary where vocabid = '"+getFieldValue("POI/POI/Object")+"';", new FetchCallback() {
+        onFetch(name) {
+            if (!isNull(name)){
+                String vocab = name.get(0);
+                if (vocab.equals("{Cobble}")){
+                    cancelTab("POI/Core", false);
+                    showTab("POI/Cobble");
+                } else if (vocab.equals("{Core}")){
+                    cancelTab("POI/Cobble", false);
+                    showTab("POI/Core");
+                }
+            } else {
+                cancelTab("POI/Cobble", false);
+                cancelTab("POI/Core", false);
+                if(onSave) showToast("Please select a Object Type to continue");
+            }
         }
-    } else {
-        cancelTab("POI/Cobble", false);
-        cancelTab("POI/Core", false);
-        if(onSave) showToast("Please select a Object Type to continue");
-    }
+    });
+    
 }
 
-//TODO Brian, make sure this is team based.
-
 autoNumPOI() {
-    Object counter = fetchOne("select 'C' ||foo as foo " +
-      "from (select max(cast(substr(freetext,2) as integer))+1 as foo " +
+    fetchOne("select 'C' ||foo as foo " +
+      "from (select max(cast(substr(measure,2) as integer))+1 as foo " +
              "from latestnondeletedaentvalue join attributekey using (attributeid) " +
             "where uuid in (select uuid " +
                              "from latestnondeletedaentvalue ae " +
                              "join latestnondeletedarchent using (uuid) join aenttype using (aenttypeid) " +
                             "where aenttypename = 'POI') " +
-              "and attributename = 'POI ID');");
-    if(isNull(counter.get(0))) {
-        setFieldValue("POI/POI/POI_ID", "C1");
-    } else {
-        setFieldValue("POI/POI/POI_ID", counter.get(0));    
-    }
+              "and attributename = 'POI ID');", new FetchCallback() {
+        onFetch(result) {
+            if(isNull(result.get(0))) {
+                setFieldValue("POI/POI/POI_ID", "C1");
+            } else {
+                setFieldValue("POI/POI/POI_ID", result.get(0));    
+            }
+            saveTabGroup("POI", poi_id, null, null, new SaveCallback() {
+                onSave(uuid, newRecord) {
+                    poi_id = uuid;
+                    saveTabGroup("POI", poi_id, null, null, new SaveCallback() {
+                        onSave(uuid, newRecord) {
+                            poi_id = uuid;
+                        }
+                    }, true);
+                }
+            });
+            
+        }
+    });
 }
 
 //Artefact Logic
-onEvent("Artefact", "show", "showArtefactTabs(false);");
+onEvent("Artefact", "show", "showArtefactTabs(false);addArtefactNavigation();");
 
 onEvent("Artefact/Flake", "show", "setFieldValue(\"Artefact/Flake/Artefact_ID\", getFieldValue(\"Artefact/Artefact/Artefact_ID\"));");
 onEvent("Artefact/Core", "show", "setFieldValue(\"Artefact/Core/Artefact_ID\", getFieldValue(\"Artefact/Artefact/Artefact_ID\"));");
 onEvent("Artefact/Shatter_Flakes", "show", "setFieldValue(\"Artefact/Shatter_Flakes/Artefact_ID\", getFieldValue(\"Artefact/Artefact/Artefact_ID\"));");
 onEvent("Artefact/Other", "show", "setFieldValue(\"Artefact/Other/Artefact_ID\", getFieldValue(\"Artefact/Artefact/Artefact_ID\"));");
 
-onEvent("Artefact/Artefact/Update_and_Next", "delayclick", "saveArtefact(\"showArtefactTabs(true);\")");
+onEvent("Artefact/Artefact/Update_and_Next", "delayclick", "saveAndNextArtefact();");
 onEvent("Artefact/Artefact/Delete", "delayclick", "deleteArtefact()");
 
-onEvent("Artefact/Flake/Update_and_Return", "delayclick", "saveArtefact(\"cancelTabGroup(\\\"Artefact\\\", false);showTab(\\\"control/Start\\\");\")");
+onEvent("Artefact/Flake/Update_and_Return", "delayclick", "saveAndReturnArtefact();");
 onEvent("Artefact/Flake/Delete", "delayclick", "deleteArtefact()");
 onEvent("Artefact/Flake/Attach_Photo", "click", "attachPictureTo(\"Artefact/Flake/Photo\")");
 
-onEvent("Artefact/Core/Update_and_Return", "delayclick", "saveArtefact(\"cancelTabGroup(\\\"Artefact\\\", false);showTab(\\\"control/Start\\\");\")");
+onEvent("Artefact/Core/Update_and_Return", "delayclick", "saveAndReturnArtefact();");
 onEvent("Artefact/Core/Delete", "delayclick", "deleteArtefact()");
 onEvent("Artefact/Core/Attach_Photo", "click", "attachPictureTo(\"Artefact/Core/Photo\")");
 
-onEvent("Artefact/Shatter_Flakes/Update_and_Return", "delayclick", "saveArtefact(\"cancelTabGroup(\\\"Artefact\\\", false);showTab(\\\"control/Start\\\");\")");
+onEvent("Artefact/Shatter_Flakes/Update_and_Return", "delayclick", "saveAndReturnArtefact();");
 onEvent("Artefact/Shatter_Flakes/Delete", "delayclick", "deleteArtefact()");
 onEvent("Artefact/Shatter_Flakes/Attach_Photo", "click", "attachPictureTo(\"Artefact/Shatter_Flakes/Photo\")");
 
-onEvent("Artefact/Other/Update_and_Return", "delayclick", "saveArtefact(\"cancelTabGroup(\\\"Artefact\\\", false);showTab(\\\"control/Start\\\");\")");
+onEvent("Artefact/Other/Update_and_Return", "delayclick", "saveAndReturnArtefact();");
 onEvent("Artefact/Other/Delete", "delayclick", "deleteArtefact()");
 onEvent("Artefact/Other/Attach_Photo", "click", "attachPictureTo(\"Artefact/Other/Photo\")");
 
@@ -558,19 +888,43 @@ loadArtefactFrom(archentid) {
         return;
     }
 
-    showTabGroup("Artefact", artefact_id);
+    showTabGroup("Artefact", artefact_id, new FetchCallback() {
+        onFetch(result) {
+            saveTabGroup("Artefact", artefact_id, null, null, new SaveCallback() {
+                onSave(uuid, newRecord) {
+                    artefact_id = uuid;
+                }
+            }, true);
+        }
+    });
 }
 
-saveArtefact(String callback) {
+saveArtefact(SaveCallback callback) {
     if (isNull(getFieldValue("Artefact/Artefact/Artefact_ID"))) {
         showWarning("Validation Error", "Cannot save Total Recording without Total Recording ID");
         return;
     }
     
-    if (!isNull(artefact_id)) {
-        entity = fetchArchEnt(artefact_id);
-    }
-    saveTabGroup("Artefact", artefact_id, null, null, "artefact_id = getLastSavedRecordId();" + callback);
+    saveTabGroup("Artefact", artefact_id, null, null, callback);
+}
+
+saveAndReturnArtefact() {
+    savePOI(new SaveCallback() {
+        onSave(uuid, newRecord) {
+            artefact_id = uuid;
+            cancelTabGroup("Artefact", false);
+            showTab("control/Start");
+        }
+    });
+}
+
+saveAndNextArtefact() {
+    savePOI(new SaveCallback() {
+        onSave(uuid, newRecord) {
+            artefact_id = uuid;
+            showArtefactTabs(true);
+        }
+    });
 }
 
 deleteArtefact(){
@@ -587,107 +941,173 @@ reallyDeleteArtefact() {
     showTab("control/Start");
 }
 
+addArtefactNavigation() {
+    removeNavigationButton("save");
+    removeNavigationButton("delete");
+
+    addNavigationButton("save", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Save {Artefact}";
+        }
+        actionOn() {
+            saveArtefact(new SaveCallback() {
+                onSave(uuid, newRecord) {
+                    artefact_id = uuid;
+                }
+            });
+        }
+    }, "success");
+
+    addNavigationButton("delete", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Delete {Artefact}";
+        }
+        actionOn() {
+            deleteArtefact();
+        }
+    }, "danger");
+}
+
 loadArtefactAttributes() {
-    populateRadioGroup("Artefact/Artefact/Technological_Component", makeVocab("Technological Component"));
-    populateRadioGroup("Artefact/Artefact/Thickness_Measurement_site", makeVocab("Thickness Measurement site"));
-    populateDropDown("Artefact/Artefact/Raw_material", makeVocab("Raw material"));
-    populateRadioGroup("Artefact/Artefact/Artefact_Weathering_stage", makeVocab("Artefact Weathering stage"));
-    populateDropDown("Artefact/Flake/Longitudinal_Portion", makeVocab("Longitudinal Portion"));
-    populateDropDown("Artefact/Flake/Transverse_Portion", makeVocab("Transverse Portion"));
-    populateDropDown("Artefact/Flake/Platform_Type", makeVocab("Platform Type"));
-    populateDropDown("Artefact/Flake/Platform_Cortex", makeVocab("Platform Cortex"));
-    populateDropDown("Artefact/Flake/Termination", makeVocab("Termination"));
-    populateDropDown("Artefact/Flake/Percentage_Cortical_Coverage", makeVocab("Percentage Cortical Coverage"));
-    populateDropDown("Artefact/Flake/Flake_Typology", makeVocab("Flake Typology"));
-    populateDropDown("Artefact/Flake/Scar_Orientation", makeVocab("Scar Orientation"));
-    populateRadioGroup("Artefact/Flake/Retouched", makeVocab("Retouched"));
-    populateRadioGroup("Artefact/Core/Completeness", makeVocab("Completeness"));
-    populateDropDown("Artefact/Core/Core_Weathering_stage", makeVocab("Core Weathering stage"));
-    populateDropDown("Artefact/Core/Flaking_on_Core_Perimeter", makeVocab("Flaking on Core Perimeter"));
-    populateDropDown("Artefact/Core/Outer_Surface_on_Whole_Core", makeVocab("Outer Surface (Cortex) on Whole Core"));
-    populateDropDown("Artefact/Core/Outer_Surface_on_Upper_Hemisphere", makeVocab("Outer Surface (Cortex) on Upper Hemisphere"));
-    populateDropDown("Artefact/Core/Outer_Surface_on_Lower_Hemisphere", makeVocab("Outer Surface (Cortex) on Lower Hemisphere"));
-    populateDropDown("Artefact/Core/Typology", makeVocab("Core Typology"));
-    populateDropDown("Artefact/Shatter_Flakes/Percentage_Cortical_Coverage", makeVocab("Percentage Cortical Coverage"));
-    populateDropDown("Artefact/Other/Other_Type", makeVocab("Other Type"));
+    makeVocab("RadioGroup", "Artefact/Artefact/Technological_Component", "Technological Component");
+    makeVocab("RadioGroup", "Artefact/Artefact/Thickness_Measurement_site", "Thickness Measurement site");
+    makeVocab("DropDown", "Artefact/Artefact/Raw_material", "Raw material");
+    makeVocab("RadioGroup", "Artefact/Artefact/Artefact_Weathering_stage", "Artefact Weathering stage");
+    makeVocab("DropDown", "Artefact/Flake/Longitudinal_Portion", "Longitudinal Portion");
+    makeVocab("DropDown", "Artefact/Flake/Transverse_Portion", "Transverse Portion");
+    makeVocab("DropDown", "Artefact/Flake/Platform_Type", "Platform Type");
+    makeVocab("DropDown", "Artefact/Flake/Platform_Cortex", "Platform Cortex");
+    makeVocab("DropDown", "Artefact/Flake/Termination", "Termination");
+    makeVocab("DropDown", "Artefact/Flake/Percentage_Cortical_Coverage", "Percentage Cortical Coverage");
+    makeVocab("DropDown", "Artefact/Flake/Flake_Typology", "Flake Typology");
+    makeVocab("DropDown", "Artefact/Flake/Scar_Orientation", "Scar Orientation");
+    makeVocab("RadioGroup", "Artefact/Flake/Retouched", "Retouched");
+    makeVocab("RadioGroup", "Artefact/Core/Completeness", "Completeness");
+    makeVocab("DropDown", "Artefact/Core/Core_Weathering_stage", "Core Weathering stage");
+    makeVocab("DropDown", "Artefact/Core/Flaking_on_Core_Perimeter", "Flaking on Core Perimeter");
+    makeVocab("DropDown", "Artefact/Core/Outer_Surface_on_Whole_Core", "Outer Surface (Cortex) on Whole Core");
+    makeVocab("DropDown", "Artefact/Core/Outer_Surface_on_Upper_Hemisphere", "Outer Surface (Cortex) on Upper Hemisphere");
+    makeVocab("DropDown", "Artefact/Core/Outer_Surface_on_Lower_Hemisphere", "Outer Surface (Cortex) on Lower Hemisphere");
+    makeVocab("DropDown", "Artefact/Core/Typology", "Core Typology");
+    makeVocab("DropDown", "Artefact/Shatter_Flakes/Percentage_Cortical_Coverage", "Percentage Cortical Coverage");
+    makeVocab("DropDown", "Artefact/Other/Other_Type", "Other Type");
 }
 
 showArtefactTabs(Boolean onSave) {
-    Object name = fetchOne("select vocabName from vocabulary where vocabid = '"+getFieldValue("Artefact/Artefact/Technological_Component")+"';");
-    if (!isNull(name)){
-        String vocab = name.get(0);
-        if (vocab.equals("{aFlake}")){
-            cancelTab("Artefact/Core", false);
-            cancelTab("Artefact/Shatter_Flakes", false);
-            cancelTab("Artefact/Other", false);
-            showTab("Artefact/Flake");
-        } else if (vocab.equals("{bCore}")){
-            cancelTab("Artefact/Flake", false);
-            cancelTab("Artefact/Shatter_Flakes", false);
-            cancelTab("Artefact/Other", false);
-            showTab("Artefact/Core");
-        } else if (vocab.equals("{cShatter_Flake_Piece}")){
-            cancelTab("Artefact/Flake", false);
-            cancelTab("Artefact/Core", false);
-            cancelTab("Artefact/Other", false);
-            showTab("Artefact/Shatter_Flakes");
-        } else if (vocab.equals("{zOther}")){
-            cancelTab("Artefact/Flake", false);
-            cancelTab("Artefact/Core", false);
-            cancelTab("Artefact/Shatter_Flakes", false);
-            showTab("Artefact/Other");
-        }
-    } else {
-        cancelTab("Artefact/Flake", false);
-        cancelTab("Artefact/Core", false);
-        cancelTab("Artefact/Shatter_Flakes", false);
-        cancelTab("Artefact/Other", false);
-        if(onSave) showToast("Please select a Technological Component to continue");
-    }
+    fetchOne("select vocabName from vocabulary where vocabid = '"+getFieldValue("Artefact/Artefact/Technological_Component")+"';",
+        new FetchCallback() {
+            onFetch(name) {
+                if (!isNull(name)){
+                    String vocab = name.get(0);
+                    if (vocab.equals("{Flake}")){
+                        cancelTab("Artefact/Core", false);
+                        cancelTab("Artefact/Shatter_Flakes", false);
+                        cancelTab("Artefact/Other", false);
+                        showTab("Artefact/Flake");
+                    } else if (vocab.equals("{Core}")){
+                        cancelTab("Artefact/Flake", false);
+                        cancelTab("Artefact/Shatter_Flakes", false);
+                        cancelTab("Artefact/Other", false);
+                        showTab("Artefact/Core");
+                    } else if (vocab.equals("{Shatter_Flake_Piece}")){
+                        cancelTab("Artefact/Flake", false);
+                        cancelTab("Artefact/Core", false);
+                        cancelTab("Artefact/Other", false);
+                        showTab("Artefact/Shatter_Flakes");
+                    } else if (vocab.equals("{Other}")){
+                        cancelTab("Artefact/Flake", false);
+                        cancelTab("Artefact/Core", false);
+                        cancelTab("Artefact/Shatter_Flakes", false);
+                        showTab("Artefact/Other");
+                    }
+                } else {
+                    cancelTab("Artefact/Flake", false);
+                    cancelTab("Artefact/Core", false);
+                    cancelTab("Artefact/Shatter_Flakes", false);
+                    cancelTab("Artefact/Other", false);
+                    if(onSave) showToast("Please select a Technological Component to continue");
+                }
+            }
+        });
 }
 
 autoNumArtefact(){
-    Object counter = fetchOne("select 'A' ||foo as foo " +
-      "from (select max(cast(substr(freetext,2) as integer))+1 as foo " +
+    fetchOne("select 'A' ||foo as foo " +
+      "from (select max(cast(substr(measure,2) as integer))+1 as foo " +
              "from latestnondeletedaentvalue join attributekey using (attributeid) " +
             "where uuid in (select uuid " +
                              "from latestnondeletedaentvalue ae " +
                              "join latestnondeletedarchent using (uuid) join aenttype using (aenttypeid) " +
                             "where aenttypename = 'Artefact') " +
-              "and attributename = 'Artefact ID');");
-    if(isNull(counter.get(0))) {
-        setFieldValue("Artefact/Artefact/Artefact_ID", "A1");
-    } else {
-        setFieldValue("Artefact/Artefact/Artefact_ID", counter.get(0));    
-    }
-    
+              "and attributename = 'Artefact ID');", new FetchCallback() {
+        onFetch(result) {
+            if(isNull(result.get(0))) {
+                setFieldValue("Artefact/Artefact/Artefact_ID", "A1");
+            } else {
+                setFieldValue("Artefact/Artefact/Artefact_ID", result.get(0));    
+            }
+            saveTabGroup("Artefact", artefact_id, null, null, new SaveCallback() {
+                onSave(uuid, newRecord) {
+                    artefact_id = uuid;
+                    saveTabGroup("Artefact", artefact_id, null, null, new SaveCallback() {
+                        onSave(uuid, newRecord) {
+                            artefact_id = uuid;
+                        }
+                    }, true);
+                }
+            });
+        }
+    });    
 }
 
 /*** MISC ***/
 
-saveEntitiesToRel(type, entity1, entity2) {
+saveEntitiesToRel(String type, String entity1, String entity2) {
     if (isNull(entity1) || isNull(entity2)) return;
-    
-    rel_id = saveRel(null, type, null, null);
-    addReln(entity1, rel_id, null);
-    addReln(entity2, rel_id, null);
+    saveRel(null, type, null, null, new SaveCallback() {
+        onSave(rel_id, newRecord) {
+            addReln(entity1, rel_id, null);
+            addReln(entity2, rel_id, null);
+        }
+    });
 }
 
-saveEntitiesToHierRel(type, entity1, entity2, e1verb, e2verb) {
+saveEntitiesToRel(String type, String entity1, String entity2, Callable callback) {
     if (isNull(entity1) || isNull(entity2)) return;
-    
-    rel_id = saveRel(null, type, null, null);
-    addReln(entity1, rel_id, e1verb);
-    addReln(entity2, rel_id, e2verb);
+    saveRel(null, type, null, null, new SaveCallback() {
+        onSave(rel_id, newRecord) {
+            addReln(entity1, rel_id, null);
+            addReln(entity2, rel_id, null);
+            callback.call();
+        }
+    });
 }
 
-makeVocab(String attrib){
-    Object a = fetchAll("select vocabid, vocabname from vocabulary join attributekey using (attributeid) where attributename = '"+attrib+"' ");
-    return a;
+saveEntitiesToHierRel(String type, String entity1, String entity2, String e1verb, String e2verb) {
+    if (isNull(entity1) || isNull(entity2)) return;
+    saveRel(null, type, null, null, new SaveCallback() {
+        onSave(rel_id, newRecord) {
+            addReln(entity1, rel_id, e1verb);
+            addReln(entity2, rel_id, e2verb);
+        }
+    });
 }
 
-makePictureGallery(String attrib){
-    fetchAll("select vocabid, vocabname, pictureurl from vocabulary left join attributekey using (attributeid) where attributename = '" + attrib + "' order by vocabname;");
+makeVocab(String type, String path, String attrib){
+    fetchAll("select vocabid, vocabname from vocabulary join attributekey using (attributeid) where attributename = '"+attrib+"' order by vocabcountorder",
+        new FetchCallback() {
+            onFetch(result) {
+                if(type.equals("CheckBoxGroup")) {
+                    populateCheckBoxGroup(path, result);
+                } else if(type.equals("DropDown")) {
+                    populateDropDown(path, result);
+                } else if(type.equals("RadioGroup")) {
+                    populateRadioGroup(path, result);
+                } else if(type.equals("List")) {
+                    populateList(path, result);
+                }
+            }
+        });
 }
 
 doNotDelete(){
@@ -713,29 +1133,27 @@ fillInGPS(String path){
 
 /*** 'Uneditable' - you can edit the code below with extreme precaution ***/
 
-DATA_ENTRY_LAYER = "Data Entry Layer";
+DATA_ENTRY_LAYER = "Transect Layer";
 DATA_ENTRY_LAYER_ID = 0;
 
 onEvent("control/Map", "show", "drawTransects()");
 onEvent("control/Map/centre", "click", "centerOnCurrentPosition(\"control/Map/map\");"); 
 
-
 drawTransects(){
-
-    geoms = fetchOne("SELECT uuid, geospatialcolumn FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Transect'");
+     fetchOne("SELECT uuid, geospatialcolumn FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Transect'", new FetchCallback() {
+        onFetch(result) {
+            geoms = result;
+        }
+    });
     ps = createPointStyle(10, Color.BLUE, 0.2f, 0.5f);
-
-
-
 }
-
 
 initMap() {
     setMapZoom("control/Map/map", 15.0f);
 
     DATA_ENTRY_LAYER_ID = createCanvasLayer("control/Map/map", DATA_ENTRY_LAYER);
 
-    //showBaseMap("control/Map/map", "Base Layer", "files/data/maps/BM1.tif");
+    showBaseMap("control/Map/map", "Base Layer", "files/data/maps/RasterData.tif");
 
     isEntity = true;
     queryName = "Transects";
@@ -747,132 +1165,70 @@ initMap() {
         "SELECT uuid, max(aenttimestamp) as aenttimestamp " + 
         " FROM latestNonDeletedArchent join aenttype using (aenttypeid) " +
         " where aenttypename = 'Tracklog';");
-    /*        
-    addSelectQueryBuilder("Context/map/map", "Select entity by type", createQueryBuilder(
-        "select uuid " + 
-        "  from latestNonDeletedArchent " + 
-        "  JOIN latestNonDeletedAentValue using (uuid) " + 
-        "  join aenttype using (aenttypeid) " + 
-        "  LEFT OUTER JOIN vocabulary using (vocabid, attributeid) " + 
-        "  where lower(aenttypename) = lower(?) " + 
-        "   group by uuid").addParameter("Type", "RemoteSensingContext"));*/
-        
-    //addLegacySelectQueryBuilder("Context/map/map", "Select geometry by id", "files/data/maps/sydney.sqlite", "Geology100_Sydney", 
-    //    createLegacyQueryBuilder("Select PK_UID from Geology100_Sydney where PK_UID = ?").addParameter("ID", null));
-                    
-    // define database layer styles for points, lines, polygons and text
+
     ps = createPointStyle(10, Color.BLUE, 0.2f, 0.5f);
     ls = createLineStyle(10, Color.GREEN, 0.05f, 0.3f, null);
     pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
     ts = createTextStyle(10, Color.RED, 30, Typeface.SANS_SERIF);
 
-    showDatabaseLayer("control/Map/map", "Transect Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
-
-
-    poiName = "Points of Interest";
-    poiSQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'POI'";
-    poiPS = createPointStyle(10, Color.GREEN, 0.2f, 0.5f);
-    poiTS = createTextStyle(10, Color.WHITE, 30, Typeface.SERIF);
-
-        
-    addDatabaseLayerQuery("control/Map/map", poiName, poiSQL);
-    showDatabaseLayer("control/Map/map", "Points of Interest Layer", isEntity, poiName, poiSQL, poiPS, ls, pos, poiTS);
-
-
-
-
+    showDatabaseLayer("control/Map/map", "Saved Data Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
 }
 
 initMap();
 
-
-/*** TRACKLOG ***/
-
-/*
-
-saveTimeGPSTrack() {
-    List attributes = createAttributeList();
-    attributes.add(createEntityAttribute("gps_type", "time", null, null, null));
-    saveGPSTrack(attributes);
-}
-
-saveDistanceGPSTrack() {
-    List attributes = createAttributeList();
-    attributes.add(createEntityAttribute("gps_type", "distance", null, null, null));
-    saveGPSTrack(attributes);
-}
-
-saveGPSTrack(List attributes) {
-    position = getGPSPosition();
-    if (position == null) return;
-
-    //attributes.add(createEntityAttribute("gps_user", "" + user.getUserId(), null, null, null));
-    attributes.add(createEntityAttribute("gps_timestamp", "" + getCurrentTime(), null, null, null));
-    attributes.add(createEntityAttribute("gps_longitude", "" + position.getLongitude(), null, null, null));
-    attributes.add(createEntityAttribute("gps_latitude", "" + position.getLatitude(), null, null, null));
-    //attributes.add(createEntityAttribute("gps_heading", "" + getGPSHeading(), null, null, null));
-    attributes.add(createEntityAttribute("gps_accuracy", "" + getGPSEstimatedAccuracy(), null, null, null));
-    
-    positionProj = getGPSPositionProjected();
-    Point p = new Point(new MapPos(positionProj.getLongitude(), positionProj.getLatitude()), null, (PointStyle) null, null);
-    ArrayList l = new ArrayList();
-    l.add(p);
-    
-    saveArchEnt(null, "gps_track", l, attributes);
-}
-*/
 /*** USER ***/
 
-getDefaultUsersList() {
-    users = fetchAll("select userid, fname ||' ' || lname from user");
-    return users;
-}
+populateListForUsers() {
+    fetchAll("select userid, fname ||' ' || lname from user", new FetchCallback() {
+        onFetch(result) {
+            populateDropDown("user/usertab/users", result);        
+        }
+    });
 
-populateListForUsers(){
-    populateDropDown("user/usertab/users", getDefaultUsersList());
-    populateRadioGroup("user/usertab/Team", makeVocab("Team"));
+    makeVocab("RadioGroup", "user/usertab/Team", "Team");
 
-    Object localTeam = fetchOne("select value from localSettings where key = 'Team';");
-    Object localUser = fetchOne("select value from localSettings where key = 'User';");
-
-    if (!isNull(localTeam)){
-        setFieldValue("user/usertab/Team", localTeam.get(0));
-    }
-
-    if (!isNull(localUser)){
-        setFieldValue("user/usertab/users", localUser.get(0));
-    }
-
+    fetchOne("select value from localSettings where key = 'Team';", new FetchCallback() {
+        onFetch(result) {
+            if (!isNull(result)){
+                setFieldValue("user/usertab/Team", result.get(0));
+            }
+        }
+    });
+    fetchOne("select value from localSettings where key = 'User';", new FetchCallback() {
+        onFetch(result) {
+            if (!isNull(result)){
+                setFieldValue("user/usertab/users", result.get(0));
+            }
+        }
+    });
 }
 
 populateListForUsers();
 
 String username = "";
-String device = "";
-String teamCode = "";
 
 login(){
     if(isNull(getFieldValue("user/usertab/Team")) || isNull(getFieldValue("user/usertab/users"))){
         showWarning("Warning", "Please select a User and an Team before logging in.");
     } else {
-        Object userResult = fetchOne("select userid,fname,lname,email from user where userid='" + getFieldValue("user/usertab/users") + "';");
-        User user = new User(userResult.get(0),userResult.get(1),userResult.get(2),userResult.get(3));
-        userid = userResult.get(0);
-        setUser(user);
-        username = userResult.get(1) + " " + userResult.get(2);
-        showTabGroup("control");
+        fetchOne("select userid,fname,lname,email from user where userid='" + getFieldValue("user/usertab/users") + "';",
+            new FetchCallback() {
+                onFetch(result) {
+                    User user = new User(result.get(0),result.get(1),result.get(2),result.get(3));
+                    userid = result.get(0);
+                    setUser(user);
+                    username = result.get(1) + " " + result.get(2);
+                    showTabGroup("control");
 
-        fetchOne("REPLACE INTO localSettings(key, value) VALUES('User', '"+userid+"');");
-        fetchOne("REPLACE INTO localSettings(key, value) VALUES('Team', '"+getFieldValue("user/usertab/Team")+"');");
-
-        teamCode = fetchOne("select vocabid, vocabname from vocabulary join localSettings on (value=vocabid) where key = 'Team' ").get(1);
-
-
+                    fetchOne("REPLACE INTO localSettings(key, value) VALUES('User', '"+userid+"');", null);
+                    fetchOne("REPLACE INTO localSettings(key, value) VALUES('Team', '"+getFieldValue("user/usertab/Team")+"');", null);
+                }
+            });
     }
-
 }
 
 onEvent("user/usertab/login", "click", "login()");
+
 
 /*** SYNC ***/
 

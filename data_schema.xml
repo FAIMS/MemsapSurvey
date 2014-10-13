@@ -46,22 +46,22 @@
     <property name="Raw material" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aQuartz}
+        <term> {Quartz}
           <description/>
         </term>
-        <term> {bQuartzite}
+        <term> {Quartzite}
           <description/>
         </term>
-        <term> {cChert}
+        <term> {Chert}
           <description/>
         </term>
-        <term> {dSilcrete}
+        <term> {Silcrete}
           <description/>
         </term>
-        <term> {zOther_annotation}
+        <term> {Other_annotation}
           <description/>
         </term>
       </lookup>
@@ -69,16 +69,16 @@
     <property name="Crystal Size" type="enum">
       <description>Estimated by using a sand gauge (©1984 W.F. McCullough)”</description>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aFine}
+        <term> {Fine}
           <description/>
         </term>
-        <term> {bMedium}
+        <term> {Medium}
           <description/>
         </term>
-        <term> {cCoarse}
+        <term> {Coarse}
           <description/>
         </term>
       </lookup>
@@ -113,7 +113,7 @@
         <term> {90_percent}
           <description/>
         </term>
-        <term> {z100_percent}
+        <term> {100_percent}
           <description/>
         </term>
       </lookup>
@@ -127,22 +127,22 @@
     <property name="Angularity" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aRounded}
+        <term> {Rounded}
           <description/>
         </term>
-        <term> {bSub_rounded}
+        <term> {Sub_rounded}
           <description/>
         </term>
-        <term> {cAngular}
+        <term> {Angular}
           <description/>
         </term>
-        <term> {dSub_angular}
+        <term> {Sub_angular}
           <description/>
         </term>
-        <term> {zOther_annotation}
+        <term> {Other_annotation}
           <description/>
         </term>
       </lookup>
@@ -161,16 +161,16 @@
     <property name="Core Weathering stage" type="enum">
       <description/>
       <lookup>
-        <term> {aNo_edge_rounding}
+        <term> {No_edge_rounding}
           <description/>
         </term>
-        <term> {bEdge_rounding_visible}
+        <term> {Edge_rounding_visible}
           <description/>
         </term>
-        <term> {cEdge_rounding_visible_to_eye}
+        <term> {Edge_rounding_visible_to_eye}
           <description/>
         </term>
-        <term> {dEdge_rounding_obscured}
+        <term> {Edge_rounding_obscured}
           <description/>
         </term>
       </lookup>
@@ -178,19 +178,19 @@
     <property name="Outer Surface (Cortex) on Whole Core" type="enum">
       <description/>
       <lookup>
-        <term> {aNone}
+        <term> {None}
           <description/>
         </term>
-        <term> {bLess_than_25}
+        <term> {Less_than_25}
           <description/>
         </term>
-        <term> {c25-50}
+        <term> {25-50}
           <description/>
         </term>
-        <term> {d50-75}
+        <term> {50-75}
           <description/>
         </term>
-        <term> {eGreater_than_75}
+        <term> {Greater_than_75}
           <description/>
         </term>
       </lookup>
@@ -198,19 +198,19 @@
     <property name="Outer Surface (Cortex) on Upper Hemisphere" type="enum">
       <description>Face with the lowest amount of cortex</description>
       <lookup>
-        <term> {aNone}
+        <term> {None}
           <description/>
         </term>
-        <term> {bLess_than_25}
+        <term> {Less_than_25}
           <description/>
         </term>
-        <term> {c25-50}
+        <term> {25-50}
           <description/>
         </term>
-        <term> {d50-75}
+        <term> {50-75}
           <description/>
         </term>
-        <term> {eGreater_than_75}
+        <term> {Greater_than_75}
           <description/>
         </term>
       </lookup>
@@ -218,19 +218,19 @@
     <property name="Outer Surface (Cortex) on Lower Hemisphere" type="enum">
       <description>Face with the higest amount of cortex</description>
       <lookup>
-        <term> {aNone}
+        <term> {None}
           <description/>
         </term>
-        <term> {bLess_than_25}
+        <term> {Less_than_25}
           <description/>
         </term>
-        <term> {c25-50}
+        <term> {25-50}
           <description/>
         </term>
-        <term> {d50-75}
+        <term> {50-75}
           <description/>
         </term>
-        <term> {eGreater_than_75}
+        <term> {Greater_than_75}
           <description/>
         </term>
       </lookup>
@@ -244,22 +244,22 @@
     <property name="Flaking on Core Perimeter" type="enum">
       <description/>
       <lookup>
-        <term> {aNot_applicable}
+        <term> {Not_applicable}
           <description/>
         </term>
-        <term> {bLess_than_20}
+        <term> {Less_than_20}
           <description/>
         </term>
-        <term> {c20-40}
+        <term> {20-40}
           <description/>
         </term>
-        <term> {d40-60}
+        <term> {40-60}
           <description/>
         </term>
-        <term> {e60-80}
+        <term> {60-80}
           <description/>
         </term>
-        <term> {fGreater_than_80}
+        <term> {Greater_than_80}
           <description/>
         </term>
       </lookup>
@@ -267,45 +267,45 @@
     <property name="Core Typology" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aLevallois}
+        <term> {Levallois}
           <description/>
         </term>
-        <term> {bDisc}
+        <term> {Disc}
           <description/>
         </term>
-        <term> {cDiscoidal}
+        <term> {Discoidal}
           <description/>
         </term>
-        <term> {dSingle_platformed_Unifacial}
+        <term> {Single_platformed_Unifacial}
           <description/>
         </term>
-        <term> {eSingle_Platformed_Bifacial}
+        <term> {Single_Platformed_Bifacial}
           <description/>
         </term>
-        <term> {fDouble_Platformed_Opposed}
+        <term> {Double_Platformed_Opposed}
           <description/>
         </term>
-        <term> {gDouble_Platformed_at_Right_Angles}
+        <term> {Double_Platformed_at_Right_Angles}
           <description/>
         </term>
-        <term> {hMultiple_Platformed}
+        <term> {Multiple_Platformed}
           <description/>
         </term>
-        <term> {iShapeless/Miscellaneous}
+        <term> {Shapeless/Miscellaneous}
           <description/>
         </term>
-        <term> {jBlade}
+        <term> {Blade}
           <description/>
         </term>
-        <term> {kBipolar}
+        <term> {Bipolar}
           <description/>
         </term>
       </lookup>
     </property>
-    <property name="Photo" type="file">
+    <property name="Photo" type="file" file="true" thumbnail="true">
       <description/>
     </property>
   </ArchaeologicalElement>
@@ -385,37 +385,37 @@
     <property name="Landform" type="enum">
       <description>Select the type of landform</description>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aRange_top}
+        <term> {Range_top}
           <description/>
         </term>
-        <term> {bUpper_slope}
+        <term> {Upper_slope}
           <description/>
         </term>
-        <term> {cMiddle_slope}
+        <term> {Middle_slope}
           <description/>
         </term>
-        <term> {dLower_slope}
+        <term> {Lower_slope}
           <description/>
         </term>
-        <term> {eFlat_land}
+        <term> {Flat_land}
           <description/>
         </term>
-        <term> {fHill}
+        <term> {Hill}
           <description/>
         </term>
-        <term> {gRiver_flat}
+        <term> {River_flat}
           <description/>
         </term>
-        <term> {hCreek_flat}
+        <term> {Creek_flat}
           <description/>
         </term>
-        <term> {iLong_gradual_slope}
+        <term> {Long_gradual_slope}
           <description/>
         </term>
-        <term> {jShort_steep_slope}
+        <term> {Short_steep_slope}
           <description/>
         </term>
       </lookup>
@@ -453,7 +453,7 @@
         <term> {90_percent}
           <description/>
         </term>
-        <term> {z100_percent}
+        <term> {100_percent}
           <description/>
         </term>
       </lookup>
@@ -491,7 +491,7 @@
         <term> {90_percent}
           <description/>
         </term>
-        <term> {z100_percent}
+        <term> {100_percent}
           <description/>
         </term>
       </lookup>
@@ -502,31 +502,31 @@
     <property name="Basic geomorphic summary" type="enum">
       <description>Comments such as: erosion and other things that can cause erosion; agricultural activity, grazing, road disturbance, etc.</description>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aBedrock}
+        <term> {Bedrock}
           <description/>
         </term>
-        <term> {bLag_on_bedrock}
+        <term> {Lag_on_bedrock}
           <description/>
         </term>
-        <term> {cLag_on_sediments}
+        <term> {Lag_on_sediments}
           <description/>
         </term>
-        <term> {dColluvium}
+        <term> {Colluvium}
           <description/>
         </term>
-        <term> {eAlluvial_fan}
+        <term> {Alluvial_fan}
           <description/>
         </term>
-        <term> {fFloodplain_alluvium}
+        <term> {Floodplain_alluvium}
           <description/>
         </term>
-        <term> {gFluvially_incised_sediments_strath_terraces}
+        <term> {Fluvially_incised_sediments_strath_terraces}
           <description/>
         </term>
-        <term> {zOther}
+        <term> {Other}
           <description/>
         </term>
       </lookup>
@@ -534,19 +534,19 @@
     <property name="Cobble distribution" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aNot_present}
+        <term> {Not_present}
           <description/>
         </term>
-        <term> {bEvenly_scattered}
+        <term> {Evenly_scattered}
           <description/>
         </term>
-        <term> {cQuite_evenly}
+        <term> {Quite_evenly}
           <description/>
         </term>
-        <term> {dAggregated}
+        <term> {Aggregated}
           <description/>
         </term>
       </lookup>
@@ -560,16 +560,16 @@
     <property name="Sediment size" type="enum">
       <description>Select all sediment sizes that apply</description>
       <lookup>
-        <term> {aFine}
+        <term> {Fine}
           <description/>
         </term>
-        <term> {bCoarse}
+        <term> {Coarse}
           <description/>
         </term>
-        <term> {cSmall_Clasts}
+        <term> {Small_Clasts}
           <description/>
         </term>
-        <term> {dLarge_Clasts}
+        <term> {Large_Clasts}
           <description/>
         </term>
       </lookup>
@@ -577,10 +577,10 @@
     <property name="Sediment thickness" type="enum">
       <description/>
       <lookup>
-        <term> {aLess_than_10cm}
+        <term> {Less_than_10cm}
           <description/>
         </term>
-        <term> {bGreater_than_10cm}
+        <term> {Greater_than_10cm}
           <description/>
         </term>
       </lookup>
@@ -596,7 +596,7 @@
        <term>C<description/></term>
       </lookup>
     </property>
-    <property name="Transect Photo" type="file">
+    <property name="Transect Photo" type="file" file="true" thumbnail="true">
       <description/>
     </property>
   </ArchaeologicalElement>
@@ -618,16 +618,16 @@
     <property name="Technological Component" type="enum">
       <description/>
       <lookup>
-        <term> {aFlake}
+        <term> {Flake}
           <description/>
         </term>
-        <term> {bCore}
+        <term> {Core}
           <description/>
         </term>
-        <term> {cShatter_Flake_Piece}
+        <term> {Shatter_Flake_Piece}
           <description/>
         </term>
-        <term> {zOther}
+        <term> {Other}
           <description/>
         </term>
       </lookup>
@@ -650,7 +650,7 @@
         <term> {Bulb}
           <description/>
         </term>
-        <term> {zOther_describe}
+        <term> {Other_describe}
           <description/>
         </term>
       </lookup>
@@ -661,22 +661,22 @@
     <property name="Raw material" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aQuartz}
+        <term> {Quartz}
           <description/>
         </term>
-        <term> {bQuartzite}
+        <term> {Quartzite}
           <description/>
         </term>
-        <term> {cChert}
+        <term> {Chert}
           <description/>
         </term>
-        <term> {dSilcrete}
+        <term> {Silcrete}
           <description/>
         </term>
-        <term> {zOther_annotation}
+        <term> {Other_annotation}
           <description/>
         </term>
       </lookup>
@@ -701,19 +701,19 @@
     <property name="Longitudinal Portion" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aComplete}
+        <term> {Complete}
           <description/>
         </term>
-        <term> {bProximal}
+        <term> {Proximal}
           <description/>
         </term>
-        <term> {cMedial}
+        <term> {Medial}
           <description/>
         </term>
-        <term> {dDistal}
+        <term> {Distal}
           <description/>
         </term>
       </lookup>
@@ -721,22 +721,22 @@
     <property name="Transverse Portion" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aComplete}
+        <term> {Complete}
           <description/>
         </term>
-        <term> {bSplit_Left}
+        <term> {Split_Left}
           <description/>
         </term>
-        <term> {cMiddle}
+        <term> {Middle}
           <description/>
         </term>
-        <term> {dSplit_Right}
+        <term> {Split_Right}
           <description/>
         </term>
-        <term> {eMargin}
+        <term> {Margin}
           <description/>
         </term>
       </lookup>
@@ -744,28 +744,28 @@
     <property name="Platform Type" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aCortical}
+        <term> {Cortical}
           <description/>
         </term>
-        <term> {bPlain}
+        <term> {Plain}
           <description/>
         </term>
-        <term> {cDihedral}
+        <term> {Dihedral}
           <description/>
         </term>
-        <term> {dPolyhedral}
+        <term> {Polyhedral}
           <description/>
         </term>
-        <term> {eFaceted}
+        <term> {Faceted}
           <description/>
         </term>
-        <term> {fCrushed_Shattered}
+        <term> {Crushed_Shattered}
           <description/>
         </term>
-        <term> {gPoint}
+        <term> {Point}
           <description/>
         </term>
       </lookup>
@@ -773,16 +773,16 @@
     <property name="Platform Cortex" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aNo_Cortex}
+        <term> {No_Cortex}
           <description/>
         </term>
-        <term> {bPartial_Platform_Cortex}
+        <term> {Partial_Platform_Cortex}
           <description/>
         </term>
-        <term> {cComplete_Platform_Cortex}
+        <term> {Complete_Platform_Cortex}
           <description/>
         </term>
       </lookup>
@@ -790,19 +790,19 @@
     <property name="Termination" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aFeather}
+        <term> {Feather}
           <description/>
         </term>
-        <term> {bOvershot}
+        <term> {Overshot}
           <description/>
         </term>
-        <term> {cHinge}
+        <term> {Hinge}
           <description/>
         </term>
-        <term> {dStep}
+        <term> {Step}
           <description/>
         </term>
       </lookup>
@@ -810,22 +810,22 @@
     <property name="Percentage Cortical Coverage" type="enum">
       <description>Percentage of the dorsal and platform surfaces combined that is covered in cortex.</description>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {a0-24}
+        <term> {0-24}
           <description/>
         </term>
-        <term> {b25-49}
+        <term> {25-49}
           <description/>
         </term>
-        <term> {c50-74}
+        <term> {50-74}
           <description/>
         </term>
-        <term> {d75-99}
+        <term> {75-99}
           <description/>
         </term>
-        <term> {e_100}
+        <term> {100}
           <description/>
         </term>
       </lookup>
@@ -833,19 +833,19 @@
     <property name="Flake Typology" type="enum">
       <description/>
       <lookup>
-        <term> {aNone}
+        <term> {None}
           <description/>
         </term>
-        <term> {bLevallois}
+        <term> {Levallois}
           <description/>
         </term>
-        <term> {cBlade}
+        <term> {Blade}
           <description/>
         </term>
-        <term> {dPoint}
+        <term> {Point}
           <description/>
         </term>
-        <term> {eBacked}
+        <term> {Backed}
           <description/>
         </term>
       </lookup>
@@ -853,25 +853,25 @@
     <property name="Scar Orientation" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aIndeterminate}
+        <term> {Indeterminate}
           <description/>
         </term>
-        <term> {bLevallois}
+        <term> {Levallois}
           <description/>
         </term>
-        <term> {cUnidirectional}
+        <term> {Unidirectional}
           <description/>
         </term>
-        <term> {dBidirectional_Opposed}
+        <term> {Bidirectional_Opposed}
           <description/>
         </term>
-        <term> {eBidirectional_Orthogonal}
+        <term> {Bidirectional_Orthogonal}
           <description/>
         </term>
-        <term> {fCentripetal}
+        <term> {Centripetal}
           <description/>
         </term>
       </lookup>
@@ -890,8 +890,8 @@
         </term>
       </lookup>
     </property>
-    <property name="Flake Comments" type="Freetxt">
-      <description/>
+    <property name="Flake Comments" type="freetxt">
+      <description>Description TBD</description>
     </property>
     <property name="Completeness" type="enum">
       <description/>
@@ -907,19 +907,19 @@
     <property name="Core Weathering stage" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aNo_edge_rounding}
+        <term> {No_edge_rounding}
           <description/>
         </term>
-        <term> {bEdge_rounding_visible}
+        <term> {Edge_rounding_visible}
           <description/>
         </term>
-        <term> {cEdge_rounding_visible_to_eye}
+        <term> {Edge_rounding_visible_to_eye}
           <description/>
         </term>
-        <term> {dEdge_rounding_obscured}
+        <term> {Edge_rounding_obscured}
           <description/>
         </term>
       </lookup>
@@ -927,19 +927,19 @@
     <property name="Outer Surface (Cortex) on Whole Core" type="enum">
       <description/>
       <lookup>
-        <term> {aNone}
+        <term> {None}
           <description/>
         </term>
-        <term> {bLess_than_25}
+        <term> {Less_than_25}
           <description/>
         </term>
-        <term> {c25-50}
+        <term> {25-50}
           <description/>
         </term>
-        <term> {d50-75}
+        <term> {50-75}
           <description/>
         </term>
-        <term> {eGreater_than_75}
+        <term> {Greater_than_75}
           <description/>
         </term>
       </lookup>
@@ -947,19 +947,19 @@
     <property name="Outer Surface (Cortex) on Upper Hemisphere" type="enum">
       <description>Face with the lowest amount of cortex</description>
       <lookup>
-        <term> {aNone}
+        <term> {None}
           <description/>
         </term>
-        <term> {bLess_than_25}
+        <term> {Less_than_25}
           <description/>
         </term>
-        <term> {c25-50}
+        <term> {25-50}
           <description/>
         </term>
-        <term> {d50-75}
+        <term> {50-75}
           <description/>
         </term>
-        <term> {eGreater_than_75}
+        <term> {Greater_than_75}
           <description/>
         </term>
       </lookup>
@@ -967,19 +967,19 @@
     <property name="Outer Surface (Cortex) on Lower Hemisphere" type="enum">
       <description>Face with the higest amount of cortex</description>
       <lookup>
-        <term> {aNone}
+        <term> {None}
           <description/>
         </term>
-        <term> {bLess_than_25}
+        <term> {Less_than_25}
           <description/>
         </term>
-        <term> {c25-50}
+        <term> {25-50}
           <description/>
         </term>
-        <term> {d50-75}
+        <term> {50-75}
           <description/>
         </term>
-        <term> {eGreater_than_75}
+        <term> {Greater_than_75}
           <description/>
         </term>
       </lookup>
@@ -993,22 +993,22 @@
     <property name="Flaking on Core Perimeter" type="enum">
       <description/>
       <lookup>
-        <term> {aNot_applicable}
+        <term> {Not_applicable}
           <description/>
         </term>
-        <term> {bLess_than_20}
+        <term> {Less_than_20}
           <description/>
         </term>
-        <term> {c20-40}
+        <term> {20-40}
           <description/>
         </term>
-        <term> {d40-60}
+        <term> {40-60}
           <description/>
         </term>
-        <term> {e60-80}
+        <term> {60-80}
           <description/>
         </term>
-        <term> {fGreater_than_80}
+        <term> {Greater_than_80}
           <description/>
         </term>
       </lookup>
@@ -1016,40 +1016,40 @@
     <property name="Core Typology" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
-        <term> {aLevallois}
+        <term> {Levallois}
           <description/>
         </term>
-        <term> {bDisc}
+        <term> {Disc}
           <description/>
         </term>
-        <term> {cDiscoidal}
+        <term> {Discoidal}
           <description/>
         </term>
-        <term> {dSingle_platformed_Unifacial}
+        <term> {Single_platformed_Unifacial}
           <description/>
         </term>
-        <term> {eSingle_Platformed_Bifacial}
+        <term> {Single_Platformed_Bifacial}
           <description/>
         </term>
-        <term> {fDouble_Platformed_Opposed}
+        <term> {Double_Platformed_Opposed}
           <description/>
         </term>
-        <term> {gDouble_Platformed_at_Right_Angles}
+        <term> {Double_Platformed_at_Right_Angles}
           <description/>
         </term>
-        <term> {hMultiple_Platformed}
+        <term> {Multiple_Platformed}
           <description/>
         </term>
-        <term> {iShapeless/Miscellaneous}
+        <term> {Shapeless/Miscellaneous}
           <description/>
         </term>
-        <term> {jBlade}
+        <term> {Blade}
           <description/>
         </term>
-        <term> {kBipolar}
+        <term> {Bipolar}
           <description/>
         </term>
       </lookup>
@@ -1057,7 +1057,7 @@
     <property name="Other Type" type="enum">
       <description/>
       <lookup>
-        <term> {0No_Observation}
+        <term> {No_Observation}
           <description/>
         </term>
         <term> {Manuport}
@@ -1071,16 +1071,16 @@
         </term>
       </lookup>
     </property>
-    <property name="Other Photo" type="file">
+    <property name="Other Photo" type="file" file="true" thumbnail="true">
       <description/>
     </property>
-    <property name="Flake Photo" type="file">
+    <property name="Flake Photo" type="file" file="true" thumbnail="true">
       <description/>
     </property>
-    <property name="Core Photo" type="file">
+    <property name="Core Photo" type="file" file="true" thumbnail="true">
       <description/>
     </property>
-    <property name="Shatter Photo" type="file">
+    <property name="Shatter Photo" type="file" file="true" thumbnail="true">
       <description/>
     </property>
   </ArchaeologicalElement>
