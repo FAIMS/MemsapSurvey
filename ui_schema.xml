@@ -79,9 +79,14 @@
                   <newArtefact/>
                 </child2>
               </container2>
-              <listOfLastText/>
-              <archentsRadio/>
-              <listOfLast/>
+              <container3>
+                <child1>
+                  <archentsRadio/>
+                </child1>
+                <child2>
+                  <listOfLast/>
+                </child2>
+              </container3>
             </Start>
             <Map>
               <map/>
@@ -334,12 +339,12 @@
             <value>placeholder</value>
           </item>
         </select1>
-        <trigger ref="login">
+        <trigger ref="login" faims_style_class="faims-success">
           <label>Login</label>
         </trigger>
       </group>
     </group>
-    <group ref="control" faims_scrollable="false">
+    <group ref="control">
       <label>Control</label>
       <group ref="Control">
         <label>Control</label>
@@ -433,7 +438,7 @@
             </input>
           </group>
         </group>      
-        <trigger ref="newSurveyUnit">
+        <trigger ref="newSurveyUnit" faims_style_class="faims-blue">
           <label>New {Survey_Unit}</label>
         </trigger>
         <select1 appearance="compact" ref="currentSurveyUnit" faims_annotation="false" faims_certainty="false">
@@ -443,57 +448,62 @@
               <value>placeholder</value>
             </item>
         </select1>
-        <trigger ref="finishSU">
+        <trigger ref="finishSU"  faims_style_class="faims-blue">
           <label>Finish {Survey_Unit}</label>
         </trigger>
         <group faims_style="orientation" ref="container2">
           <label/>
           <group faims_style="even" ref="child1">
             <label/>
-            <trigger ref="newPOI">
+            <trigger ref="newPOI" faims_style_class="faims-blue-half">
               <label>New {POI}</label>
             </trigger>
           </group>
           <group faims_style="even" ref="child2">
             <label/>
-            <trigger ref="newArtefact">
+            <trigger ref="newArtefact" faims_style_class="faims-blue-half">
               <label>New {Artefact}</label>
             </trigger>
           </group>
         </group>
-        <input faims_certainty="false" faims_read_only="false" ref="listOfLastText">
-          <label>How many records would you like to see?</label>
-        </input>
-        <select1 ref="archentsRadio" faims_annotation="false" faims_certainty="false">
+        <group faims_style="orientation" ref="container3">
+          <label/>
+          <group faims_style="even" ref="child1">
             <label/>
-            <item>
-              <label>{Survey_Unit}</label>
-              <value>Survey Unit</value>
-            </item>
-            <item>
-              <label>{POI}</label>
-              <value>POI</value>
-            </item>
-            <item>
-              <label>{Artefact}</label>
-              <value>Artefact</value>
-            </item>
-        </select1>
-        <select1 appearance="compact" ref="listOfLast" faims_annotation="false" faims_certainty="false">
+            <select1 ref="archentsRadio" faims_annotation="false" faims_certainty="false">
+              <label/>
+              <item>
+                <label>{Survey_Unit}</label>
+                <value>Survey Unit</value>
+              </item>
+              <item>
+                <label>{POI}</label>
+                <value>POI</value>
+              </item>
+              <item>
+                <label>{Artefact}</label>
+                <value>Artefact</value>
+              </item>
+            </select1>
+          </group>
+          <group faims_style="even" ref="child2">
             <label/>
-            <item>
-              <label>placeholder</label>
-              <value>placeholder</value>
-            </item>
-        </select1>
+            <select1 appearance="compact" ref="listOfLast" faims_annotation="false" faims_certainty="false" faims_style_class="menu-list">
+              <label/>
+              <item>
+                <label>placeholder</label>
+                <value>placeholder</value>
+              </item>
+            </select1>
+          </group>
+        </group>
       </group>
-
       <group ref="Map" faims_scrollable="false">
         <label>Map</label>
          <input ref="map" faims_map="true" faims_certainty="false">
           <label/>
         </input>
-        <trigger ref="centre">
+        <trigger ref="centre" faims_style_class="faims-success">
           <label>Centre Me</label>
         </trigger>
       </group>
@@ -502,7 +512,7 @@
       <label>{Survey_Unit}</label>
       <group ref="Survey_Unit">
         <label>{Survey_Unit}</label>
-        <input ref="Survey_Unit_ID" faims_attribute_name="Survey Unit ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+        <input ref="Survey_Unit_ID" faims_attribute_name="Survey Unit ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false" faims_style_class="required">
           <label>{Survey_Unit_ID}</label>
         </input>
         <group ref="container1" faims_style="orientation">
@@ -606,13 +616,13 @@
             <value>placeholder</value>
           </item>
         </select>
-        <trigger ref="Attach_Photo">
+        <trigger ref="Attach_Photo" faims_style_class="faims-blue">
           <label>{Attach_Photo}</label>
         </trigger>
-        <trigger ref="Update_and_Return">
+        <trigger ref="Update_and_Return" faims_style_class="faims-success">
           <label>{Update_and_Return}</label>
         </trigger>
-        <trigger ref="Delete">
+        <trigger ref="Delete" faims_style_class="faims-danger">
           <label>{Delete}</label>
         </trigger>
         <input faims_certainty="false" faims_read_only="true" ref="trackStatus" faims_annotation="false" faims_style_class="track-status">
@@ -624,14 +634,14 @@
       <label>{POI}</label>
       <group ref="POI">
         <label>{POI}</label>
-        <input ref="POI_ID" faims_attribute_name="POI ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+        <input ref="POI_ID" faims_attribute_name="POI ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false" faims_style_class="required">
           <label>{POI_ID}</label>
         </input>
         <group ref="container1" faims_style="orientation">
           <label></label>
           <group faims_style="even" ref="child1">
             <label></label>
-            <input ref="Latitude" faims_attribute_name="Latitude" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+            <input ref="Latitude" faims_attribute_name="Latitude" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false" faims_style_class="half-line">
               <label>{Latitude}</label>
             </input>
           </group>
@@ -740,13 +750,13 @@
             <value>placeholder</value>
           </item>
         </select>
-        <trigger ref="Attach_Photo">
+        <trigger ref="Attach_Photo" faims_style_class="faims-blue">
           <label>{Attach_Photo}</label>
         </trigger>
-        <trigger ref="Update_and_Next">
+        <trigger ref="Update_and_Next" faims_style_class="faims-success">
           <label>{Update_and_Next}</label>
         </trigger>
-        <trigger ref="Delete">
+        <trigger ref="Delete" faims_style_class="faims-danger">
           <label>{Delete}</label>
         </trigger>
       </group>
@@ -762,10 +772,10 @@
             <value>placeholder</value>
           </item>
         </select1>
-        <trigger ref="Update_and_Return">
+        <trigger ref="Update_and_Return" faims_style_class="faims-success">
           <label>{Update_and_Return}</label>
         </trigger>
-        <trigger ref="Delete">
+        <trigger ref="Delete" faims_style_class="faims-danger">
           <label>{Delete}</label>
         </trigger>
       </group>
@@ -829,10 +839,10 @@
             <value>placeholder</value>
           </item>
         </select1>
-        <trigger ref="Update_and_Return">
+        <trigger ref="Update_and_Return" faims_style_class="faims-success">
           <label>{Update_and_Return}</label>
         </trigger>
-        <trigger ref="Delete">
+        <trigger ref="Delete" faims_style_class="faims-danger">
           <label>{Delete}</label>
         </trigger>
       </group>
@@ -841,7 +851,7 @@
       <label>{Artefact}</label>
       <group ref="Artefact">
         <label>{Artefact}</label>
-        <input ref="Artefact_ID" faims_attribute_name="Artefact ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+        <input ref="Artefact_ID" faims_attribute_name="Artefact ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false" faims_style_class="required">
           <label>{Artefact_ID}</label>
         </input>
         <select1 appearance="full" ref="Technological_Component" faims_attribute_name="Technological Component" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
@@ -899,10 +909,10 @@
             <value>placeholder</value>
           </item>
         </select1>
-        <trigger ref="Update_and_Next">
+        <trigger ref="Update_and_Next" faims_style_class="faims-success">
           <label>{Update_and_Next}</label>
         </trigger>
-        <trigger ref="Delete">
+        <trigger ref="Delete" faims_style_class="faims-danger">
           <label>{Delete}</label>
         </trigger>
       </group>
@@ -987,13 +997,13 @@
             <value>placeholder</value>
           </item>
         </select>
-        <trigger ref="Attach_Photo">
+        <trigger ref="Attach_Photo" faims_style_class="faims-blue">
           <label>{Attach_Photo}</label>
         </trigger>
-        <trigger ref="Update_and_Return">
+        <trigger ref="Update_and_Return" faims_style_class="faims-success">
           <label>{Update_and_Return}</label>
         </trigger>
-        <trigger ref="Delete">
+        <trigger ref="Delete" faims_style_class="faims-danger">
           <label>{Delete}</label>
         </trigger>
       </group>
@@ -1064,18 +1074,18 @@
             <value>placeholder</value>
           </item>
         </select>
-        <trigger ref="Attach_Photo">
+        <trigger ref="Attach_Photo" faims_style_class="faims-blue">
           <label>{Attach_Photo}</label>
         </trigger>
-        <trigger ref="Update_and_Return">
+        <trigger ref="Update_and_Return" faims_style_class="faims-success">
           <label>{Update_and_Return}</label>
         </trigger>
-        <trigger ref="Delete">
+        <trigger ref="Delete" faims_style_class="faims-danger">
           <label>{Delete}</label>
         </trigger>
       </group>
       <group ref="Shatter_Flakes" faims_hidden="true">
-        <label>{cShatter_Flake_Piece}</label>
+        <label>{Shatter_Flake_Piece}</label>
         <input ref="Artefact_ID" faims_certainty="false" faims_annotation="false" faims_read_only="true">
           <label>{Artefact_ID}</label>
         </input>
@@ -1093,13 +1103,13 @@
             <value>placeholder</value>
           </item>
         </select>
-        <trigger ref="Attach_Photo">
+        <trigger ref="Attach_Photo" faims_style_class="faims-blue">
           <label>{Attach_Photo}</label>
         </trigger>
-        <trigger ref="Update_and_Return">
+        <trigger ref="Update_and_Return" faims_style_class="faims-success">
           <label>{Update_and_Return}</label>
         </trigger>
-        <trigger ref="Delete">
+        <trigger ref="Delete" faims_style_class="faims-danger">
           <label>{Delete}</label>
         </trigger>
       </group>
@@ -1122,13 +1132,13 @@
             <value>placeholder</value>
           </item>
         </select>
-        <trigger ref="Attach_Photo">
+        <trigger ref="Attach_Photo" faims_style_class="faims-blue">
           <label>{Attach_Photo}</label>
         </trigger>
-        <trigger ref="Update_and_Return">
+        <trigger ref="Update_and_Return" faims_style_class="faims-success">
           <label>{Update_and_Return}</label>
         </trigger>
-        <trigger ref="Delete">
+        <trigger ref="Delete" faims_style_class="faims-danger">
           <label>{Delete}</label>
         </trigger>
       </group>

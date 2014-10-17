@@ -4,6 +4,9 @@ User user; // don't touch
 String userid;
 Boolean transectEnabled = false;
 
+String tracklogStatus = "Tracklog is Stopped";
+String tracklogState = "Stop";
+
 addActionBarItem("sync", new ToggleActionButtonCallback() {
     actionOnLabel() {
         "Sync enabled";
@@ -147,18 +150,24 @@ onEvent("control/Start/currentSurveyUnit", "click", "loadSurveyUnit()");
 onEvent("control/Start/archentsRadio", "click", "showRecords()");
 
 
-onEvent("control/Start", "load", "setFieldValue(\"control/Start/listOfLastText\",\"5\");setFieldValue(\"control/Start/archentsRadio\",\"SUID\");showRecords()");
+onEvent("control/Start", "load", "setFieldValue(\"control/Start/archentsRadio\",\"SUID\");showRecords()");
 onEvent("control/Start", "show", "showRecords();updateCurrentTransect();");
 
 onEvent("control/Start/listOfLast", "click", "loadRecord()");
 
 showRecords(){
     type = getFieldValue("control/Start/archentsRadio");
-    query = "select uuid, response from identifierAsSpreadsheet join latestnondeletedArchEnt using (uuid) join aenttype using (aenttypeid) where aenttypename like '%"+type+"%' order by aenttimestamp desc limit "+getFieldValue("control/Start/listOfLastText")+";";
+    query = "select uuid, response from identifierAsSpreadsheet join latestnondeletedArchEnt using (uuid) join aenttype using (aenttypeid) where aenttypename like '%"+type+"%' order by aenttimestamp desc;";
     fetchAll(query, new FetchCallback() {
         onFetch(result) {
             if (!isNull(result)){
-                populateList("control/Start/listOfLast", result);
+                populateCursorList("control/Start/listOfLast", 
+                    "select uuid, response from identifierAsSpreadsheet " +
+                        "join latestnondeletedArchEnt using (uuid) " +
+                            "join aenttype using (aenttypeid) " +
+                            "where aenttypename like '%"+type+"%' " +
+                        "order by aenttimestamp desc " +
+                "limit ? offset ?;", 5);
             } else {
                 ArrayList none = new ArrayList();
                 none.add("No entries found");
@@ -257,8 +266,6 @@ setFieldValue("control/Control/trackdistText", "20");
 setFieldValue("control/Control/tracktimeText", "30");
 setFieldValue("control/Control/internalExternalGPS","I");
 
-String tracklogStatus = "Tracklog is Stopped";
-String tracklogState = "Stop";
 numTracklogPoints = 0;
 tracklogCurrentStatus = "";
 numTransectPoints = 0;
@@ -909,7 +916,7 @@ saveArtefact(SaveCallback callback) {
 }
 
 saveAndReturnArtefact() {
-    savePOI(new SaveCallback() {
+    saveArtefact(new SaveCallback() {
         onSave(uuid, newRecord) {
             artefact_id = uuid;
             cancelTabGroup("Artefact", false);
@@ -919,7 +926,7 @@ saveAndReturnArtefact() {
 }
 
 saveAndNextArtefact() {
-    savePOI(new SaveCallback() {
+    saveArtefact(new SaveCallback() {
         onSave(uuid, newRecord) {
             artefact_id = uuid;
             showArtefactTabs(true);
@@ -1137,7 +1144,7 @@ DATA_ENTRY_LAYER = "Transect Layer";
 DATA_ENTRY_LAYER_ID = 0;
 
 onEvent("control/Map", "show", "drawTransects()");
-onEvent("control/Map/centre", "click", "centerOnCurrentPosition(\"control/Map/map\");"); 
+onEvent("control/Map/centre", "click", "centreOnMe();"); 
 
 drawTransects(){
      fetchOne("SELECT uuid, geospatialcolumn FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Transect'", new FetchCallback() {
@@ -1175,6 +1182,14 @@ initMap() {
 }
 
 initMap();
+
+centreOnMe() {
+    if(!isExternalGPSOn() && !isInternalGPSOn()) {
+        showToast("GPS is not enabled.");
+    } else {
+        centerOnCurrentPosition("control/Map/map");
+    }
+}
 
 /*** USER ***/
 

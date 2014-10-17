@@ -1,5 +1,5 @@
-.menu_list {
-    height: 90%;
+.menu-list {
+    height: 70px;
 }
 
 .user_list{
@@ -24,7 +24,7 @@
 
 .list-label{
     margin-left:5%;
-    margin-top:7%;
+    margin-top:2%;
 }
 
 .required-label {
@@ -37,13 +37,11 @@
     margin-left: 7%;
 }
 
-
 .input-field{
     margin-left:5%;
     
 }
 .input-field-label{
-    margin-top:7%;
     margin-left:5%;
 }
 
@@ -64,26 +62,30 @@
     height: 60px;
 }
 
-.all {
-    margin-left: 5%;
-    padding-left: 2%;
-    padding-right: 2%;
-    margin-top:7%;
-    padding-top:5%;
-    color: #222222;
-}
-
 .faims-blue {
     background-color: #33b5e5;
     border-color: #26a0cd;
     color: white;
     margin-left:7%;
-    margin-top:5%;
-    margin-bottom:5%;
+    margin-top:2%;
+    margin-bottom:2%;
     width:77%;
     border-width:1%;
-    border-radius:10%;
+    border-radius:4%;
     
+}
+
+
+.faims-blue-half {
+    background-color: #33b5e5;
+    border-color: #26a0cd;
+    color: white;
+    margin-left:7%;
+    margin-top:2%;
+    width:90%;
+    border-width:1%;
+    border-radius:4%;
+    font-size: 12px;
 }
 
 .faims-danger {
@@ -91,11 +93,11 @@
     border-color: #be3e3a;
     color: white;
     margin-left:7%;
-    margin-top:5%;
-    margin-bottom:5%;
+    margin-top:2%;
+    margin-bottom:2%;
     width:77%;
     border-width:1%;
-    border-radius:10%;
+    border-radius:4%;
 }
 
 .faims-success {
@@ -103,9 +105,9 @@
     border-color: #38a538;
     color: white;
     margin-left:7%;
-    margin-top:5%;
-    margin-bottom:5%;
+    margin-top:2%;
+    margin-bottom:2%;
     width:77%;
     border-width:1%;
-    border-radius:10%;
+    border-radius:4%;
 }
