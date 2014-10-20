@@ -1143,8 +1143,9 @@ fillInGPS(String path){
 DATA_ENTRY_LAYER = "Transect Layer";
 DATA_ENTRY_LAYER_ID = 0;
 
-onEvent("control/Map", "show", "drawTransects()");
-onEvent("control/Map/centre", "click", "centreOnMe();"); 
+onEvent("control/Map", "show", "drawTransects();loadMapSettings;");
+onEvent("control/Map/centre", "click", "centreOnMe();");
+onEvent("control/Map/saveSettings", "click", "saveMapSettings();"); 
 
 drawTransects(){
      fetchOne("SELECT uuid, geospatialcolumn FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Transect'", new FetchCallback() {
@@ -1189,6 +1190,17 @@ centreOnMe() {
     } else {
         centerOnCurrentPosition("control/Map/map");
     }
+}
+
+loadMapSettings() {
+    jsonFile = getAttachedFilePath("files/data/saved_config.json");
+
+    if(new File(jsonFile).exists()) loadMapViewConfiguration("control/Map/map", jsonFile, "showToast(\"Loaded map configuration\")");
+}
+
+saveMapSettings() {
+    file = getAttachedFilePath("files/data/saved_config.json");
+    saveMapViewConfiguration("control/Map/map", file, "showToast(\"Saved map configuration\")");
 }
 
 /*** USER ***/
