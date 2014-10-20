@@ -1224,7 +1224,7 @@ String username = "";
 
 login(){
     if(isNull(getFieldValue("user/usertab/Team")) || isNull(getFieldValue("user/usertab/users"))){
-        showWarning("Warning", "Please select a User and an Team before logging in.");
+        showWarning("Warning", "Please select a User and a Team before logging in.");
     } else {
         fetchOne("select userid,fname,lname,email from user where userid='" + getFieldValue("user/usertab/users") + "';",
             new FetchCallback() {
