@@ -9,7 +9,7 @@ String tracklogState = "Stop";
 
 addActionBarItem("sync", new ToggleActionButtonCallback() {
     actionOnLabel() {
-        "Sync enabled";
+        "Disable Sync";
     }
     actionOn() {
         setSyncEnabled(false);
@@ -20,7 +20,7 @@ addActionBarItem("sync", new ToggleActionButtonCallback() {
         isSyncEnabled();
     }
     actionOffLabel() {
-        "Sync disabled";
+        "Enable Sync";
     }
     actionOff() {
         setSyncEnabled(true);
@@ -31,7 +31,7 @@ addActionBarItem("sync", new ToggleActionButtonCallback() {
 
 addActionBarItem("internal_gps", new ToggleActionButtonCallback() {
     actionOnLabel() {
-        "Internal GPS enabled";
+        "Disable Internal GPS";
     }
     actionOn() {
         stopGPS();
@@ -41,7 +41,7 @@ addActionBarItem("internal_gps", new ToggleActionButtonCallback() {
         isInternalGPSOn();
     }
     actionOffLabel() {
-        "Internal GPS disabled";
+        "Enable Internal GPS";
     }
     actionOff() {
         if(isExternalGPSOn()) {
@@ -54,7 +54,7 @@ addActionBarItem("internal_gps", new ToggleActionButtonCallback() {
 
 addActionBarItem("external_gps", new ToggleActionButtonCallback() {
     actionOnLabel() {
-        "External GPS enabled";
+        "Disable External GPS";
     }
     actionOn() {
         stopGPS();
@@ -64,7 +64,7 @@ addActionBarItem("external_gps", new ToggleActionButtonCallback() {
         isExternalGPSOn();
     }
     actionOffLabel() {
-        "External GPS disabled";
+        "Enable External GPS";
     }
     actionOff() {
         if(isInternalGPSOn()) {
@@ -83,7 +83,7 @@ addActionBarItem("external_gps", new ToggleActionButtonCallback() {
 
 addActionBarItem("time_tracklog", new ToggleActionButtonCallback() {
     actionOnLabel() {
-        "Time Tracklog enabled";
+        "Disable Time Tracklog";
     }
     actionOn() {
         stopTrack();
@@ -93,7 +93,7 @@ addActionBarItem("time_tracklog", new ToggleActionButtonCallback() {
         tracklogState.equals("Time");
     }
     actionOffLabel() {
-        "Time Tracklog disabled";
+        "Enable Time Tracklog";
     }
     actionOff() {
         if(isInternalGPSOn() || isInternalGPSOn()) {
@@ -109,7 +109,7 @@ addActionBarItem("time_tracklog", new ToggleActionButtonCallback() {
 
 addActionBarItem("distance_tracklog", new ToggleActionButtonCallback() {
     actionOnLabel() {
-        "Distance Tracklog enabled";
+        "Disable Distance Tracklog";
     }
     actionOn() {
         stopTrack();
@@ -119,7 +119,7 @@ addActionBarItem("distance_tracklog", new ToggleActionButtonCallback() {
         tracklogState.equals("Distance");
     }
     actionOffLabel() {
-        "Distance Tracklog disabled";
+        "Enable Distance Tracklog";
     }
     actionOff() {
         if(isInternalGPSOn() || isInternalGPSOn()) {
@@ -132,7 +132,7 @@ addActionBarItem("distance_tracklog", new ToggleActionButtonCallback() {
     }
 });
 
-makeLocalID(){
+makeLocalID() {
     fetchOne("CREATE TABLE IF NOT EXISTS localSettings (key text primary key, value text);", null);
     fetchOne("drop view if exists identifierAsSpreadsheet;", null);
     fetchOne("create view identifierAsSpreadsheet as select uuid, group_concat(coalesce(measure || ' ' || vocabname || '(' ||freetext||')',  measure || ' (' || freetext ||')',  vocabname || ' (' || freetext ||')',  measure || ' ' || vocabname ,  vocabname || ' (' || freetext || ')',  measure || ' (' || freetext || ')',  measure,  vocabname,  freetext,  measure,  vocabname,  freetext), ' ') as response from (select * from latestNonDeletedArchentIdentifiers order by attributename) group by uuid;", null);
@@ -142,25 +142,28 @@ makeLocalID();
 
 showWarning("Transect Survey with Artefact recording Demo", "This module was created by the FAIMS team for the needs of the MEMSAP project led by Jessica Thompson of UQ. It was funded by Australian Research Council LIEF grant and is available for Demonstration purposes. You can customise the module yourself or we can help you. Contact info@fedarch.org for help. ");
 
-onEvent("control/Start/newSurveyUnit", "delayclick", "newSurveyUnit()");
-onEvent("control/Start/newPOI", "delayclick", "newPOI()");
-onEvent("control/Start/newArtefact", "delayclick", "newArtefact()");
+onEvent("control", "show", "resetGlobals();");
+
+onEvent("control/Start/newSurveyUnit", "delayclick", "newSurveyUnit();");
+onEvent("control/Start/newPOI", "delayclick", "newPOI();");
+onEvent("control/Start/newArtefact", "delayclick", "newArtefact();");
 onEvent("control/Start/finishSU", "click", "finishSurveyUnit();");
-onEvent("control/Start/currentSurveyUnit", "click", "loadSurveyUnit()");
-onEvent("control/Start/archentsRadio", "click", "showRecords()");
-
-
-onEvent("control/Start", "load", "setFieldValue(\"control/Start/archentsRadio\",\"SUID\");showRecords()");
+onEvent("control/Start/currentSurveyUnit", "click", "loadSurveyUnit();");
+onEvent("control/Start/archentsList", "click", "showRecords();");
+onEvent("control/Start", "load", "setFieldValue(\"control/Start/archentsList\",\"SUID\");showRecords();");
 onEvent("control/Start", "show", "showRecords();updateCurrentTransect();");
+onEvent("control/Start/listOfLast", "click", "loadRecord();");
 
-onEvent("control/Start/listOfLast", "click", "loadRecord()");
+onEvent("control/Control/startGPSButton", "click", "startGPS();");
+onEvent("control/Control/stopGPSButton", "click", "stopGPSLogic();");
 
-showRecords(){
-    type = getFieldValue("control/Start/archentsRadio");
+
+showRecords() {
+    type = getFieldValue("control/Start/archentsList");
     query = "select uuid, response from identifierAsSpreadsheet join latestnondeletedArchEnt using (uuid) join aenttype using (aenttypeid) where aenttypename like '%"+type+"%' order by aenttimestamp desc;";
     fetchAll(query, new FetchCallback() {
         onFetch(result) {
-            if (!isNull(result)){
+            if (!isNull(result)) {
                 populateCursorList("control/Start/listOfLast", 
                     "select uuid, response from identifierAsSpreadsheet " +
                         "join latestnondeletedArchEnt using (uuid) " +
@@ -177,8 +180,8 @@ showRecords(){
     });
 }
 
-updateCurrentTransect(){
-    if(transectEnabled){
+updateCurrentTransect() {
+    if(transectEnabled) {
         fetchAll("select uuid, response from identifierAsSpreadsheet where uuid = "+survey_unit_id+"", new FetchCallback() {
             onFetch(result) {
                 populateList("control/Start/currentSurveyUnit", result);
@@ -211,26 +214,28 @@ updateCurrentTransect(){
     }
 }
 
-loadRecord(){
-    if (getListItemValue() != ""  && !getListItemValue().equals("No entries found")){
-        if (getFieldValue("control/Start/archentsRadio").equals("Survey Unit")){
+loadRecord() {
+    if (getListItemValue() != ""  && !getListItemValue().equals("No entries found")) {
+        if (getFieldValue("control/Start/archentsList").equals("Survey Unit")) {
             loadSurveyUnit();
-        } else if (getFieldValue("control/Start/archentsRadio").equals("POI")) {
+        } else if (getFieldValue("control/Start/archentsList").equals("POI")) {
             loadPOI();
-        } else if (getFieldValue("control/Start/archentsRadio").equals("Artefact")) {
+        } else if (getFieldValue("control/Start/archentsList").equals("Artefact")) {
             loadArtefact();
         }
     }
 }
 
-//Control Logic
+resetGlobals() {
+    removeNavigationButton("duplicate");
+    removeNavigationButton("new");
+    removeNavigationButton("close");
+    removeNavigationButton("delete");
+}
 
-onEvent("control/Control/startGPSButton", "click", "startGPS()");
-onEvent("control/Control/stopGPSButton", "click", "stopGPSLogic()");
-
-startGPS(){
+startGPS() {
     Object intext = getFieldValue("control/Control/internalExternalGPS");
-    if(isNull(intext)){
+    if(isNull(intext)) {
         showWarning("Warning", "Please choose whether you would like to connect to internal or external GPS.");
         return;
     }
@@ -255,6 +260,12 @@ stopGPSLogic() {
     }
 }
 
+list = new ArrayList();
+list.add(new NameValuePair("{Survey_Unit}", "Survey Unit"));
+list.add(new NameValuePair("{POI}", "POI"));
+list.add(new NameValuePair("{Artefact}", "Artefact"));
+populateDropDown("control/Start/archentsList", list);
+
 //Tracklog
 
 onEvent("control/Control/tracktimeButton", "click", "startTimeTrack()");
@@ -270,7 +281,7 @@ numTracklogPoints = 0;
 tracklogCurrentStatus = "";
 numTransectPoints = 0;
 
-startTimeTrack(){
+startTimeTrack() {
     stopTrack();
     if(isInternalGPSOn() || isExternalGPSOn()) {
         tracklogState = "Time";
@@ -282,7 +293,7 @@ startTimeTrack(){
     }
 }
 
-startDistTrack(){
+startDistTrack() {
     stopTrack();
     if(isInternalGPSOn() || isExternalGPSOn()) {
         tracklogState = "Distance";
@@ -294,7 +305,7 @@ startDistTrack(){
     }
 }
 
-stopTrack(){
+stopTrack() {
     stopTrackingGPS();
     numTracklogPoints = 0;
     numTransectPoints = 0;
@@ -303,7 +314,7 @@ stopTrack(){
     updateTrackStatus();
 }
 
-updateTrackStatus(){
+updateTrackStatus() {
     if (tracklogState.equals("Time"))    
             tracklogStatus = "Tracklog Started - Time: "+getFieldValue("control/Control/tracktimeText")+"s";
     else if (tracklogState.equals("Distance"))
@@ -352,7 +363,7 @@ saveGPSTrack(String stateAppend) {
             
             saveArchEnt(null, "Tracklog", l, attributes, new SaveCallback() {
                 onSave(uuid, newRecord) {
-                    if (transectEnabled){
+                    if (transectEnabled) {
                         numTransectPoints++;
                         attributes.add(createEntityAttribute("SUID", null, null, getFieldValue("Survey_Unit/Survey_Unit/Survey_Unit_ID"), null));
                         attributes.add(createEntityAttribute("Width", null, null, getFieldValue("Survey_Unit/Survey_Unit/Total_Transect_Width"), null));
@@ -361,7 +372,7 @@ saveGPSTrack(String stateAppend) {
                             end = true;
                             transectEnabled = false;
                         }
-                        if (!stateAppend.equals("")){
+                        if (!stateAppend.equals("")) {
                             attributes.add(createEntityAttribute("State", null, null, stateAppend, null));
                             stateAppend = "";
                         }
@@ -392,13 +403,12 @@ saveGPSTrack(String stateAppend) {
 
 //Survey Unit Logic
 onEvent("Survey_Unit", "show", "addSurveyUnitNavigation();");
-onEvent("Survey_Unit/Survey_Unit/Update_and_Return", "delayclick", "saveAndReturnSurveyUnit();");
-onEvent("Survey_Unit/Survey_Unit/Delete", "delayclick", "deleteSurveyUnit()");
+onEvent("Survey_Unit/Survey_Unit/Return", "delayclick", "cancelTabGroup(\"Survey_Unit\", false);showTab(\"control/Start\");");
 onEvent("Survey_Unit/Survey_Unit/Attach_Photo", "click", "attachPictureTo(\"Survey_Unit/Survey_Unit/Photo\")");
 
 String survey_unit_id = null;
 
-newSurveyUnit(){
+newSurveyUnit() {
     if (transectEnabled) {
         showWarning("Already tracking!", "You're already in a Transect! Loading it now.");
         loadSurveyUnitFrom(survey_unit_id);
@@ -409,10 +419,10 @@ newSurveyUnit(){
         showWarning("Warning", "Your GPS is not initialized, you cannot create a Survey Unit until the GPS icon is blue.");
         return;
     }
-
+    newTabGroup("Survey_Unit");
     survey_unit_id = null;
     numTransectPoints = 0;
-    newTabGroup("Survey_Unit");
+    
     fetchOne("select datetime('now', 'localtime');", new FetchCallback() {
         onFetch(result) {
             setFieldValue("Survey_Unit/Survey_Unit/Timestamp", result.get(0));
@@ -430,13 +440,14 @@ loadSurveyUnit() {
 }
 
 loadSurveyUnitFrom(archentid) {    
-    survey_unit_id = archentid;
-    if (isNull(survey_unit_id)) {
+    
+    if (isNull(archentid)) {
         showToast("No Survey Unit selected");
         return;
     }
-    showTabGroup("Survey_Unit", survey_unit_id, new FetchCallback() {
+    showTabGroup("Survey_Unit", archentid, new FetchCallback() {
         onFetch(result) {
+            survey_unit_id = archentid;
             fetchOne("select surveyUnit.uuid "+
             "from " +
             "(select uuid, relationshipid " +
@@ -451,12 +462,12 @@ loadSurveyUnitFrom(archentid) {
             "join latestnondeletedarchent using (aenttypeid)  " +
             "join latestnondeletedaentvalue using (uuid) join attributekey using (attributeid) " +
             "where attributename = 'State') state on (transect.uuid = state.uuid) " +
-            "where surveyUnit.uuid = "+archentid +" "+
+            "where surveyUnit.uuid = "+survey_unit_id +" "+
             "group by surveyUnit.uuid " +
             "having min(measure) != 'End' ", 
             new FetchCallback() {
                 onFetch(result) {
-                    if(isNull(result)){
+                    if(isNull(result)) {
                         transectEnabled = false;
                     } else {
                         transectEnabled = true;
@@ -465,14 +476,14 @@ loadSurveyUnitFrom(archentid) {
             });
             fetchOne("select fname || ' ' || lname from user join archentity using (userid) where uuid = '"+survey_unit_id+"' group by uuid having min(aenttimestamp)",
                 new FetchCallback() {
-                    onFetch(result){
+                    onFetch(result) {
                         setFieldValue("Survey_Unit/Survey_Unit/Recorded_by", result.get(0));
                     }
                 });
         
             fetchOne("select datetime(aentTimestamp, 'localtime')  from archentity where uuid = '"+survey_unit_id+"' group by uuid having min(aenttimestamp);",
                 new FetchCallback() {
-                    onFetch(result){
+                    onFetch(result) {
                         setFieldValue("Survey_Unit/Survey_Unit/Timestamp", result.get(0));
                     }
                 });
@@ -487,27 +498,23 @@ loadSurveyUnitFrom(archentid) {
     
 }
 
-saveSurveyUnit(SaveCallback callback) {
+saveSurveyUnit(Callable callback) {
     if (isNull(getFieldValue("Survey_Unit/Survey_Unit/Survey_Unit_ID"))) {
         showWarning("Validation Error", "Cannot save Transect without Transect number");
         return;
     }
     
-    saveTabGroup("Survey_Unit", survey_unit_id, null, null, callback);
-}
-
-saveAndReturnSurveyUnit() {
-    saveSurveyUnit(new SaveCallback() {
+    saveTabGroup("Survey_Unit", survey_unit_id, null, null, new SaveCallback() {
         onSave(uuid, newRecord) {
             survey_unit_id = uuid;
-            cancelTabGroup("Survey_Unit", false);
-            showTab("control/Start");
+            if(callback != null) callback.call();
+            
         }
     });
 }
 
-finishSurveyUnit(){
-    if(!transectEnabled){
+finishSurveyUnit() {
+    if(!transectEnabled) {
         showWarning("Warning","There is no currently active Transect.");
         return;
     }
@@ -516,16 +523,10 @@ finishSurveyUnit(){
         showWarning("Warning", "You have lost your GPS signal, please wait until the GPS icon is blue before you finish you Survey Unit.");
         return;
     }
-
-    saveSurveyUnit(new SaveCallback() {
-        onSave(uuid, newRecord) {
-            survey_unit_id = uuid;
-            saveGPSTrack("End");
-        }
-    });
+    saveGPSTrack("End");
 }
 
-deleteSurveyUnit(){
+deleteSurveyUnit() {
     if (!isNull(survey_unit_id)) {
         showAlert("Confirm Deletion", "Press OK to Delete this Transect!", "reallyDeleteSurveyUnit()", "doNotDelete()");
     } else {
@@ -553,26 +554,53 @@ reallyDeleteSurveyUnit() {
                     }
                 }
             });
-    deleteArchEnt(survey_unit_id);
-    cancelTabGroup("Survey_Unit", false);
-    transectEnabled = false;
-    showTab("control/Start");
+    deleteArchEnt(survey_unit_id, new DeleteCallback() {
+        onDelete(uuid) {
+            cancelTabGroup("Survey_Unit", false);
+            transectEnabled = false;
+            showTab("control/Start");        
+        }
+    });
 }
 
 addSurveyUnitNavigation() {
-    removeNavigationButton("save");
+    removeNavigationButton("duplicate");
+    removeNavigationButton("new");
+    removeNavigationButton("close");
     removeNavigationButton("delete");
 
-    addNavigationButton("save", new ActionButtonCallback() {
+    addNavigationButton("duplicate", new ActionButtonCallback() {
         actionOnLabel() {
-            "Save {Survey_Unit}";
+            "Duplicate {Survey_Unit}";
         }
         actionOn() {
-            saveSurveyUnit(new SaveCallback() {
-                onSave(uuid, newRecord) {
-                    survey_unit_id = uuid;
+            showTabGroup("Survey_Unit", survey_unit_id, new FetchCallback() {
+                onFetch(result) {
+                    survey_unit_id = null;
+                    populateCameraPictureGallery("Survey_Unit/Survey_Unit/Photo", new ArrayList());        
+                    autoNumSurveyUnit();
                 }
             });
+            
+        }
+    }, "success");
+
+    addNavigationButton("new", new ActionButtonCallback() {
+        actionOnLabel() {
+            "New {Survey_Unit}";
+        }
+        actionOn() {
+            newSurveyUnit();
+        }
+    }, "success");
+
+    addNavigationButton("close", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Close {Survey_Unit}";
+        }
+        actionOn() {
+            cancelTabGroup("Survey_Unit", false);
+            showTab("control/Start");
         }
     }, "success");
 
@@ -613,9 +641,8 @@ autoNumSurveyUnit() {
                 setFieldValue("Survey_Unit/Survey_Unit/Survey_Unit_ID", result.get(0));    
             }
             transectEnabled = true;
-            saveSurveyUnit(new SaveCallback() {
-                onSave(uuid, newRecord) {
-                    survey_unit_id = uuid;
+            saveSurveyUnit(new Callable() {
+                call() {
                     saveGPSTrack("Start");
                     saveTabGroup("Survey_Unit", survey_unit_id, null, null, new SaveCallback() {
                         onSave(uuid, newRecord) {
@@ -630,28 +657,24 @@ autoNumSurveyUnit() {
 }
 
 //Point of Interest Logic
-onEvent("POI", "show", "addPOINavigation();showPOITabs(false);");
+onEvent("POI", "show", "addPOINavigation();");
 
 onEvent("POI/POI/Take_GPS", "click", "fillInGPS(\"POI/POI/\")");
 
 onEvent("POI/Cobble", "show", "setFieldValue(\"POI/Cobble/POI_ID\", getFieldValue(\"POI/POI/POI_ID\"));");
 onEvent("POI/Core", "show", "setFieldValue(\"POI/Core/POI_ID\", getFieldValue(\"POI/POI/POI_ID\"));");
 
-onEvent("POI/POI/Update_and_Next", "delayclick", "saveAndNextPOI();");
-onEvent("POI/POI/Delete", "delayclick", "deletePOI();");
+onEvent("POI/POI/Next", "delayclick", "showPOITabs(false);");
 onEvent("POI/POI/Attach_Photo", "click", "attachPictureTo(\"POI/POI/Photo\");");
 
-onEvent("POI/Cobble/Update_and_Return", "delayclick", "saveAndReturnPOI();");
-onEvent("POI/Cobble/Delete", "delayclick", "deletePOI();");
-
-onEvent("POI/Core/Update_and_Return", "delayclick", "saveAndReturnPOI();");
-onEvent("POI/Core/Delete", "delayclick", "deletePOI();");
+onEvent("POI/Cobble/Return", "delayclick", "cancelTabGroup(\"POI\", false);showTab(\"control/Start\");");
+onEvent("POI/Core/Return", "delayclick", "cancelTabGroup(\"POI\", false);showTab(\"control/Start\");");
 
 String poi_id = null;
 
-newPOI(){
-    poi_id = null;
+newPOI() {
     newTabGroup("POI");
+    poi_id = null;
     setFieldValue("POI/POI/Recorded_by", username);
     fetchOne("select datetime('now', 'localtime');", new FetchCallback() {
         onFetch(result) {
@@ -688,7 +711,8 @@ loadPOIFrom(archentid) {
                         setFieldValue("POI/POI/Timestamp", result.get(0));
                     }
                 });
-            saveTabGroup("POI", poi_id, l, null, new SaveCallback() {
+            showPOITabs(true);
+            saveTabGroup("POI", poi_id, null, null, new SaveCallback() {
                 onSave(uuid, newRecord) {
                     poi_id = uuid;
                 }
@@ -698,7 +722,7 @@ loadPOIFrom(archentid) {
     
 }
 
-savePOI(SaveCallback callback) {
+savePOI(Callable callback) {
     if (isNull(getFieldValue("POI/POI/POI_ID"))) {
         showWarning("Validation Error", "Cannot save Transect Object without Transect Object ID");
         return;
@@ -706,35 +730,21 @@ savePOI(SaveCallback callback) {
     
     positionProj = getGPSPositionProjected();
     l = new ArrayList();
-    if (positionProj != null){
+    if (positionProj != null) {
         Point p = new Point(new MapPos(positionProj.getLongitude(), positionProj.getLatitude()), null, (PointStyle) null, null);
         l.add(p);
     } else {
         l = null;
     }
-    saveTabGroup("POI", poi_id, l, null, callback);
-}
-
-saveAndReturnPOI() {
-    savePOI(new SaveCallback() {
+    saveTabGroup("POI", poi_id, l, null, new SaveCallback() {
         onSave(uuid, newRecord) {
             poi_id = uuid;
-            cancelTabGroup("POI", false);
-            showTab("control/Start");
+            if(callback != null) callback.call();
         }
     });
 }
 
-saveAndNextPOI() {
-    savePOI(new SaveCallback() {
-        onSave(uuid, newRecord) {
-            poi_id = uuid;
-            showPOITabs(true);
-        }
-    });
-}
-
-deletePOI(){
+deletePOI() {
     if (!isNull(poi_id)) {
         showAlert("Confirm Deletion", "Press OK to Delete this Transect Object!", "reallyDeletePOI()", "doNotDelete()");
     } else {
@@ -744,41 +754,12 @@ deletePOI(){
 }
 
 reallyDeletePOI() {
-    deleteArchEnt(poi_id);
-    cancelTabGroup("POI", false);
-    showTab("control/Start");
-}
-
-reallyDeletePOI() {
-    deleteArchEnt(poi_id);
-    cancelTabGroup("POI", false);
-}
-
-addPOINavigation() {
-    removeNavigationButton("save");
-    removeNavigationButton("delete");
-
-    addNavigationButton("save", new ActionButtonCallback() {
-        actionOnLabel() {
-            "Save {POI}";
-        }
-        actionOn() {
-            savePOI(new SaveCallback() {
-                onSave(uuid, newRecord) {
-                    poi_id = uuid;
-                }
-            });
-        }
-    }, "success");
-
-    addNavigationButton("delete", new ActionButtonCallback() {
-        actionOnLabel() {
-            "Delete {POI}";
-        }
-        actionOn() {
-            deletePOI();
-        }
-    }, "danger");
+    deleteArchEnt(poi_id, new DeleteCallback() {
+        onDelete(uuid) {
+            cancelTabGroup("POI", false);
+            showTab("control/Start");
+        }    
+    });
 }
 
 loadPOIAttributes() {
@@ -796,22 +777,72 @@ loadPOIAttributes() {
     makeVocab("DropDown", "POI/Core/Typology", "Core Typology");
 }
 
-showPOITabs(Boolean onSave) {
+addPOINavigation() {
+    removeNavigationButton("duplicate");
+    removeNavigationButton("new");
+    removeNavigationButton("close");
+    removeNavigationButton("delete");
+
+    addNavigationButton("duplicate", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Duplicate {POI}";
+        }
+        actionOn() {
+            showTabGroup("POI", poi_id, new FetchCallback() {
+                onFetch(result) {
+                    poi_id = null;
+                    populateCameraPictureGallery("POI/POI/Photo", new ArrayList());
+                    autoNumSurveyPOI();
+                }
+            });
+        }
+    }, "success");
+
+    addNavigationButton("new", new ActionButtonCallback() {
+        actionOnLabel() {
+            "New {POI}";
+        }
+        actionOn() {
+            newPOI();
+        }
+    }, "success");
+
+    addNavigationButton("close", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Close {POI}";
+        }
+        actionOn() {
+            cancelTabGroup("POI", false);
+            showTab("control/Start");
+        }
+    }, "success");
+
+    addNavigationButton("delete", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Delete {POI}";
+        }
+        actionOn() {
+            deletePOI();
+        }
+    }, "danger");
+}
+
+showPOITabs(Boolean onLoad) {
     fetchOne("select vocabName from vocabulary where vocabid = '"+getFieldValue("POI/POI/Object")+"';", new FetchCallback() {
         onFetch(name) {
-            if (!isNull(name)){
+            if (!isNull(name)) {
                 String vocab = name.get(0);
-                if (vocab.equals("{Cobble}")){
+                if (vocab.equals("{Cobble}")) {
                     cancelTab("POI/Core", false);
                     showTab("POI/Cobble");
-                } else if (vocab.equals("{Core}")){
+                } else if (vocab.equals("{Core}")) {
                     cancelTab("POI/Cobble", false);
                     showTab("POI/Core");
                 }
             } else {
                 cancelTab("POI/Cobble", false);
                 cancelTab("POI/Core", false);
-                if(onSave) showToast("Please select a Object Type to continue");
+                if(!onLoad) showToast("Please select a Object Type to continue");
             }
         }
     });
@@ -833,9 +864,8 @@ autoNumPOI() {
             } else {
                 setFieldValue("POI/POI/POI_ID", result.get(0));    
             }
-            saveTabGroup("POI", poi_id, null, null, new SaveCallback() {
-                onSave(uuid, newRecord) {
-                    poi_id = uuid;
+            savePOI(new Callable() {
+                call() {
                     saveTabGroup("POI", poi_id, null, null, new SaveCallback() {
                         onSave(uuid, newRecord) {
                             poi_id = uuid;
@@ -843,43 +873,35 @@ autoNumPOI() {
                     }, true);
                 }
             });
-            
         }
     });
 }
 
 //Artefact Logic
-onEvent("Artefact", "show", "showArtefactTabs(false);addArtefactNavigation();");
+onEvent("Artefact", "show", "addArtefactNavigation();");
 
 onEvent("Artefact/Flake", "show", "setFieldValue(\"Artefact/Flake/Artefact_ID\", getFieldValue(\"Artefact/Artefact/Artefact_ID\"));");
 onEvent("Artefact/Core", "show", "setFieldValue(\"Artefact/Core/Artefact_ID\", getFieldValue(\"Artefact/Artefact/Artefact_ID\"));");
 onEvent("Artefact/Shatter_Flakes", "show", "setFieldValue(\"Artefact/Shatter_Flakes/Artefact_ID\", getFieldValue(\"Artefact/Artefact/Artefact_ID\"));");
 onEvent("Artefact/Other", "show", "setFieldValue(\"Artefact/Other/Artefact_ID\", getFieldValue(\"Artefact/Artefact/Artefact_ID\"));");
 
-onEvent("Artefact/Artefact/Update_and_Next", "delayclick", "saveAndNextArtefact();");
-onEvent("Artefact/Artefact/Delete", "delayclick", "deleteArtefact()");
+onEvent("Artefact/Artefact/Next", "delayclick", "showArtefactTabs(false);");
 
-onEvent("Artefact/Flake/Update_and_Return", "delayclick", "saveAndReturnArtefact();");
-onEvent("Artefact/Flake/Delete", "delayclick", "deleteArtefact()");
 onEvent("Artefact/Flake/Attach_Photo", "click", "attachPictureTo(\"Artefact/Flake/Photo\")");
-
-onEvent("Artefact/Core/Update_and_Return", "delayclick", "saveAndReturnArtefact();");
-onEvent("Artefact/Core/Delete", "delayclick", "deleteArtefact()");
 onEvent("Artefact/Core/Attach_Photo", "click", "attachPictureTo(\"Artefact/Core/Photo\")");
-
-onEvent("Artefact/Shatter_Flakes/Update_and_Return", "delayclick", "saveAndReturnArtefact();");
-onEvent("Artefact/Shatter_Flakes/Delete", "delayclick", "deleteArtefact()");
 onEvent("Artefact/Shatter_Flakes/Attach_Photo", "click", "attachPictureTo(\"Artefact/Shatter_Flakes/Photo\")");
-
-onEvent("Artefact/Other/Update_and_Return", "delayclick", "saveAndReturnArtefact();");
-onEvent("Artefact/Other/Delete", "delayclick", "deleteArtefact()");
 onEvent("Artefact/Other/Attach_Photo", "click", "attachPictureTo(\"Artefact/Other/Photo\")");
+
+onEvent("Artefact/Flake/Return", "delayclick", "cancelTabGroup(\"Artefact\", false);showTab(\"control/Start\");");
+onEvent("Artefact/Core/Return", "delayclick", "cancelTabGroup(\"Artefact\", false);showTab(\"control/Start\");");
+onEvent("Artefact/Shatter_Flakes/Return", "delayclick", "cancelTabGroup(\"Artefact\", false);showTab(\"control/Start\");");
+onEvent("Artefact/Other/Return", "delayclick", "cancelTabGroup(\"Artefact\", false);showTab(\"control/Start\");");
 
 String artefact_id = null;
 
-newArtefact(){
-    artefact_id = null;
+newArtefact() {
     newTabGroup("Artefact");
+    artefact_id = null;
     autoNumArtefact();
 }
 
@@ -897,6 +919,7 @@ loadArtefactFrom(archentid) {
 
     showTabGroup("Artefact", artefact_id, new FetchCallback() {
         onFetch(result) {
+            showArtefactTabs(true);
             saveTabGroup("Artefact", artefact_id, null, null, new SaveCallback() {
                 onSave(uuid, newRecord) {
                     artefact_id = uuid;
@@ -906,62 +929,78 @@ loadArtefactFrom(archentid) {
     });
 }
 
-saveArtefact(SaveCallback callback) {
+saveArtefact(Callable callback) {
     if (isNull(getFieldValue("Artefact/Artefact/Artefact_ID"))) {
         showWarning("Validation Error", "Cannot save Total Recording without Total Recording ID");
         return;
     }
     
-    saveTabGroup("Artefact", artefact_id, null, null, callback);
-}
-
-saveAndReturnArtefact() {
-    saveArtefact(new SaveCallback() {
+    saveTabGroup("Artefact", artefact_id, null, null, new SaveCallback() {
         onSave(uuid, newRecord) {
             artefact_id = uuid;
-            cancelTabGroup("Artefact", false);
-            showTab("control/Start");
+            if(callback != null) callback.call();
         }
     });
 }
 
-saveAndNextArtefact() {
-    saveArtefact(new SaveCallback() {
-        onSave(uuid, newRecord) {
-            artefact_id = uuid;
-            showArtefactTabs(true);
-        }
-    });
-}
-
-deleteArtefact(){
+deleteArtefact() {
     if (!isNull(artefact_id)) {
         showAlert("Confirm Deletion", "Press OK to Delete this Total Recording!", "reallyDeleteArtefact()", "doNotDelete()");
     } else {
-        cancelTabGroup("Artefact", true);
+        cancelTabGroup("Artefact", false);
+        showTab("control/Start");
     }
 }
 
 reallyDeleteArtefact() {
-    deleteArchEnt(artefact_id);
-    cancelTabGroup("Artefact", false);
-    showTab("control/Start");
+    deleteArchEnt(artefact_id, new DeleteCallback() {
+        onDelete(uuid) {
+            cancelTabGroup("Artefact", false);
+            showTab("control/Start");
+        }    
+    });   
 }
 
 addArtefactNavigation() {
-    removeNavigationButton("save");
+    removeNavigationButton("duplicate");
+    removeNavigationButton("new");
+    removeNavigationButton("close");
     removeNavigationButton("delete");
 
-    addNavigationButton("save", new ActionButtonCallback() {
+    addNavigationButton("duplicate", new ActionButtonCallback() {
         actionOnLabel() {
-            "Save {Artefact}";
+            "Duplicate {Artefact}";
         }
         actionOn() {
-            saveArtefact(new SaveCallback() {
-                onSave(uuid, newRecord) {
-                    artefact_id = uuid;
+            showTabGroup("Artefact", artefact_id, new FetchCallback() {
+                onFetch(result) {
+                    artefact_id = null;
+                    populateCameraPictureGallery("Artefact/Flake/Photo", new ArrayList());
+                    populateCameraPictureGallery("Artefact/Core/Photo", new ArrayList());
+                    populateCameraPictureGallery("Artefact/Shatter_Flakes/Photo", new ArrayList());
+                    populateCameraPictureGallery("Artefact/Other/Photo", new ArrayList());
+                    autoNumArtefact();
                 }
             });
+        }
+    }, "success");
+
+    addNavigationButton("new", new ActionButtonCallback() {
+        actionOnLabel() {
+            "New {Artefact}";
+        }
+        actionOn() {
+            newArtefact();
+        }
+    }, "success");
+
+    addNavigationButton("close", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Close {Artefact}";
+        }
+        actionOn() {
+            cancelTabGroup("Artefact", false);
+            showTab("control/Start");
         }
     }, "success");
 
@@ -1000,28 +1039,28 @@ loadArtefactAttributes() {
     makeVocab("DropDown", "Artefact/Other/Other_Type", "Other Type");
 }
 
-showArtefactTabs(Boolean onSave) {
+showArtefactTabs(Boolean onLoad) {
     fetchOne("select vocabName from vocabulary where vocabid = '"+getFieldValue("Artefact/Artefact/Technological_Component")+"';",
         new FetchCallback() {
             onFetch(name) {
-                if (!isNull(name)){
+                if (!isNull(name)) {
                     String vocab = name.get(0);
-                    if (vocab.equals("{Flake}")){
+                    if (vocab.equals("{Flake}")) {
                         cancelTab("Artefact/Core", false);
                         cancelTab("Artefact/Shatter_Flakes", false);
                         cancelTab("Artefact/Other", false);
                         showTab("Artefact/Flake");
-                    } else if (vocab.equals("{Core}")){
+                    } else if (vocab.equals("{Core}")) {
                         cancelTab("Artefact/Flake", false);
                         cancelTab("Artefact/Shatter_Flakes", false);
                         cancelTab("Artefact/Other", false);
                         showTab("Artefact/Core");
-                    } else if (vocab.equals("{Shatter_Flake_Piece}")){
+                    } else if (vocab.equals("{Shatter_Flake_Piece}")) {
                         cancelTab("Artefact/Flake", false);
                         cancelTab("Artefact/Core", false);
                         cancelTab("Artefact/Other", false);
                         showTab("Artefact/Shatter_Flakes");
-                    } else if (vocab.equals("{Other}")){
+                    } else if (vocab.equals("{Other}")) {
                         cancelTab("Artefact/Flake", false);
                         cancelTab("Artefact/Core", false);
                         cancelTab("Artefact/Shatter_Flakes", false);
@@ -1032,13 +1071,13 @@ showArtefactTabs(Boolean onSave) {
                     cancelTab("Artefact/Core", false);
                     cancelTab("Artefact/Shatter_Flakes", false);
                     cancelTab("Artefact/Other", false);
-                    if(onSave) showToast("Please select a Technological Component to continue");
+                    if(!onLoad) showToast("Please select a Technological Component to continue");
                 }
             }
         });
 }
 
-autoNumArtefact(){
+autoNumArtefact() {
     fetchOne("select 'A' ||foo as foo " +
       "from (select max(cast(substr(measure,2) as integer))+1 as foo " +
              "from latestnondeletedaentvalue join attributekey using (attributeid) " +
@@ -1053,9 +1092,8 @@ autoNumArtefact(){
             } else {
                 setFieldValue("Artefact/Artefact/Artefact_ID", result.get(0));    
             }
-            saveTabGroup("Artefact", artefact_id, null, null, new SaveCallback() {
-                onSave(uuid, newRecord) {
-                    artefact_id = uuid;
+            saveArtefact(new Callable() {
+                call() {
                     saveTabGroup("Artefact", artefact_id, null, null, new SaveCallback() {
                         onSave(uuid, newRecord) {
                             artefact_id = uuid;
@@ -1069,16 +1107,6 @@ autoNumArtefact(){
 
 /*** MISC ***/
 
-saveEntitiesToRel(String type, String entity1, String entity2) {
-    if (isNull(entity1) || isNull(entity2)) return;
-    saveRel(null, type, null, null, new SaveCallback() {
-        onSave(rel_id, newRecord) {
-            addReln(entity1, rel_id, null);
-            addReln(entity2, rel_id, null);
-        }
-    });
-}
-
 saveEntitiesToRel(String type, String entity1, String entity2, Callable callback) {
     if (isNull(entity1) || isNull(entity2)) return;
     saveRel(null, type, null, null, new SaveCallback() {
@@ -1090,17 +1118,7 @@ saveEntitiesToRel(String type, String entity1, String entity2, Callable callback
     });
 }
 
-saveEntitiesToHierRel(String type, String entity1, String entity2, String e1verb, String e2verb) {
-    if (isNull(entity1) || isNull(entity2)) return;
-    saveRel(null, type, null, null, new SaveCallback() {
-        onSave(rel_id, newRecord) {
-            addReln(entity1, rel_id, e1verb);
-            addReln(entity2, rel_id, e2verb);
-        }
-    });
-}
-
-makeVocab(String type, String path, String attrib){
+makeVocab(String type, String path, String attrib) {
     fetchAll("select vocabid, vocabname from vocabulary join attributekey using (attributeid) where attributename = '"+attrib+"' order by vocabcountorder",
         new FetchCallback() {
             onFetch(result) {
@@ -1117,14 +1135,14 @@ makeVocab(String type, String path, String attrib){
         });
 }
 
-doNotDelete(){
+doNotDelete() {
     showToast("Delete Cancelled.");
 }
 
-fillInGPS(String path){
+fillInGPS(String path) {
     Object position = getGPSPosition();    
     Object projPosition = getGPSPositionProjected();
-    if (projPosition != null ){
+    if (projPosition != null ) {
         Double latitude = position.getLatitude();
         Double longitude = position.getLongitude();
         Double northing = projPosition.getLatitude();
@@ -1147,7 +1165,7 @@ onEvent("control/Map", "show", "drawTransects();loadMapSettings;");
 onEvent("control/Map/centre", "click", "centreOnMe();");
 onEvent("control/Map/saveSettings", "click", "saveMapSettings();"); 
 
-drawTransects(){
+drawTransects() {
      fetchOne("SELECT uuid, geospatialcolumn FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Transect'", new FetchCallback() {
         onFetch(result) {
             geoms = result;
@@ -1216,14 +1234,14 @@ populateListForUsers() {
 
     fetchOne("select value from localSettings where key = 'Team';", new FetchCallback() {
         onFetch(result) {
-            if (!isNull(result)){
+            if (!isNull(result)) {
                 setFieldValue("user/usertab/Team", result.get(0));
             }
         }
     });
     fetchOne("select value from localSettings where key = 'User';", new FetchCallback() {
         onFetch(result) {
-            if (!isNull(result)){
+            if (!isNull(result)) {
                 setFieldValue("user/usertab/users", result.get(0));
             }
         }
@@ -1234,8 +1252,8 @@ populateListForUsers();
 
 String username = "";
 
-login(){
-    if(isNull(getFieldValue("user/usertab/Team")) || isNull(getFieldValue("user/usertab/users"))){
+login() {
+    if(isNull(getFieldValue("user/usertab/Team")) || isNull(getFieldValue("user/usertab/users"))) {
         showWarning("Warning", "Please select a User and a Team before logging in.");
     } else {
         fetchOne("select userid,fname,lname,email from user where userid='" + getFieldValue("user/usertab/users") + "';",

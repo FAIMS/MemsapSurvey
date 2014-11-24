@@ -81,7 +81,7 @@
               </container2>
               <container3>
                 <child1>
-                  <archentsRadio/>
+                  <archentsList/>
                 </child1>
                 <child2>
                   <listOfLast/>
@@ -130,8 +130,7 @@
               <Other_remarks_on_transect/>
               <Photo/>
               <Attach_Photo/>
-              <Update_and_Return/>
-              <Delete/>
+              <Return/>
               <trackStatus/>
             </Survey_Unit>
           </Survey_Unit>
@@ -183,14 +182,12 @@
               <Other_Comments/>
               <Photo/>
               <Attach_Photo/>
-              <Update_and_Next/>
-              <Delete/>
+              <Next/>
             </POI>
             <Cobble>
               <POI_ID/>
               <Angularity/>
-              <Update_and_Return/>
-              <Delete/>
+              <Return/>
             </Cobble>
             <Core>
               <POI_ID/>
@@ -203,8 +200,7 @@
               <Number_of_Platforms/>
               <Flaking_on_Core_Perimeter/>
               <Typology/>
-              <Update_and_Return/>
-              <Delete/>
+              <Return/>
             </Core>
           </POI>
           <Artefact>
@@ -227,8 +223,7 @@
               <Maximum_Dimension/>
               <Raw_material/>
               <Artefact_Weathering_stage/>
-              <Update_and_Next/>
-              <Delete/>
+              <Next/>
             </Artefact>
             <Flake>
               <Artefact_ID/>
@@ -245,8 +240,7 @@
               <Flake_Comments/>
               <Photo/>
               <Attach_Photo/>
-              <Update_and_Return/>
-              <Delete/>
+              <Return/>
             </Flake>
             <Core>
               <Artefact_ID/>
@@ -261,24 +255,21 @@
               <Typology/>
               <Photo/>
               <Attach_Photo/>
-              <Update_and_Return/>
-              <Delete/>
+              <Return/>
             </Core>
             <Shatter_Flakes>
               <Artefact_ID/>
               <Percentage_Cortical_Coverage/>
               <Photo/>
               <Attach_Photo/>
-              <Update_and_Return/>
-              <Delete/>
+              <Return/>
             </Shatter_Flakes>
             <Other>
               <Artefact_ID/>
               <Other_Type/>
               <Photo/>
               <Attach_Photo/>
-              <Update_and_Return/>
-              <Delete/>
+              <Return/>
             </Other>
           </Artefact>
         </faims>
@@ -477,7 +468,7 @@
           <label/>
           <group faims_style="even" ref="child1">
             <label/>
-            <select1 ref="archentsRadio" faims_annotation="false" faims_certainty="false">
+            <select1 ref="archentsList" faims_annotation="false" faims_certainty="false">
               <label/>
               <item>
                 <label>{Survey_Unit}</label>
@@ -638,11 +629,8 @@
         <trigger ref="Attach_Photo" faims_style_class="faims-blue">
           <label>{Attach_Photo}</label>
         </trigger>
-        <trigger ref="Update_and_Return" faims_style_class="faims-success">
-          <label>{Update_and_Return}</label>
-        </trigger>
-        <trigger ref="Delete" faims_style_class="faims-danger">
-          <label>{Delete}</label>
+        <trigger ref="Return" faims_style_class="faims-blue">
+          <label>{Return}</label>
         </trigger>
         <input faims_certainty="false" faims_read_only="true" ref="trackStatus" faims_annotation="false" faims_style_class="track-status">
           <label>Track Log Status</label>
@@ -772,11 +760,8 @@
         <trigger ref="Attach_Photo" faims_style_class="faims-blue">
           <label>{Attach_Photo}</label>
         </trigger>
-        <trigger ref="Update_and_Next" faims_style_class="faims-success">
-          <label>{Update_and_Next}</label>
-        </trigger>
-        <trigger ref="Delete" faims_style_class="faims-danger">
-          <label>{Delete}</label>
+        <trigger ref="Next" faims_style_class="faims-success">
+          <label>{Next}</label>
         </trigger>
       </group>
       <group ref="Cobble" faims_hidden="true">
@@ -791,11 +776,8 @@
             <value>placeholder</value>
           </item>
         </select1>
-        <trigger ref="Update_and_Return" faims_style_class="faims-success">
-          <label>{Update_and_Return}</label>
-        </trigger>
-        <trigger ref="Delete" faims_style_class="faims-danger">
-          <label>{Delete}</label>
+        <trigger ref="Return" faims_style_class="faims-blue">
+          <label>{Return}</label>
         </trigger>
       </group>
       <group ref="Core" faims_hidden="true">
@@ -858,11 +840,8 @@
             <value>placeholder</value>
           </item>
         </select1>
-        <trigger ref="Update_and_Return" faims_style_class="faims-success">
-          <label>{Update_and_Return}</label>
-        </trigger>
-        <trigger ref="Delete" faims_style_class="faims-danger">
-          <label>{Delete}</label>
+        <trigger ref="Return" faims_style_class="faims-blue">
+          <label>{Return}</label>
         </trigger>
       </group>
     </group>
@@ -928,11 +907,8 @@
             <value>placeholder</value>
           </item>
         </select1>
-        <trigger ref="Update_and_Next" faims_style_class="faims-success">
-          <label>{Update_and_Next}</label>
-        </trigger>
-        <trigger ref="Delete" faims_style_class="faims-danger">
-          <label>{Delete}</label>
+        <trigger ref="Next" faims_style_class="faims-success">
+          <label>{Next}</label>
         </trigger>
       </group>
       <group ref="Flake" faims_hidden="true">
@@ -1019,11 +995,8 @@
         <trigger ref="Attach_Photo" faims_style_class="faims-blue">
           <label>{Attach_Photo}</label>
         </trigger>
-        <trigger ref="Update_and_Return" faims_style_class="faims-success">
-          <label>{Update_and_Return}</label>
-        </trigger>
-        <trigger ref="Delete" faims_style_class="faims-danger">
-          <label>{Delete}</label>
+        <trigger ref="Return" faims_style_class="faims-blue">
+          <label>{Return}</label>
         </trigger>
       </group>
       <group ref="Core" faims_hidden="true">
@@ -1096,11 +1069,8 @@
         <trigger ref="Attach_Photo" faims_style_class="faims-blue">
           <label>{Attach_Photo}</label>
         </trigger>
-        <trigger ref="Update_and_Return" faims_style_class="faims-success">
-          <label>{Update_and_Return}</label>
-        </trigger>
-        <trigger ref="Delete" faims_style_class="faims-danger">
-          <label>{Delete}</label>
+        <trigger ref="Return" faims_style_class="faims-blue">
+          <label>{Return}</label>
         </trigger>
       </group>
       <group ref="Shatter_Flakes" faims_hidden="true">
@@ -1125,11 +1095,8 @@
         <trigger ref="Attach_Photo" faims_style_class="faims-blue">
           <label>{Attach_Photo}</label>
         </trigger>
-        <trigger ref="Update_and_Return" faims_style_class="faims-success">
-          <label>{Update_and_Return}</label>
-        </trigger>
-        <trigger ref="Delete" faims_style_class="faims-danger">
-          <label>{Delete}</label>
+        <trigger ref="Return" faims_style_class="faims-blue">
+          <label>{Return}</label>
         </trigger>
       </group>
       <group ref="Other" faims_hidden="true">
@@ -1154,11 +1121,8 @@
         <trigger ref="Attach_Photo" faims_style_class="faims-blue">
           <label>{Attach_Photo}</label>
         </trigger>
-        <trigger ref="Update_and_Return" faims_style_class="faims-success">
-          <label>{Update_and_Return}</label>
-        </trigger>
-        <trigger ref="Delete" faims_style_class="faims-danger">
-          <label>{Delete}</label>
+        <trigger ref="Return" faims_style_class="faims-blue">
+          <label>{Return}</label>
         </trigger>
       </group>
     </group>
