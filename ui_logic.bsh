@@ -1224,7 +1224,7 @@ saveMapSettings() {
 /*** USER ***/
 
 populateListForUsers() {
-    fetchAll("select userid, fname ||' ' || lname from user", new FetchCallback() {
+    fetchAll("select userid, fname || ' ' || lname from user where userdeleted is null", new FetchCallback() {
         onFetch(result) {
             populateDropDown("user/usertab/users", result);        
         }
