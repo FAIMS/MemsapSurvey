@@ -432,6 +432,7 @@ newSurveyUnit() {
     setFieldValue("Survey_Unit/Survey_Unit/Recorded_by", username);
     setFieldValue("Survey_Unit/Survey_Unit/Participants", getFieldValue("control/Start/TeamMember"));
     setFieldValue("Survey_Unit/Survey_Unit/Number_of_Walkers", getFieldValue("control/Start/Walker"));
+    setFieldValue("Survey_Unit/Survey_Unit/Survey_Line", getFieldValue("control/Start/SurveyLine"));
     autoNumSurveyUnit();
 }
 

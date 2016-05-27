@@ -377,6 +377,9 @@
     <property name="Number of Walkers" type="float">
       <description>Description TBD</description>
     </property>
+    <property name="Survey Line" type="freetext">
+      <description>Description TBD</description>
+    </property>
     <property name="Participants" type="float">
       <description>Description TBD</description>
     </property>

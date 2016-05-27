@@ -66,7 +66,11 @@
                 </child1>
                 <child2>
                   <Walker/>
+                  <!--Texas Ranger-->
                 </child2>
+                <child3>
+                  <SurveyLine/>
+                </child3>
               </container1>
               <newSurveyUnit/>
               <currentSurveyUnit/>
@@ -117,6 +121,7 @@
               <Total_Transect_Width/>
               <Participants/>
               <Number_of_Walkers/>
+              <Survey_Line/>
               <Photo_file_numbers/>
               <Landform/>
               <Remarks_on_landform/>
@@ -462,7 +467,13 @@
               <label>{Number_of_Walkers}</label>
             </input>
           </group>
-        </group>      
+          <group faims_style="even" ref="child3">
+            <label/>
+            <input faims_certainty="false" faims_read_only="false" ref="SurveyLine">
+              <label>{Survey_Line}</label>
+            </input>
+          </group>
+        </group>
         <trigger ref="newSurveyUnit" faims_style_class="faims-blue">
           <label>New {Survey_Unit}</label>
         </trigger>
@@ -581,6 +592,9 @@
         </input>
         <input ref="Number_of_Walkers" faims_attribute_name="Number of Walkers" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
           <label>{Number_of_Walkers}</label>
+        </input>
+        <input ref="Survey_Line" faims_attribute_name="Survey Line" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Survey_Line}</label>
         </input>
         <input ref="Photo_file_numbers" faims_attribute_name="Photo file numbers" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
           <label>{Photo_file_numbers}</label>
