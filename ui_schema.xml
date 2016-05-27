@@ -75,6 +75,9 @@
                 <child1>
                   <newPOI/>
                 </child1>
+                <mid>
+                  <newSite/>
+                </mid>
                 <child2>
                   <newArtefact/>
                 </child2>
@@ -272,6 +275,30 @@
               <Return/>
             </Other>
           </Artefact>
+          <Site>
+            <Site>
+              <Site_ID/>
+              <User/>
+              <Timestamp/>
+              <Colgroup_GPS>
+                <Col_0>
+                  <Latitude/>
+                  <Northing/>
+                </Col_0>
+                <Col_1>
+                  <Longitude/>
+                  <Easting/>
+                </Col_1>
+              </Colgroup_GPS>
+              <Take_From_GPS/>
+              <Site_Type/>
+              <Estimated_Age/>
+              <Materials_Present/>
+              <Site_Condition/>
+              <Recommend_for_further_investigation/>
+              <Notes/>
+            </Site>
+          </Site>
         </faims>
       </instance>
       <bind nodeset="/faims/control/Start/container1/child2/Walker" type="decimal"/>
@@ -455,6 +482,12 @@
             <label/>
             <trigger ref="newPOI" faims_style_class="faims-blue-half">
               <label>New {POI}</label>
+            </trigger>
+          </group>
+          <group faims_style="even" ref="mid">
+            <label/>
+            <trigger ref="newSite" faims_style_class="faims-blue-half">
+              <label>New Site</label>
             </trigger>
           </group>
           <group faims_style="even" ref="child2">
@@ -1124,6 +1157,84 @@
         <trigger ref="Return" faims_style_class="faims-blue">
           <label>{Return}</label>
         </trigger>
+      </group>
+    </group>
+
+    <group ref="Site" faims_archent_type="Site">
+      <label>Site</label>
+      <group ref="Site">
+        <label>Site</label>
+        <input ref="Site_ID" faims_attribute_name="Site ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+          <label>Site ID</label>
+        </input>
+        <input ref="User" faims_attribute_name="User" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+          <label>User</label>
+        </input>
+        <input ref="Timestamp" faims_attribute_name="Timestamp" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+          <label>Timestamp</label>
+        </input>
+        <group ref="Colgroup_GPS" faims_style="orientation">
+          <label/>
+          <group ref="Col_0" faims_style="even">
+            <label/>
+            <input ref="Latitude" faims_attribute_name="Latitude" faims_attribute_type="measure">
+              <label>Latitude</label>
+            </input>
+            <input ref="Northing" faims_attribute_name="Northing" faims_attribute_type="measure">
+              <label>Northing</label>
+            </input>
+          </group>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <input ref="Longitude" faims_attribute_name="Longitude" faims_attribute_type="measure">
+              <label>Longitude</label>
+            </input>
+            <input ref="Easting" faims_attribute_name="Easting" faims_attribute_type="measure">
+              <label>Easting</label>
+            </input>
+          </group>
+        </group>
+        <trigger ref="Take_From_GPS">
+          <label>Take From GPS</label>
+        </trigger>
+        <select1 ref="Site_Type" faims_attribute_name="Site Type" faims_attribute_type="vocab">
+          <label>Site Type</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select ref="Estimated_Age" faims_attribute_name="Estimated Age" faims_attribute_type="vocab">
+          <label>Estimated Age</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select>
+        <select ref="Materials_Present" faims_attribute_name="Materials Present" faims_attribute_type="vocab">
+          <label>Materials Present</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select>
+        <select1 ref="Site_Condition" faims_attribute_name="Site Condition" faims_attribute_type="vocab">
+          <label>Site Condition</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <select1 ref="Recommend_for_further_investigation" faims_attribute_name="Recommend for further investigation" faims_attribute_type="vocab" appearance="full">
+          <label>Recommend for further investigation</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+        <input ref="Notes" faims_attribute_name="Notes" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+          <label>Notes</label>
+        </input>
       </group>
     </group>
   </h:body>

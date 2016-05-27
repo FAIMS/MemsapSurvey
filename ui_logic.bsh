@@ -147,6 +147,7 @@ onEvent("control", "show", "resetGlobals();");
 onEvent("control/Start/newSurveyUnit", "delayclick", "newSurveyUnit();");
 onEvent("control/Start/newPOI", "delayclick", "newPOI();");
 onEvent("control/Start/newArtefact", "delayclick", "newArtefact();");
+onEvent("control/Start/newSite", "delayclick", "newSite();");
 onEvent("control/Start/finishSU", "click", "finishSurveyUnit();");
 onEvent("control/Start/currentSurveyUnit", "click", "loadSurveyUnit();");
 onEvent("control/Start/archentsList", "click", "showRecords();");
@@ -1105,6 +1106,185 @@ autoNumArtefact() {
     });    
 }
 
+//Site logic
+String site_id = null;
+
+newSite() {
+    newTabGroup("Site");
+    site_id = null;
+    setFieldValue("Site/Site/User", username);
+    fetchOne("select datetime('now', 'localtime');", new FetchCallback() {
+        onFetch(result) {
+            setFieldValue("Site/Site/Timestamp", result.get(0));
+        }
+    });
+    fillInGPS("Site/Site/");
+    autoNumSite();
+}
+
+loadSite() {
+    site_id = getListItemValue();
+    loadSiteFrom(site_id);
+}
+
+loadSiteFrom(archentid) {
+    site_id = archentid;
+    if (isNull(site_id)) {
+        showToast("No Site selected");
+        return;
+    }
+    showTabGroup("Site", site_id, new FetchCallback() {
+        onFetch(result) {
+            fetchOne("select fname || ' ' || lname from user join archentity using (userid) where uuid = '"+site_id+"' group by uuid having min(aenttimestamp)",
+                new FetchCallback() {
+                    onFetch(result) {
+                        setFieldValue("Site/Site/User", result.get(0));
+                    }
+                });
+
+            fetchOne("select datetime(aentTimestamp, 'localtime')  from archentity where uuid = '"+site_id+"' group by uuid having min(aenttimestamp);",
+                new FetchCallback() {
+                    onFetch(result) {
+                        setFieldValue("Site/Site/Timestamp", result.get(0));
+                    }
+                });
+            showSiteTabs(true);
+            saveTabGroup("Site", site_id, null, null, new SaveCallback() {
+                onSave(uuid, newRecord) {
+                    site_id = uuid;
+                }
+            }, true);
+        }
+    });
+    
+}
+
+saveSite(Callable callback) {
+    if (isNull(getFieldValue("Site/Site/Site_ID"))) {
+        showWarning("Validation Error", "Cannot save Transect Object without Transect Object ID");
+        return;
+    }
+    
+    positionProj = getGPSPositionProjected();
+    l = new ArrayList();
+    if (positionProj != null) {
+        Point p = new Point(new MapPos(positionProj.getLongitude(), positionProj.getLatitude()), null, (PointStyle) null, null);
+        l.add(p);
+    } else {
+        l = null;
+    }
+    saveTabGroup("Site", site_id, l, null, new SaveCallback() {
+        onSave(uuid, newRecord) {
+            site_id = uuid;
+            if(callback != null) callback.call();
+        }
+    });
+}
+
+deleteSite() {
+    if (!isNull(site_id)) {
+        showAlert("Confirm Deletion", "Press OK to Delete this Site!", "reallyDeleteSite()", "doNotDelete()");
+    } else {
+        cancelTabGroup("Site", true);
+        showTab("control/Start");
+    }
+}
+
+reallyDeleteSite() {
+    deleteArchEnt(site_id, new DeleteCallback() {
+        onDelete(uuid) {
+            cancelTabGroup("Site", false);
+            showTab("control/Start");
+        }    
+    });
+}
+
+loadSiteAttributes() {
+    makeVocab("DropDown", "Site/Site/Site_Type", "Site Type");
+    makeVocab("CheckBoxGroup", "Site/Site/Estimated_Age", "Estimated Age");
+    makeVocab("CheckBoxGroup", "Site/Site/Materials_Present", "Materials Present");
+    makeVocab("DropDown", "Site/Site/Site_Condition", "Site Condition");
+    makeVocab("RadioGroup", "Site/Site/Recommend_for_further_investigation", "Recommend for further investigation");
+}
+
+addSiteNavigation() {
+    removeNavigationButton("duplicate");
+    removeNavigationButton("new");
+    removeNavigationButton("close");
+    removeNavigationButton("delete");
+
+    addNavigationButton("duplicate", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Duplicate Site";
+        }
+        actionOn() {
+            showTabGroup("Site", site_id, new FetchCallback() {
+                onFetch(result) {
+                    site_id = null;
+                    populateCameraPictureGallery("Site/Site/Photo", new ArrayList());
+                    autoNumSurveySite();
+                }
+            });
+        }
+    }, "success");
+
+    addNavigationButton("new", new ActionButtonCallback() {
+        actionOnLabel() {
+            "New Site";
+        }
+        actionOn() {
+            newSite();
+        }
+    }, "success");
+
+    addNavigationButton("close", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Close Site";
+        }
+        actionOn() {
+            cancelTabGroup("Site", false);
+            showTab("control/Start");
+        }
+    }, "success");
+
+    addNavigationButton("delete", new ActionButtonCallback() {
+        actionOnLabel() {
+            "Delete Site";
+        }
+        actionOn() {
+            deleteSite();
+        }
+    }, "danger");
+}
+
+autoNumSite() {
+    fetchOne("select 'S' ||foo as foo " +
+      "from (select max(cast(substr(measure,2) as integer))+1 as foo " +
+             "from latestnondeletedaentvalue join attributekey using (attributeid) " +
+            "where uuid in (select uuid " +
+                             "from latestnondeletedaentvalue ae " +
+                             "join latestnondeletedarchent using (uuid) join aenttype using (aenttypeid) " +
+                            "where aenttypename = 'Site') " +
+              "and attributename = 'Site ID');", new FetchCallback() {
+        onFetch(result) {
+            if(isNull(result.get(0))) {
+                setFieldValue("Site/Site/Site_ID", "C1");
+            } else {
+                setFieldValue("Site/Site/Site_ID", result.get(0));    
+            }
+            saveSite(new Callable() {
+                call() {
+                    saveTabGroup("Site", site_id, null, null, new SaveCallback() {
+                        onSave(uuid, newRecord) {
+                            site_id = uuid;
+                        }
+                    }, true);
+                }
+            });
+        }
+    });
+}
+
 /*** MISC ***/
 
 saveEntitiesToRel(String type, String entity1, String entity2, Callable callback) {
@@ -1297,3 +1477,4 @@ stopSync() {
 loadSurveyUnitAttributes();
 loadPOIAttributes();
 loadArtefactAttributes();
+loadSiteAttributes();

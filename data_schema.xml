@@ -3,6 +3,7 @@
   <RelationshipElement name="TransectSUI">
     <description>Defines relationship between Transect and Survey Unit</description>
   </RelationshipElement>
+
   <ArchaeologicalElement name="POI">
     <description></description>
     <property name="POI ID" type="freetext" isIdentifier="true">
@@ -1082,6 +1083,96 @@
     </property>
     <property name="Shatter Photo" type="file" file="true" thumbnail="true">
       <description/>
+    </property>
+  </ArchaeologicalElement>
+
+  <ArchaeologicalElement name="Site">
+    <description></description>
+    <property name="Site ID" isIdentifier="true">
+      <description></description>
+      <formatString>S$2</formatString>
+      <appendCharacterString>-</appendCharacterString>
+    </property>
+    <property name="Site Type" isIdentifier="true">
+      <description></description>
+      <formatString>$1</formatString>
+      <appendCharacterString>-</appendCharacterString>
+      <lookup>
+        <term>Rock shelter</term>
+        <term>Erosion Gully</term>
+        <term>Open Field</term>
+        <term>Standing Structure</term>
+        <term>Artofact</term>
+        <term>Scatter</term>
+        <term>Other</term>
+      </lookup>
+    </property>
+    <property name="User" isIdentifier="true">
+      <description></description>
+      <formatString>$1-</formatString>
+      <appendCharacterString>-</appendCharacterString>
+    </property>
+    <property name="Timestamp">
+      <description></description>
+    </property>
+    <property name="Latitude" type="float">
+      <description/>
+    </property>
+    <property name="Longitude" type="float">
+      <description/>
+    </property>
+    <property name="Northing" type="float">
+      <description/>
+    </property>
+    <property name="Easting" type="float">
+      <description/>
+    </property>
+    <property name="Estimated Age">
+      <description></description>
+      <lookup>
+        <term>A</term>
+        <term>MSA</term>
+        <term>LSA</term>
+        <term>Iron Age</term>
+        <term>Historical</term>
+        <term>Paleoenvironmental</term>
+        <term>Other</term>
+      </lookup>
+    </property>
+    <property name="Materials Present">
+      <description></description>
+      <lookup>
+        <term>Chipped Stone</term>
+        <term>Ground Stone</term>
+        <term>Ochre</term>
+        <term>Slag</term>
+        <term>Pottery</term>
+        <term>Furnace</term>
+        <term>Shell</term>
+        <term>Macrofauna</term>
+        <term>Microfauna</term>
+        <term>Charcoal</term>
+        <term>Glass</term>
+        <term>Other</term>
+      </lookup>
+    </property>
+    <property name="Site Condition">
+      <description></description>
+      <lookup>
+        <term>Intact</term>
+        <term>Slightly Eroded</term>
+        <term>Very Eroded</term>
+      </lookup>
+    </property>
+    <property name="Recommend for further investigation">
+      <description></description>
+      <lookup>
+        <term>Yes</term>
+        <term>No</term>
+      </lookup>
+    </property>
+    <property name="Notes">
+      <description></description>
     </property>
   </ArchaeologicalElement>
 </dataSchema>
