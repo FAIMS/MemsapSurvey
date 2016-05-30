@@ -573,13 +573,13 @@
           <label></label>
           <group faims_style="even" ref="child1">
             <label></label>
-            <input ref="Timestamp" faims_read_only="true" faims_certainty="false" faims_annotation="false" faims_style_class="half-line">
+            <input ref="Timestamp" faims_attribute_name="Survey Unit Timestamp" faims_attribute_type="measure" faims_read_only="true" faims_certainty="false" faims_annotation="false" faims_style_class="half-line">
               <label>{Timestamp}</label>
             </input>
           </group>
           <group faims_style="even" ref="child2">
             <label></label>
-            <input ref="Recorded_by" faims_read_only="true" faims_certainty="false" faims_annotation="false" faims_style_class="half-line">
+            <input ref="Recorded_by" faims_attribute_name="Survey Unit Recorded by" faims_attribute_type="measure" faims_read_only="true" faims_certainty="false" faims_annotation="false" faims_style_class="half-line">
               <label>{Recorded_by}</label>
             </input>
           </group>
@@ -728,13 +728,13 @@
           <label></label>
           <group faims_style="even" ref="child1">
             <label></label>
-            <input ref="Timestamp" faims_read_only="true" faims_certainty="false" faims_style_class="half-line">
+            <input ref="Timestamp" faims_attribute_name="Transect Object Timestamp" faims_attribute_type="measure" faims_read_only="true" faims_certainty="false" faims_style_class="half-line">
               <label>{Timestamp}</label>
             </input>
           </group>
           <group faims_style="even" ref="child2">
             <label></label>
-            <input ref="Recorded_by" faims_read_only="true" faims_certainty="false" faims_style_class="half-line">
+            <input ref="Recorded_by" faims_attribute_name="Transect Object Recorded by" faims_attribute_type="measure" faims_read_only="true" faims_certainty="false" faims_style_class="half-line">
               <label>{Recorded_by}</label>
             </input>
           </group>

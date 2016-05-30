@@ -4,10 +4,31 @@
     <description>Defines relationship between Transect and Survey Unit</description>
   </RelationshipElement>
 
+  <!--Renders as "Transect Object"-->
   <ArchaeologicalElement name="POI">
     <description></description>
     <property name="POI ID" type="freetext" isIdentifier="true">
       <description/>
+      <formatString>$2-</formatString>
+    </property>
+    <property name="Object" type="enum" isIdentifier="true">
+      <description/>
+      <formatString>$1-</formatString>
+      <lookup>
+        <term> {Core}
+          <description/>
+        </term>
+        <term> {Cobble}
+          <description/>
+        </term>
+      </lookup>
+    </property>
+    <property name="Transect Object Recorded by" type="freetext" isIdentifier="true">
+      <description>Description TBD</description>
+      <formatString>$2</formatString>
+    </property>
+    <property name="Transect Object Timestamp" type="freetext">
+      <description>Description TBD</description>
     </property>
     <property name="Latitude" type="float">
       <description/>
@@ -20,17 +41,6 @@
     </property>
     <property name="Easting" type="float">
       <description/>
-    </property>
-    <property name="Object" type="enum">
-      <description/>
-      <lookup>
-        <term> {Core}
-          <description/>
-        </term>
-        <term> {Cobble}
-          <description/>
-        </term>
-      </lookup>
     </property>
     <property name="Weight" type="float">
       <description/>
@@ -334,6 +344,7 @@
       <description>Description TBD</description>
     </property>
   </ArchaeologicalElement>
+
   <ArchaeologicalElement name="Transect">
     <description></description>
     <property name="Timestamp" type="string">
@@ -341,7 +352,7 @@
     </property>
    <property name="TracklogTeam" type="string" isIdentifier="true">
       <description>Description TBD</description>
-    </property>    
+    </property>
     <property name="SUID" type="freetext" isIdentifier="true">
       <description>Description TBD</description>
     </property>
@@ -366,18 +377,28 @@
 
   </ArchaeologicalElement>
 
+  <!--Renders as "Transect"-->
   <ArchaeologicalElement name="Survey Unit" type="freetext">
     <description></description>
     <property name="Survey Unit ID" type="freetext" isIdentifier="true">
       <description>Unique identifier for this transect</description>
+      <formatString>$2-</formatString>
+    </property>
+    <property name="Survey Line" type="freetext" isIdentifier="true">
+      <description>Description TBD</description>
+      <formatString>$2-</formatString>
+    </property>
+    <property name="Survey Unit Recorded by" type="freetext" isIdentifier="true">
+      <description>Description TBD</description>
+      <formatString>$2</formatString>
+    </property>
+    <property name="Survey Unit Timestamp" type="freetext">
+      <description>Description TBD</description>
     </property>
     <property name="Total Transect Width" type="freetext">
       <description>Total Transect Width</description>
     </property>
     <property name="Number of Walkers" type="float">
-      <description>Description TBD</description>
-    </property>
-    <property name="Survey Line" type="freetext">
       <description>Description TBD</description>
     </property>
     <property name="Participants" type="float">
@@ -609,18 +630,11 @@
     <description></description>
     <property name="Artefact ID" type="freetext" isIdentifier="true">
       <description/>
+      <formatString>$2-</formatString>
     </property>
-    <property name="X" type="float">
+    <property name="Technological Component" type="enum" isIdentifier="true">
       <description/>
-    </property>
-    <property name="Y" type="float">
-      <description/>
-    </property>
-    <property name="Z" type="float">
-      <description/>
-    </property>
-    <property name="Technological Component" type="enum">
-      <description/>
+      <formatString>$1</formatString>
       <lookup>
         <term> {Flake}
           <description/>
@@ -635,6 +649,15 @@
           <description/>
         </term>
       </lookup>
+    </property>
+    <property name="X" type="float">
+      <description/>
+    </property>
+    <property name="Y" type="float">
+      <description/>
+    </property>
+    <property name="Z" type="float">
+      <description/>
     </property>
     <property name="Weight" type="float">
       <description/>
@@ -1093,13 +1116,11 @@
     <description></description>
     <property name="Site ID" isIdentifier="true">
       <description></description>
-      <formatString>S$2</formatString>
-      <appendCharacterString>-</appendCharacterString>
+      <formatString>$2-</formatString>
     </property>
     <property name="Site Type" isIdentifier="true">
       <description></description>
-      <formatString>$1</formatString>
-      <appendCharacterString>-</appendCharacterString>
+      <formatString>$1-</formatString>
       <lookup>
         <term>Rock shelter</term>
         <term>Erosion Gully</term>
@@ -1112,8 +1133,7 @@
     </property>
     <property name="User" isIdentifier="true">
       <description></description>
-      <formatString>$1-</formatString>
-      <appendCharacterString>-</appendCharacterString>
+      <formatString>$1</formatString>
     </property>
     <property name="Timestamp">
       <description></description>

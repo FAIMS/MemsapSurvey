@@ -161,17 +161,21 @@ onEvent("control/Control/stopGPSButton", "click", "stopGPSLogic();");
 
 showRecords() {
     type = getFieldValue("control/Start/archentsList");
-    query = "select uuid, response from identifierAsSpreadsheet join latestnondeletedArchEnt using (uuid) join aenttype using (aenttypeid) where aenttypename like '%"+type+"%' order by aenttimestamp desc;";
+
+    query  = "   SELECT uuid, response";
+    query += "     FROM latestNonDeletedArchEntFormattedIdentifiers";
+    query += "     JOIN latestnondeletedArchEnt USING (uuid)";
+    query += "    WHERE aenttypename LIKE '%"+type+"%'";
+    query += " ORDER BY aenttimestamp desc";
+
     fetchAll(query, new FetchCallback() {
         onFetch(result) {
             if (!isNull(result)) {
-                populateCursorList("control/Start/listOfLast", 
-                    "select uuid, response from identifierAsSpreadsheet " +
-                        "join latestnondeletedArchEnt using (uuid) " +
-                            "join aenttype using (aenttypeid) " +
-                            "where aenttypename like '%"+type+"%' " +
-                        "order by aenttimestamp desc " +
-                "limit ? offset ?;", 5);
+                populateCursorList(
+                    "control/Start/listOfLast",
+                    query + " limit ? offset ?",
+                    5
+                );
             } else {
                 ArrayList none = new ArrayList();
                 none.add("No entries found");
@@ -183,7 +187,7 @@ showRecords() {
 
 updateCurrentTransect() {
     if(transectEnabled) {
-        fetchAll("select uuid, response from identifierAsSpreadsheet where uuid = "+survey_unit_id+"", new FetchCallback() {
+        fetchAll("SELECT uuid, response FROM latestNonDeletedArchEntFormattedIdentifiers WHERE uuid = "+survey_unit_id+"", new FetchCallback() {
             onFetch(result) {
                 populateList("control/Start/currentSurveyUnit", result);
             }
@@ -206,7 +210,7 @@ updateCurrentTransect() {
                                         "join latestnondeletedaentvalue using (uuid) join attributekey using (attributeid) " +
                                         "where attributename = 'State') state on (transect.uuid = state.uuid) " +
                                         "group by surveyUnit.uuid " +
-                                        "having min(measure) != 'End') join identifierAsSpreadsheet using (uuid);", new FetchCallback() {
+                                        "having min(measure) != 'End') join latestNonDeletedArchEntFormattedIdentifiers using (uuid);", new FetchCallback() {
             onFetch(result) {
                 unfinished = result.get(0);
                 if(!isNull(unfinished)) showWarning("Warning", "The following Transects have not been finished: " +unfinished+". To finish, load the Transect below as this will make it the current Transect.");
@@ -1269,7 +1273,7 @@ autoNumSite() {
               "and attributename = 'Site ID');", new FetchCallback() {
         onFetch(result) {
             if(isNull(result.get(0))) {
-                setFieldValue("Site/Site/Site_ID", "C1");
+                setFieldValue("Site/Site/Site_ID", "S1");
             } else {
                 setFieldValue("Site/Site/Site_ID", result.get(0));    
             }
