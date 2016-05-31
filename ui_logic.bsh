@@ -158,6 +158,77 @@ onEvent("control/Start/listOfLast", "click", "loadRecord();");
 onEvent("control/Control/startGPSButton", "click", "startGPS();");
 onEvent("control/Control/stopGPSButton", "click", "stopGPSLogic();");
 
+/*********************************** SEARCH ***********************************/
+onEvent("control/Search"               , "show"  , "search();");
+onEvent("control/Search/Entity_List"   , "click" , "loadEntity();");
+onEvent("control/Search/Search_Button" , "click" , "search()");
+onEvent("control/Search/Search_Term"   , "click" , "clearSearch()");
+onEvent("control/Search/Entity_Types"  , "click" , "search()");
+
+entityTypes = new ArrayList();
+entityTypes.add(new NameValuePair("{All}",         "'Artefact', 'POI', 'Site', 'Survey Unit'"));
+entityTypes.add(new NameValuePair("{Artefact}",    "'Artefact'                              "));
+entityTypes.add(new NameValuePair("{POI}",         "'POI'                                   "));
+entityTypes.add(new NameValuePair("{Site}",        "'Site'                                  "));
+entityTypes.add(new NameValuePair("{Survey_Unit}", "'Survey Unit'                           "));
+populateDropDown("control/Search/Entity_Types", entityTypes);
+
+clearSearch(){
+  setFieldValue("control/Search/Search_Term","");
+}
+
+search(){
+  String tabgroup = "control";
+  String refEntityList  = tabgroup + "/Search/Entity_List";
+  String refSearchTerm  = tabgroup + "/Search/Search_Term";
+  String refEntityTypes = tabgroup + "/Search/Entity_Types";
+
+  String type = getFieldValue(refEntityTypes);
+  String term = getFieldValue(refSearchTerm);
+  String searchQuery = "SELECT uuid, response "+
+                       "  FROM latestNonDeletedArchEntFormattedIdentifiers  "+
+                       " WHERE uuid in (SELECT uuid "+
+                       "                  FROM latestNonDeletedArchEntIdentifiers "+
+                       "                 WHERE measure LIKE '"+term+"'||'%'  "+
+                       "                   AND ( aenttypename IN ("+type+")) "+
+                       "                )  "+
+                       " ORDER BY response "+
+                       " LIMIT ? "+
+                       "OFFSET ? ";
+
+  populateCursorList(refEntityList, searchQuery, 25);
+}
+
+loadEntity() {
+  loadEntity(false);
+}
+loadEntity(Boolean isDropdown) {
+  if (isDropdown) {
+    loadEntityFrom(getDropdownItemValue());
+  } else {
+    loadEntityFrom(getListItemValue());
+  }
+}
+
+loadEntityFrom(String entityID) {
+  if (isNull(entityID)) {
+    return;
+  }
+
+  String getEntTypeNameQ = "SELECT aenttypename " +
+                           "  FROM latestnondeletedarchent " +
+                           "  JOIN aenttype " +
+                           " USING (aenttypeid) " +
+                           " WHERE uuid = '" + entityID + "'";
+  fetchAll(getEntTypeNameQ, new FetchCallback() {
+    onFetch(result) {
+      String archEntName = result.get(0).get(0);
+      String loadFunction = "load" + archEntName.replaceAll(" ", "") + "From(entityID)"; // Typical value: loadContextFrom(entityID)
+      eval(loadFunction);
+    }
+  });
+}
+/************************** STUFF WHICH ISN'T SEARCH **************************/
 
 showRecords() {
     type = getFieldValue("control/Start/archentsList");
@@ -227,6 +298,8 @@ loadRecord() {
             loadPOI();
         } else if (getFieldValue("control/Start/archentsList").equals("Artefact")) {
             loadArtefact();
+        } else if (getFieldValue("control/Start/archentsList").equals("Site")) {
+            loadSite();
         }
     }
 }
@@ -1112,6 +1185,7 @@ autoNumArtefact() {
 }
 
 //Site logic
+onEvent("Site/Site/Take_GPS", "click", "fillInGPS(\"Site/Site/\")");
 String site_id = null;
 
 newSite() {
@@ -1153,7 +1227,6 @@ loadSiteFrom(archentid) {
                         setFieldValue("Site/Site/Timestamp", result.get(0));
                     }
                 });
-            showSiteTabs(true);
             saveTabGroup("Site", site_id, null, null, new SaveCallback() {
                 onSave(uuid, newRecord) {
                     site_id = uuid;

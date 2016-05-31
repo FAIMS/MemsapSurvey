@@ -18,6 +18,9 @@
             <leftBigger>
               <layout_weight/>
             </leftBigger>
+            <large>
+              <layout_weight/>
+            </large>
           </style>
           <user>
             <usertab>
@@ -95,6 +98,18 @@
                 </child2>
               </container3>
             </Start>
+            <Search>
+              <Colgroup_0>
+                <Col_0>
+                  <Search_Term/>
+                </Col_0>
+                <Col_1>
+                  <Search_Button/>
+                </Col_1>
+              </Colgroup_0>
+              <Entity_Types/>
+              <Entity_List/>
+            </Search>
             <Map>
               <map/>
               <container1>
@@ -295,7 +310,7 @@
                   <Easting/>
                 </Col_1>
               </Colgroup_GPS>
-              <Take_From_GPS/>
+              <Take_GPS/>
               <Site_Type/>
               <Estimated_Age/>
               <Materials_Present/>
@@ -348,6 +363,12 @@
         <label/>
         <input ref="layout_weight">
           <label>2</label>
+        </input>
+      </group>
+      <group ref="large">
+        <label/>
+        <input ref="layout_weight">
+          <label>3</label>
         </input>
       </group>
     </group>
@@ -539,6 +560,38 @@
             </select1>
           </group>
         </group>
+      </group>
+      <group ref="Search" faims_scrollable="false">
+        <label>{search}</label>
+        <group faims_style="orientation" ref="Colgroup_0">
+          <label/>
+          <group faims_style="even" ref="Col_0">
+            <label/>
+            <input ref="Search_Term">
+              <label>{Search_Term}</label>
+            </input>
+          </group>
+          <group faims_style="large" ref="Col_1">
+            <label/>
+            <trigger ref="Search_Button">
+              <label>{Search}</label>
+            </trigger>
+          </group>
+        </group>
+        <select1 ref="Entity_Types">
+          <label>{Entity_Types}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
+        <select1 appearance="compact" ref="Entity_List">
+          <label>{Entity_List}</label>
+          <item>
+            <label>Options not loaded</label>
+            <value>Options not loaded</value>
+          </item>
+        </select1>
       </group>
       <group ref="Map" faims_scrollable="false">
         <label>Map</label>
@@ -1175,16 +1228,16 @@
     </group>
 
     <group ref="Site" faims_archent_type="Site">
-      <label>Site</label>
+      <label>{Site}</label>
       <group ref="Site">
-        <label>Site</label>
+        <label>{Site}</label>
         <input ref="Site_ID" faims_attribute_name="Site ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>Site ID</label>
         </input>
-        <input ref="User" faims_attribute_name="User" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+        <input ref="User" faims_attribute_name="User" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="true">
           <label>User</label>
         </input>
-        <input ref="Timestamp" faims_attribute_name="Timestamp" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+        <input ref="Timestamp" faims_attribute_name="Timestamp" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="true">
           <label>Timestamp</label>
         </input>
         <group ref="Colgroup_GPS" faims_style="orientation">
@@ -1208,8 +1261,8 @@
             </input>
           </group>
         </group>
-        <trigger ref="Take_From_GPS">
-          <label>Take From GPS</label>
+        <trigger ref="Take_GPS">
+          <label>{Take_GPS}</label>
         </trigger>
         <select1 ref="Site_Type" faims_attribute_name="Site Type" faims_attribute_type="vocab">
           <label>Site Type</label>
