@@ -21,6 +21,9 @@
         <term> {Cobble}
           <description/>
         </term>
+        <term> {NA}
+          <description/>
+        </term>
       </lookup>
     </property>
     <property name="Transect Object Recorded by" type="freetext" isIdentifier="true">
@@ -57,9 +60,6 @@
     <property name="Raw material" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Quartz}
           <description/>
         </term>
@@ -80,9 +80,6 @@
     <property name="Crystal Size" type="enum">
       <description>Estimated by using a sand gauge (©1984 W.F. McCullough)”</description>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Fine}
           <description/>
         </term>
@@ -138,9 +135,6 @@
     <property name="Angularity" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Rounded}
           <description/>
         </term>
@@ -165,6 +159,9 @@
           <description/>
         </term>
         <term> {Broken}
+          <description/>
+        </term>
+        <term> {NA}
           <description/>
         </term>
       </lookup>
@@ -278,9 +275,6 @@
     <property name="Core Typology" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Levallois}
           <description/>
         </term>
@@ -410,9 +404,6 @@
     <property name="Landform" type="enum">
       <description>Select the type of landform</description>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Range_top}
           <description/>
         </term>
@@ -527,9 +518,6 @@
     <property name="Basic geomorphic summary" type="enum">
       <description>Comments such as: erosion and other things that can cause erosion; agricultural activity, grazing, road disturbance, etc.</description>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Bedrock}
           <description/>
         </term>
@@ -559,9 +547,6 @@
     <property name="Cobble distribution" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Not_present}
           <description/>
         </term>
@@ -608,6 +593,9 @@
         <term> {Greater_than_10cm}
           <description/>
         </term>
+        <term> {NA}
+          <description/>
+        </term>
       </lookup>
     </property>
     <property name="Other remarks on transect" type="freetext">
@@ -648,6 +636,9 @@
         <term> {Other}
           <description/>
         </term>
+        <term> {NA}
+          <description/>
+        </term>
       </lookup>
     </property>
     <property name="X" type="float">
@@ -680,6 +671,9 @@
         <term> {Other_describe}
           <description/>
         </term>
+        <term> {NA}
+          <description/>
+        </term>
       </lookup>
     </property>
     <property name="Maximum Dimension" type="float">
@@ -688,9 +682,6 @@
     <property name="Raw material" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Quartz}
           <description/>
         </term>
@@ -723,14 +714,14 @@
         <term> 3
           <description/>
         </term>
+        <term> {NA}
+          <description/>
+        </term>
       </lookup>
     </property>
     <property name="Longitudinal Portion" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Complete}
           <description/>
         </term>
@@ -748,9 +739,6 @@
     <property name="Transverse Portion" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Complete}
           <description/>
         </term>
@@ -771,9 +759,6 @@
     <property name="Platform Type" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Cortical}
           <description/>
         </term>
@@ -800,9 +785,6 @@
     <property name="Platform Cortex" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {No_Cortex}
           <description/>
         </term>
@@ -817,9 +799,6 @@
     <property name="Termination" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Feather}
           <description/>
         </term>
@@ -837,9 +816,6 @@
     <property name="Percentage Cortical Coverage" type="enum">
       <description>Percentage of the dorsal and platform surfaces combined that is covered in cortex.</description>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {0-24}
           <description/>
         </term>
@@ -880,9 +856,6 @@
     <property name="Scar Orientation" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Indeterminate}
           <description/>
         </term>
@@ -915,6 +888,9 @@
         <term> {No}
           <description/>
         </term>
+        <term> {NA}
+          <description/>
+        </term>
       </lookup>
     </property>
     <property name="Flake Comments" type="freetxt">
@@ -929,14 +905,14 @@
         <term> {Broken}
           <description/>
         </term>
+        <term> {NA}
+          <description/>
+        </term>
       </lookup>
     </property>
     <property name="Core Weathering stage" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {No_edge_rounding}
           <description/>
         </term>
@@ -1043,9 +1019,6 @@
     <property name="Core Typology" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Levallois}
           <description/>
         </term>
@@ -1084,9 +1057,6 @@
     <property name="Other Type" type="enum">
       <description/>
       <lookup>
-        <term> {No_Observation}
-          <description/>
-        </term>
         <term> {Manuport}
           <description/>
         </term>
@@ -1192,6 +1162,9 @@
       <lookup>
         <term>Yes</term>
         <term>No</term>
+        <term> {NA}
+          <description/>
+        </term>
       </lookup>
     </property>
     <property name="Notes">

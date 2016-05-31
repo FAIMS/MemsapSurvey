@@ -1383,7 +1383,7 @@ makeVocab(String type, String path, String attrib) {
                 if(type.equals("CheckBoxGroup")) {
                     populateCheckBoxGroup(path, result);
                 } else if(type.equals("DropDown")) {
-                    populateDropDown(path, result);
+                    populateDropDown(path, result, true);
                 } else if(type.equals("RadioGroup")) {
                     populateRadioGroup(path, result);
                 } else if(type.equals("List")) {
