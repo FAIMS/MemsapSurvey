@@ -1437,7 +1437,7 @@ initMap() {
 
     DATA_ENTRY_LAYER_ID = createCanvasLayer("control/Map/map", DATA_ENTRY_LAYER);
 
-    showBaseMap("control/Map/map", "Base Layer", "files/data/maps/RasterData.tif");
+    //showBaseMap("control/Map/map", "Base Layer", "files/data/maps/RasterData.tif");
 
     isEntity = true;
     queryName = "Transects";
