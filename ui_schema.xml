@@ -616,24 +616,24 @@
         </group>
       </group>
     </group>
-    <group ref="Survey_Unit" faims_archent_type="Survey Unit">
+    <group ref="Survey_Unit" faims_archent_type="Transect">
       <label>{Survey_Unit}</label>
       <group ref="Survey_Unit">
         <label>{Survey_Unit}</label>
-        <input ref="Survey_Unit_ID" faims_attribute_name="Survey Unit ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false" faims_style_class="required">
+        <input ref="Survey_Unit_ID" faims_attribute_name="Transect ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false" faims_style_class="required">
           <label>{Survey_Unit_ID}</label>
         </input>
         <group ref="container1" faims_style="orientation">
           <label></label>
           <group faims_style="even" ref="child1">
             <label></label>
-            <input ref="Timestamp" faims_attribute_name="Survey Unit Timestamp" faims_attribute_type="measure" faims_read_only="true" faims_certainty="false" faims_annotation="false" faims_style_class="half-line">
+            <input ref="Timestamp" faims_attribute_name="Transect Timestamp" faims_attribute_type="measure" faims_read_only="true" faims_certainty="false" faims_annotation="false" faims_style_class="half-line">
               <label>{Timestamp}</label>
             </input>
           </group>
           <group faims_style="even" ref="child2">
             <label></label>
-            <input ref="Recorded_by" faims_attribute_name="Survey Unit Recorded by" faims_attribute_type="measure" faims_read_only="true" faims_certainty="false" faims_annotation="false" faims_style_class="half-line">
+            <input ref="Recorded_by" faims_attribute_name="Transect Recorded by" faims_attribute_type="measure" faims_read_only="true" faims_certainty="false" faims_annotation="false" faims_style_class="half-line">
               <label>{Recorded_by}</label>
             </input>
           </group>
@@ -738,11 +738,11 @@
         </input>
       </group>
     </group>
-    <group ref="POI" faims_archent_type="POI">
+    <group ref="POI" faims_archent_type="Transect Object">
       <label>{POI}</label>
       <group ref="POI">
         <label>{POI}</label>
-        <input ref="POI_ID" faims_attribute_name="POI ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false" faims_style_class="required">
+        <input ref="POI_ID" faims_attribute_name="Transect Object ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false" faims_style_class="required">
           <label>{POI_ID}</label>
         </input>
         <group ref="container1" faims_style="orientation">
@@ -946,11 +946,11 @@
         </trigger>
       </group>
     </group>
-    <group ref="Artefact" faims_archent_type="Artefact">
+    <group ref="Artefact" faims_archent_type="Total Recording">
       <label>{Artefact}</label>
       <group ref="Artefact">
         <label>{Artefact}</label>
-        <input ref="Artefact_ID" faims_attribute_name="Artefact ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false" faims_style_class="required">
+        <input ref="Artefact_ID" faims_attribute_name="Total Recording ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false" faims_style_class="required">
           <label>{Artefact_ID}</label>
         </input>
         <select1 appearance="full" ref="Technological_Component" faims_attribute_name="Technological Component" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
@@ -1001,7 +1001,7 @@
             <value>placeholder</value>
           </item>
         </select1>
-        <select1 appearance="full" ref="Artefact_Weathering_stage" faims_attribute_name="Artefact Weathering stage" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+        <select1 appearance="full" ref="Artefact_Weathering_stage" faims_attribute_name="Total Recording Weathering stage" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
           <label>{Artefact_Weathering_stage}</label>
           <item>
             <label>placeholder</label>

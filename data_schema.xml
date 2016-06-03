@@ -5,9 +5,9 @@
   </RelationshipElement>
 
   <!--Renders as "Transect Object"-->
-  <ArchaeologicalElement name="POI">
+  <ArchaeologicalElement name="Transect Object">
     <description></description>
-    <property name="POI ID" type="freetext" isIdentifier="true">
+    <property name="Transect Object ID" type="freetext" isIdentifier="true">
       <description/>
       <formatString>$2-</formatString>
     </property>
@@ -339,7 +339,7 @@
     </property>
   </ArchaeologicalElement>
 
-  <ArchaeologicalElement name="Transect">
+  <ArchaeologicalElement name="Transect Point">
     <description></description>
     <property name="Timestamp" type="string">
       <description>Description TBD</description>
@@ -372,9 +372,9 @@
   </ArchaeologicalElement>
 
   <!--Renders as "Transect"-->
-  <ArchaeologicalElement name="Survey Unit" type="freetext">
+  <ArchaeologicalElement name="Transect" type="freetext">
     <description></description>
-    <property name="Survey Unit ID" type="freetext" isIdentifier="true">
+    <property name="Transect ID" type="freetext" isIdentifier="true">
       <description>Unique identifier for this transect</description>
       <formatString>$2-</formatString>
     </property>
@@ -382,11 +382,11 @@
       <description>Description TBD</description>
       <formatString>$2-</formatString>
     </property>
-    <property name="Survey Unit Recorded by" type="freetext" isIdentifier="true">
+    <property name="Transect Recorded by" type="freetext" isIdentifier="true">
       <description>Description TBD</description>
       <formatString>$2</formatString>
     </property>
-    <property name="Survey Unit Timestamp" type="freetext">
+    <property name="Transect Timestamp" type="freetext">
       <description>Description TBD</description>
     </property>
     <property name="Total Transect Width" type="freetext">
@@ -614,9 +614,9 @@
     </property>
   </ArchaeologicalElement>
 
-  <ArchaeologicalElement name="Artefact">
+  <ArchaeologicalElement name="Total Recording">
     <description></description>
-    <property name="Artefact ID" type="freetext" isIdentifier="true">
+    <property name="Total Recording ID" type="freetext" isIdentifier="true">
       <description/>
       <formatString>$2-</formatString>
     </property>
@@ -699,7 +699,7 @@
         </term>
       </lookup>
     </property>
-    <property name="Artefact Weathering stage" type="enum">
+    <property name="Total Recording Weathering stage" type="enum">
       <description/>
       <lookup>
         <term> 0

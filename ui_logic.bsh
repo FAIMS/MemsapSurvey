@@ -170,11 +170,11 @@ onEvent("control/Search/Search_Term"   , "click" , "clearSearch()");
 onEvent("control/Search/Entity_Types"  , "click" , "search()");
 
 entityTypes = new ArrayList();
-entityTypes.add(new NameValuePair("{All}",         "'Artefact', 'POI', 'Site', 'Survey Unit'"));
-entityTypes.add(new NameValuePair("{Artefact}",    "'Artefact'                              "));
-entityTypes.add(new NameValuePair("{POI}",         "'POI'                                   "));
+entityTypes.add(new NameValuePair("{All}",         "'Total Recording', 'Transect Object', 'Site', 'Transect'"));
+entityTypes.add(new NameValuePair("{Artefact}",    "'Total Recording'                              "));
+entityTypes.add(new NameValuePair("{POI}",         "'Transect Object'                                   "));
 entityTypes.add(new NameValuePair("{Site}",        "'Site'                                  "));
-entityTypes.add(new NameValuePair("{Survey_Unit}", "'Survey Unit'                           "));
+entityTypes.add(new NameValuePair("{Survey_Unit}", "'Transect'                           "));
 populateDropDown("control/Search/Entity_Types", entityTypes);
 
 clearSearch(){
@@ -273,14 +273,14 @@ updateCurrentTransect() {
                                         "(select surveyUnit.uuid " +
                                         "from " +
                                         "(select uuid, relationshipid " +
-                                        "from (select aenttypeid from aenttype where aenttypename = 'Survey Unit') " +
+                                        "from (select aenttypeid from aenttype where aenttypename = 'Transect') " +
                                         "        join latestnondeletedarchent using (aenttypeid) " +
                                         "        join latestnondeletedaentreln using (uuid)) surveyUnit " +
-                                        "join ((select aenttypeid from aenttype where aenttypename = 'Transect') " +
+                                        "join ((select aenttypeid from aenttype where aenttypename = 'Transect Point') " +
                                         "        join latestnondeletedarchent using (aenttypeid) " +
                                         "        join latestnondeletedaentreln using (uuid)) transect using (relationshipid) " +
                                         "join (select uuid, measure " +
-                                        "from (select aenttypeid from aenttype where aenttypename = 'Transect') " +
+                                        "from (select aenttypeid from aenttype where aenttypename = 'Transect Point') " +
                                         "join latestnondeletedarchent using (aenttypeid) " +
                                         "join latestnondeletedaentvalue using (uuid) join attributekey using (attributeid) " +
                                         "where attributename = 'State') state on (transect.uuid = state.uuid) " +
@@ -296,11 +296,11 @@ updateCurrentTransect() {
 
 loadRecord() {
     if (getListItemValue() != ""  && !getListItemValue().equals("No entries found")) {
-        if (getFieldValue("control/Start/archentsList").equals("Survey Unit")) {
+        if (getFieldValue("control/Start/archentsList").equals("Transect")) {
             loadSurveyUnit();
-        } else if (getFieldValue("control/Start/archentsList").equals("POI")) {
+        } else if (getFieldValue("control/Start/archentsList").equals("Transect Object")) {
             loadPOI();
-        } else if (getFieldValue("control/Start/archentsList").equals("Artefact")) {
+        } else if (getFieldValue("control/Start/archentsList").equals("Total Recording")) {
             loadArtefact();
         } else if (getFieldValue("control/Start/archentsList").equals("Site")) {
             loadSite();
@@ -343,10 +343,10 @@ stopGPSLogic() {
 }
 
 list = new ArrayList();
-list.add(new NameValuePair("{Survey_Unit}", "Survey Unit"));
+list.add(new NameValuePair("{Survey_Unit}", "Transect"));
 list.add(new NameValuePair("{Site}", "Site"));
-list.add(new NameValuePair("{POI}", "POI"));
-list.add(new NameValuePair("{Artefact}", "Artefact"));
+list.add(new NameValuePair("{POI}", "Transect Object"));
+list.add(new NameValuePair("{Artefact}", "Total Recording"));
 populateDropDown("control/Start/archentsList", list);
 
 //Tracklog
@@ -464,7 +464,7 @@ saveGPSTrack(String stateAppend) {
                         l = new ArrayList();
                         l.add(p);
                         
-                        saveArchEnt(null, "Transect", l, attributes, new SaveCallback() {
+                        saveArchEnt(null, "Transect Point", l, attributes, new SaveCallback() {
                             onSave(uuid, newRecord) {
                                 transect_id = uuid;
                                 Callable callback = new Callable() {
@@ -499,7 +499,7 @@ newSurveyUnit() {
     }
     position = getGPSPosition();
     if (position == null) {
-        showWarning("Warning", "Your GPS is not initialized, you cannot create a Survey Unit until the GPS icon is blue.");
+        showWarning("Warning", "Your GPS is not initialized, you cannot create a Transect until the GPS icon is blue.");
         return;
     }
     newTabGroup("Survey_Unit");
@@ -526,7 +526,7 @@ loadSurveyUnit() {
 loadSurveyUnitFrom(archentid) {    
     
     if (isNull(archentid)) {
-        showToast("No Survey Unit selected");
+        showToast("No Transect selected");
         return;
     }
     showTabGroup("Survey_Unit", archentid, new FetchCallback() {
@@ -535,14 +535,14 @@ loadSurveyUnitFrom(archentid) {
             fetchOne("select surveyUnit.uuid "+
             "from " +
             "(select uuid, relationshipid " +
-            "from (select aenttypeid from aenttype where aenttypename = 'Survey Unit')  " +
+            "from (select aenttypeid from aenttype where aenttypename = 'Transect')  " +
             "        join latestnondeletedarchent using (aenttypeid) " +
             "        join latestnondeletedaentreln using (uuid)) surveyUnit  " +
-            "join ((select aenttypeid from aenttype where aenttypename = 'Transect')  " +
+            "join ((select aenttypeid from aenttype where aenttypename = 'Transect Point')  " +
             "        join latestnondeletedarchent using (aenttypeid) " +
             "        join latestnondeletedaentreln using (uuid)) transect using (relationshipid) " +
             "join (select uuid, measure  " +
-            "from (select aenttypeid from aenttype where aenttypename = 'Transect')  " +
+            "from (select aenttypeid from aenttype where aenttypename = 'Transect Point')  " +
             "join latestnondeletedarchent using (aenttypeid)  " +
             "join latestnondeletedaentvalue using (uuid) join attributekey using (attributeid) " +
             "where attributename = 'State') state on (transect.uuid = state.uuid) " +
@@ -604,7 +604,7 @@ finishSurveyUnit() {
     }
     position = getGPSPosition();
     if (position == null) {
-        showWarning("Warning", "You have lost your GPS signal, please wait until the GPS icon is blue before you finish you Survey Unit.");
+        showWarning("Warning", "You have lost your GPS signal, please wait until the GPS icon is blue before you finish you Transect.");
         return;
     }
     saveGPSTrack("End");
@@ -623,10 +623,10 @@ reallyDeleteSurveyUnit() {
     fetchAll("select transect.uuid " +
             "from " +
             "(select uuid, relationshipid " +
-            "from (select aenttypeid from aenttype where aenttypename = 'Survey Unit')  " +
+            "from (select aenttypeid from aenttype where aenttypename = 'Transect')  " +
                     "join latestnondeletedarchent using (aenttypeid) " +
                     "join latestnondeletedaentreln using (uuid)) surveyUnit  " +
-            "join ((select aenttypeid from aenttype where aenttypename = 'Transect')  " +
+            "join ((select aenttypeid from aenttype where aenttypename = 'Transect Point')  " +
                     "join latestnondeletedarchent using (aenttypeid) " +
                     "join latestnondeletedaentreln using (uuid)) transect using (relationshipid) " +
             "where surveyUnit.uuid = " + survey_unit_id + ";", new FetchCallback() {
@@ -715,8 +715,8 @@ autoNumSurveyUnit() {
             "where uuid in (select uuid " +
                              "from latestnondeletedaentvalue ae " +
                              "join latestnondeletedarchent using (uuid) join aenttype using (aenttypeid) " +
-                            "where aenttypename = 'Survey Unit') " +
-              "and attributename = 'Survey Unit ID');", new FetchCallback() {
+                            "where aenttypename = 'Transect') " +
+              "and attributename = 'Transect ID');", new FetchCallback() {
         onFetch(result) {
             print(result);
             if(isNull(result.get(0))) {
@@ -777,7 +777,7 @@ loadPOI() {
 loadPOIFrom(archentid) {
     poi_id = archentid;
     if (isNull(poi_id)) {
-        showToast("No POI selected");
+        showToast("No Transect Object selected");
         return;
     }
     showTabGroup("POI", poi_id, new FetchCallback() {
@@ -940,8 +940,8 @@ autoNumPOI() {
             "where uuid in (select uuid " +
                              "from latestnondeletedaentvalue ae " +
                              "join latestnondeletedarchent using (uuid) join aenttype using (aenttypeid) " +
-                            "where aenttypename = 'POI') " +
-              "and attributename = 'POI ID');", new FetchCallback() {
+                            "where aenttypename = 'Transect Object') " +
+              "and attributename = 'Transect Object ID');", new FetchCallback() {
         onFetch(result) {
             if(isNull(result.get(0))) {
                 setFieldValue("POI/POI/POI_ID", "C1");
@@ -997,7 +997,7 @@ loadArtefact() {
 loadArtefactFrom(archentid) {
     artefact_id = archentid;
     if (isNull(artefact_id)) {
-        showToast("No Artefact selected");
+        showToast("No Total Recording selected");
         return;
     }
 
@@ -1168,8 +1168,8 @@ autoNumArtefact() {
             "where uuid in (select uuid " +
                              "from latestnondeletedaentvalue ae " +
                              "join latestnondeletedarchent using (uuid) join aenttype using (aenttypeid) " +
-                            "where aenttypename = 'Artefact') " +
-              "and attributename = 'Artefact ID');", new FetchCallback() {
+                            "where aenttypename = 'Total Recording') " +
+              "and attributename = 'Total Recording ID');", new FetchCallback() {
         onFetch(result) {
             if(isNull(result.get(0))) {
                 setFieldValue("Artefact/Artefact/Artefact_ID", "A1");
@@ -1430,7 +1430,7 @@ onEvent("control/Map/centre", "click", "centreOnMe();");
 onEvent("control/Map/saveSettings", "click", "saveMapSettings();"); 
 
 drawTransects() {
-     fetchOne("SELECT uuid, geospatialcolumn FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Transect'", new FetchCallback() {
+     fetchOne("SELECT uuid, geospatialcolumn FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Transect Point'", new FetchCallback() {
         onFetch(result) {
             geoms = result;
         }
@@ -1447,7 +1447,7 @@ initMap() {
 
     isEntity = true;
     queryName = "Transects";
-    querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Transect'";
+    querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Transect Point'";
         
     addDatabaseLayerQuery("control/Map/map", queryName, querySQL);
 
