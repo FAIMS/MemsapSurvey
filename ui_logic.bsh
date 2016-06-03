@@ -340,6 +340,7 @@ stopGPSLogic() {
 
 list = new ArrayList();
 list.add(new NameValuePair("{Survey_Unit}", "Survey Unit"));
+list.add(new NameValuePair("{Site}", "Site"));
 list.add(new NameValuePair("{POI}", "POI"));
 list.add(new NameValuePair("{Artefact}", "Artefact"));
 populateDropDown("control/Start/archentsList", list);
