@@ -317,6 +317,7 @@
               <Site_Condition/>
               <Recommend_for_further_investigation/>
               <Notes/>
+              <Return/>
             </Site>
           </Site>
         </faims>
@@ -1302,6 +1303,9 @@
         <input ref="Notes" faims_attribute_name="Notes" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>Notes</label>
         </input>
+        <trigger ref="Return" faims_style_class="faims-blue">
+          <label>{Return}</label>
+        </trigger>
       </group>
     </group>
   </h:body>

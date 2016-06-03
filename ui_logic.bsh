@@ -876,7 +876,7 @@ addPOINavigation() {
                 onFetch(result) {
                     poi_id = null;
                     populateCameraPictureGallery("POI/POI/Photo", new ArrayList());
-                    autoNumSurveyPOI();
+                    autoNumPOI();
                 }
             });
         }
@@ -1190,7 +1190,9 @@ autoNumArtefact() {
 }
 
 //Site logic
+onEvent("Site", "show", "addSiteNavigation();");
 onEvent("Site/Site/Take_GPS", "click", "fillInGPS(\"Site/Site/\")");
+onEvent("Site/Site/Return", "delayclick", "cancelTabGroup(\"Site\", false);showTab(\"control/Start\");");
 String site_id = null;
 
 newSite() {
@@ -1304,8 +1306,7 @@ addSiteNavigation() {
             showTabGroup("Site", site_id, new FetchCallback() {
                 onFetch(result) {
                     site_id = null;
-                    populateCameraPictureGallery("Site/Site/Photo", new ArrayList());
-                    autoNumSurveySite();
+                    autoNumSite();
                 }
             });
         }
