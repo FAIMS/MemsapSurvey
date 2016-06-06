@@ -240,7 +240,7 @@ showRecords() {
     query  = "   SELECT uuid, response";
     query += "     FROM latestNonDeletedArchEntFormattedIdentifiers";
     query += "     JOIN latestnondeletedArchEnt USING (uuid)";
-    query += "    WHERE aenttypename LIKE '%"+type+"%'";
+    query += "    WHERE aenttypename = '"+type+"'";
     query += " ORDER BY aenttimestamp desc";
 
     fetchAll(query, new FetchCallback() {
