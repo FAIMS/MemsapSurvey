@@ -515,6 +515,7 @@ newSurveyUnit() {
     setFieldValue("Survey_Unit/Survey_Unit/Participants", getFieldValue("control/Start/TeamMember"));
     setFieldValue("Survey_Unit/Survey_Unit/Number_of_Walkers", getFieldValue("control/Start/Walker"));
     setFieldValue("Survey_Unit/Survey_Unit/Survey_Line", getFieldValue("control/Start/SurveyLine"));
+    setFieldValue("Survey_Unit/Vars/Team", getFieldValue("user/usertab/Team"));
     autoNumSurveyUnit();
 }
 
@@ -706,6 +707,7 @@ loadSurveyUnitAttributes() {
     makeVocab("DropDown", "Survey_Unit/Survey_Unit/Cobble_distribution", "Cobble distribution");
     makeVocab("CheckBoxGroup", "Survey_Unit/Survey_Unit/Sediment_size", "Sediment size");
     makeVocab("RadioGroup", "Survey_Unit/Survey_Unit/Sediment_thickness", "Sediment thickness");
+    makeVocab("DropDown", "Survey_Unit/Vars/Team", "Team");
 }
 
 autoNumSurveyUnit() {
@@ -766,6 +768,7 @@ newPOI() {
         }
     });
     fillInGPS("POI/POI/");
+    setFieldValue("POI/Vars/Team", getFieldValue("user/usertab/Team"));
     autoNumPOI();
 }
 
@@ -859,6 +862,7 @@ loadPOIAttributes() {
     makeVocab("DropDown", "POI/Core/Outer_Surface_on_Upper_Hemisphere", "Outer Surface (Cortex) on Upper Hemisphere");
     makeVocab("DropDown", "POI/Core/Outer_Surface_on_Lower_Hemisphere", "Outer Surface (Cortex) on Lower Hemisphere");
     makeVocab("DropDown", "POI/Core/Typology", "Core Typology");
+    makeVocab("DropDown", "POI/Vars/Team", "Team");
 }
 
 addPOINavigation() {
@@ -986,6 +990,7 @@ String artefact_id = null;
 newArtefact() {
     newTabGroup("Artefact");
     artefact_id = null;
+    setFieldValue("Artefact/Vars/Team", getFieldValue("user/usertab/Team"));
     autoNumArtefact();
 }
 
@@ -1121,6 +1126,7 @@ loadArtefactAttributes() {
     makeVocab("DropDown", "Artefact/Core/Typology", "Core Typology");
     makeVocab("DropDown", "Artefact/Shatter_Flakes/Percentage_Cortical_Coverage", "Percentage Cortical Coverage");
     makeVocab("DropDown", "Artefact/Other/Other_Type", "Other Type");
+    makeVocab("DropDown", "Artefact/Vars/Team", "Team");
 }
 
 showArtefactTabs(Boolean onLoad) {
@@ -1205,6 +1211,7 @@ newSite() {
         }
     });
     fillInGPS("Site/Site/");
+    setFieldValue("Site/Vars/Team", getFieldValue("user/usertab/Team"));
     autoNumSite();
 }
 
@@ -1290,6 +1297,7 @@ loadSiteAttributes() {
     makeVocab("CheckBoxGroup", "Site/Site/Materials_Present", "Materials Present");
     makeVocab("DropDown", "Site/Site/Site_Condition", "Site Condition");
     makeVocab("RadioGroup", "Site/Site/Recommend_for_further_investigation", "Recommend for further investigation");
+    makeVocab("DropDown", "Site/Vars/Team", "Team");
 }
 
 addSiteNavigation() {

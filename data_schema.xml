@@ -11,6 +11,15 @@
       <description/>
       <formatString>$2-</formatString>
     </property>
+    <property name="Team" type="freetext" isIdentifier="true">
+      <description>Description TBD</description>
+      <formatString>$1-</formatString>
+      <lookup>
+       <term>A<description/></term>
+       <term>B<description/></term>
+       <term>C<description/></term>
+      </lookup>
+    </property>
     <property name="Object" type="enum" isIdentifier="true">
       <description/>
       <formatString>$1-</formatString>
@@ -26,7 +35,7 @@
         </term>
       </lookup>
     </property>
-    <property name="Transect Object Recorded by" type="freetext" isIdentifier="true">
+    <property name="Transect Object Recorded by" type="freetext">
       <description>Description TBD</description>
       <formatString>$2</formatString>
     </property>
@@ -315,7 +324,6 @@
     </property>
   </ArchaeologicalElement>
 
-
   <ArchaeologicalElement name="Tracklog">
     <description></description>
     <property name="Timestamp" type="string" isIdentifier="true">
@@ -378,11 +386,20 @@
       <description>Unique identifier for this transect</description>
       <formatString>$2-</formatString>
     </property>
+    <property name="Team" type="freetext" isIdentifier="true">
+      <description>Description TBD</description>
+      <formatString>$1-</formatString>
+      <lookup>
+       <term>A<description/></term>
+       <term>B<description/></term>
+       <term>C<description/></term>
+      </lookup>
+    </property>
     <property name="Survey Line" type="freetext" isIdentifier="true">
       <description>Description TBD</description>
       <formatString>$2-</formatString>
     </property>
-    <property name="Transect Recorded by" type="freetext" isIdentifier="true">
+    <property name="Transect Recorded by" type="freetext">
       <description>Description TBD</description>
       <formatString>$2</formatString>
     </property>
@@ -601,14 +618,6 @@
     <property name="Other remarks on transect" type="freetext">
       <description>Any other comments on the transect recording</description>
     </property>
-    <property name="Team" type="file">
-      <description>Description TBD</description>
-      <lookup>
-       <term>A<description/></term>
-       <term>B<description/></term>
-       <term>C<description/></term>
-      </lookup>
-    </property>
     <property name="Transect Photo" type="file" file="true" thumbnail="true">
       <description/>
     </property>
@@ -619,6 +628,15 @@
     <property name="Total Recording ID" type="freetext" isIdentifier="true">
       <description/>
       <formatString>$2-</formatString>
+    </property>
+    <property name="Team" type="freetext" isIdentifier="true">
+      <description>Description TBD</description>
+      <formatString>$1-</formatString>
+      <lookup>
+       <term>A<description/></term>
+       <term>B<description/></term>
+       <term>C<description/></term>
+      </lookup>
     </property>
     <property name="Technological Component" type="enum" isIdentifier="true">
       <description/>
@@ -1088,6 +1106,15 @@
       <description></description>
       <formatString>$2-</formatString>
     </property>
+    <property name="Team" type="freetext" isIdentifier="true">
+      <description>Description TBD</description>
+      <formatString>$1-</formatString>
+      <lookup>
+       <term>A<description/></term>
+       <term>B<description/></term>
+       <term>C<description/></term>
+      </lookup>
+    </property>
     <property name="Site Type" isIdentifier="true">
       <description></description>
       <formatString>$1-</formatString>
@@ -1101,9 +1128,8 @@
         <term>Other</term>
       </lookup>
     </property>
-    <property name="User" isIdentifier="true">
+    <property name="User">
       <description></description>
-      <formatString>$2</formatString>
     </property>
     <property name="Timestamp">
       <description></description>

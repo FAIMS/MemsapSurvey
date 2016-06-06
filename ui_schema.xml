@@ -156,6 +156,9 @@
               <Return/>
               <trackStatus/>
             </Survey_Unit>
+            <Vars>
+              <Team/>
+            </Vars>
           </Survey_Unit>
           <POI>
             <POI>
@@ -225,6 +228,9 @@
               <Typology/>
               <Return/>
             </Core>
+            <Vars>
+              <Team/>
+            </Vars>
           </POI>
           <Artefact>
             <Artefact>
@@ -294,6 +300,9 @@
               <Attach_Photo/>
               <Return/>
             </Other>
+            <Vars>
+              <Team/>
+            </Vars>
           </Artefact>
           <Site>
             <Site>
@@ -319,6 +328,9 @@
               <Notes/>
               <Return/>
             </Site>
+            <Vars>
+              <Team/>
+            </Vars>
           </Site>
         </faims>
       </instance>
@@ -737,6 +749,16 @@
           <label>Track Log Status</label>
         </input>
       </group>
+      <group ref="Vars" faims_hidden="true">
+        <label></label>
+        <select1 ref="Team" faims_attribute_name="Team" faims_attribute_type="vocab">
+          <label></label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+      </group>
     </group>
     <group ref="POI" faims_archent_type="Transect Object">
       <label>{POI}</label>
@@ -944,6 +966,16 @@
         <trigger ref="Return" faims_style_class="faims-blue">
           <label>{Return}</label>
         </trigger>
+      </group>
+      <group ref="Vars" faims_hidden="true">
+        <label></label>
+        <select1 ref="Team" faims_attribute_name="Team" faims_attribute_type="vocab">
+          <label></label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
       </group>
     </group>
     <group ref="Artefact" faims_archent_type="Total Recording">
@@ -1226,6 +1258,16 @@
           <label>{Return}</label>
         </trigger>
       </group>
+      <group ref="Vars" faims_hidden="true">
+        <label></label>
+        <select1 ref="Team" faims_attribute_name="Team" faims_attribute_type="vocab">
+          <label></label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
+      </group>
     </group>
 
     <group ref="Site" faims_archent_type="Site">
@@ -1306,6 +1348,16 @@
         <trigger ref="Return" faims_style_class="faims-blue">
           <label>{Return}</label>
         </trigger>
+      </group>
+      <group ref="Vars" faims_hidden="true">
+        <label></label>
+        <select1 ref="Team" faims_attribute_name="Team" faims_attribute_type="vocab">
+          <label></label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select1>
       </group>
     </group>
   </h:body>
