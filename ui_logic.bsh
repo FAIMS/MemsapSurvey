@@ -659,6 +659,16 @@ addSurveyUnitNavigation() {
             "Duplicate {Survey_Unit}";
         }
         actionOn() {
+            if (transectEnabled) {
+                msgHead  = "Unable to Duplicate {Survey_Unit}";
+                msgBody  = "Please complete this {Survey_Unit} before ";
+                msgBody += "duplicating it.";
+
+                showWarning(msgHead, msgBody);
+
+                return;
+            }
+
             showTabGroup("Survey_Unit", survey_unit_id, new FetchCallback() {
                 onFetch(result) {
                     survey_unit_id = null;
