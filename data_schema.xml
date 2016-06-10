@@ -22,7 +22,7 @@
     </property>
     <property name="Object" type="enum" isIdentifier="true">
       <description/>
-      <formatString>$1-</formatString>
+      <formatString>$1</formatString>
       <lookup>
         <term> {Core}
           <description/>
@@ -397,7 +397,7 @@
     </property>
     <property name="Survey Line" type="freetext" isIdentifier="true">
       <description>Description TBD</description>
-      <formatString>$2-</formatString>
+      <formatString>$2</formatString>
     </property>
     <property name="Transect Recorded by" type="freetext">
       <description>Description TBD</description>
@@ -1117,7 +1117,7 @@
     </property>
     <property name="Site Type" isIdentifier="true">
       <description></description>
-      <formatString>$1-</formatString>
+      <formatString>$1</formatString>
       <lookup>
         <term>Rock shelter</term>
         <term>Erosion Gully</term>

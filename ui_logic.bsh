@@ -519,6 +519,10 @@ newSurveyUnit() {
     autoNumSurveyUnit();
 }
 
+loadTransectFrom(archentid) {
+    loadSurveyUnitFrom(archentid);
+}
+
 loadSurveyUnit() {
     survey_unit_id = getListItemValue();
     loadSurveyUnitFrom(survey_unit_id);
@@ -782,6 +786,10 @@ newPOI() {
     autoNumPOI();
 }
 
+loadTransectObjectFrom(archentid) {
+    loadPOIFrom(archentid);
+}
+
 loadPOI() {
     poi_id = getListItemValue();
     loadPOIFrom(poi_id);
@@ -1002,6 +1010,10 @@ newArtefact() {
     artefact_id = null;
     setFieldValue("Artefact/Vars/Team", getFieldValue("user/usertab/Team"));
     autoNumArtefact();
+}
+
+loadTotalRecordingFrom(archentid) {
+    loadArtefactFrom(archentid);
 }
 
 loadArtefact() {
