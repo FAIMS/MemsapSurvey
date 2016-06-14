@@ -1137,10 +1137,10 @@ addArtefactNavigation() {
 }
 
 loadArtefactAttributes() {
+    makeVocab("RadioGroup", "Artefact/Artefact/Artefact_Weathering_stage", "Total Recording Weathering stage");
+    makeVocab("DropDown", "Artefact/Artefact/Raw_material", "Raw material");
     makeVocab("RadioGroup", "Artefact/Artefact/Technological_Component", "Technological Component");
     makeVocab("RadioGroup", "Artefact/Artefact/Thickness_Measurement_site", "Thickness Measurement site");
-    makeVocab("DropDown", "Artefact/Artefact/Raw_material", "Raw material");
-    makeVocab("RadioGroup", "Artefact/Artefact/Artefact_Weathering_stage", "Artefact Weathering stage");
     makeVocab("DropDown", "Artefact/Flake/Longitudinal_Portion", "Longitudinal Portion");
     makeVocab("DropDown", "Artefact/Flake/Transverse_Portion", "Transverse Portion");
     makeVocab("DropDown", "Artefact/Flake/Platform_Type", "Platform Type");
