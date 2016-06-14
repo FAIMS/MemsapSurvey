@@ -2,6 +2,9 @@
  * Clients originally specified in an SRID of 32736.
  */
 
+// TODO: Make sure that timestamp and author are updated upon duplication
+// TODO: Blank-out Lat/Long upon duplication
+
 import java.util.concurrent.Callable;
 /*** 'Editable' - you can edit the code below based on the needs ***/
 User user; // don't touch
@@ -675,7 +678,9 @@ addSurveyUnitNavigation() {
 
             showTabGroup("Survey_Unit", survey_unit_id, new FetchCallback() {
                 onFetch(result) {
+                    disableAutoSave("Survey_Unit");
                     survey_unit_id = null;
+
                     populateCameraPictureGallery("Survey_Unit/Survey_Unit/Photo", new ArrayList());        
                     autoNumSurveyUnit();
                 }
@@ -896,7 +901,11 @@ addPOINavigation() {
         actionOn() {
             showTabGroup("POI", poi_id, new FetchCallback() {
                 onFetch(result) {
+                    disableAutoSave("POI");
                     poi_id = null;
+
+                    clearGPS("POI/POI/");
+
                     populateCameraPictureGallery("POI/POI/Photo", new ArrayList());
                     autoNumPOI();
                 }
@@ -1085,11 +1094,14 @@ addArtefactNavigation() {
         actionOn() {
             showTabGroup("Artefact", artefact_id, new FetchCallback() {
                 onFetch(result) {
+                    disableAutoSave("Artefact");
                     artefact_id = null;
+
                     populateCameraPictureGallery("Artefact/Flake/Photo", new ArrayList());
                     populateCameraPictureGallery("Artefact/Core/Photo", new ArrayList());
                     populateCameraPictureGallery("Artefact/Shatter_Flakes/Photo", new ArrayList());
                     populateCameraPictureGallery("Artefact/Other/Photo", new ArrayList());
+
                     autoNumArtefact();
                 }
             });
@@ -1335,7 +1347,11 @@ addSiteNavigation() {
         actionOn() {
             showTabGroup("Site", site_id, new FetchCallback() {
                 onFetch(result) {
+                    disableAutoSave("Site");
                     site_id = null;
+
+                    clearGPS("Site/Site/");
+
                     autoNumSite();
                 }
             });
@@ -1448,6 +1464,13 @@ fillInGPS(String path) {
     } else {
         showToast("GPS Not initialized");
     }
+}
+
+clearGPS(String path) {
+    setFieldValue(path+"Latitude",  "");
+    setFieldValue(path+"Longitude", "");
+    setFieldValue(path+"Northing",  "");
+    setFieldValue(path+"Easting",   "");
 }
 
 /*** 'Uneditable' - you can edit the code below with extreme precaution ***/
