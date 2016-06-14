@@ -2,9 +2,6 @@
  * Clients originally specified in an SRID of 32736.
  */
 
-// TODO: Make sure that timestamp and author are updated upon duplication
-// TODO: Blank-out Lat/Long upon duplication
-
 import java.util.concurrent.Callable;
 /*** 'Editable' - you can edit the code below based on the needs ***/
 User user; // don't touch
@@ -1011,6 +1008,8 @@ onEvent("Artefact/Flake/Return", "delayclick", "cancelTabGroup(\"Artefact\", fal
 onEvent("Artefact/Core/Return", "delayclick", "cancelTabGroup(\"Artefact\", false);showTab(\"control/Start\");");
 onEvent("Artefact/Shatter_Flakes/Return", "delayclick", "cancelTabGroup(\"Artefact\", false);showTab(\"control/Start\");");
 onEvent("Artefact/Other/Return", "delayclick", "cancelTabGroup(\"Artefact\", false);showTab(\"control/Start\");");
+
+onEvent("Artefact/Artefact/Take_GPS", "click", "fillInGPS(\"Artefact/Artefact/\")");
 
 String artefact_id = null;
 

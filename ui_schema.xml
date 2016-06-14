@@ -235,6 +235,17 @@
           <Artefact>
             <Artefact>
               <Artefact_ID/>
+              <Colgroup_GPS>
+                <Col_0>
+                  <Latitude/>
+                  <Northing/>
+                </Col_0>
+                <Col_1>
+                  <Longitude/>
+                  <Easting/>
+                </Col_1>
+              </Colgroup_GPS>
+              <Take_GPS/>
               <Technological_Component/>
               <Weight/>
               <container1>
@@ -985,6 +996,30 @@
         <input ref="Artefact_ID" faims_attribute_name="Total Recording ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false" faims_style_class="required">
           <label>{Artefact_ID}</label>
         </input>
+        <group ref="Colgroup_GPS" faims_style="orientation">
+          <label/>
+          <group ref="Col_0" faims_style="even">
+            <label/>
+            <input ref="Latitude" faims_attribute_name="Latitude" faims_attribute_type="measure">
+              <label>Latitude</label>
+            </input>
+            <input ref="Northing" faims_attribute_name="Northing" faims_attribute_type="measure">
+              <label>Northing</label>
+            </input>
+          </group>
+          <group ref="Col_1" faims_style="even">
+            <label/>
+            <input ref="Longitude" faims_attribute_name="Longitude" faims_attribute_type="measure">
+              <label>Longitude</label>
+            </input>
+            <input ref="Easting" faims_attribute_name="Easting" faims_attribute_type="measure">
+              <label>Easting</label>
+            </input>
+          </group>
+        </group>
+        <trigger ref="Take_GPS">
+          <label>{Take_GPS}</label>
+        </trigger>
         <select1 appearance="full" ref="Technological_Component" faims_attribute_name="Technological Component" faims_attribute_type="vocab" faims_certainty="true" faims_annotation="true" faims_read_only="false">
           <label>{Technological_Component}</label>
           <item>

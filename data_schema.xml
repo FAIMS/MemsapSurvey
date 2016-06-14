@@ -659,6 +659,18 @@
         </term>
       </lookup>
     </property>
+    <property name="Latitude" type="float">
+      <description/>
+    </property>
+    <property name="Longitude" type="float">
+      <description/>
+    </property>
+    <property name="Northing" type="float">
+      <description/>
+    </property>
+    <property name="Easting" type="float">
+      <description/>
+    </property>
     <property name="X" type="float">
       <description/>
     </property>
