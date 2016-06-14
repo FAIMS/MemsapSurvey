@@ -318,6 +318,7 @@
           <Site>
             <Site>
               <Site_ID/>
+              <Site_Name/>
               <User/>
               <Timestamp/>
               <Colgroup_GPS>
@@ -337,6 +338,8 @@
               <Site_Condition/>
               <Recommend_for_further_investigation/>
               <Notes/>
+              <Photo/>
+              <Attach_Photo/>
               <Return/>
             </Site>
             <Vars>
@@ -1312,6 +1315,9 @@
         <input ref="Site_ID" faims_attribute_name="Site ID" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>Site ID</label>
         </input>
+        <input ref="Site_Name" faims_attribute_name="Site Name" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
+          <label>Site Name</label>
+        </input>
         <input ref="User" faims_attribute_name="User" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="true">
           <label>User</label>
         </input>
@@ -1380,6 +1386,16 @@
         <input ref="Notes" faims_attribute_name="Notes" faims_attribute_type="measure" faims_certainty="false" faims_annotation="false" faims_read_only="false">
           <label>Notes</label>
         </input>
+        <select type="camera" faims_sync="false" ref="Photo" faims_attribute_name="Photo" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true" faims_read_only="false">
+          <label>{Photos}</label>
+          <item>
+            <label>placeholder</label>
+            <value>placeholder</value>
+          </item>
+        </select>
+        <trigger ref="Attach_Photo" faims_style_class="faims-blue">
+          <label>{Attach_Photo}</label>
+        </trigger>
         <trigger ref="Return" faims_style_class="faims-blue">
           <label>{Return}</label>
         </trigger>

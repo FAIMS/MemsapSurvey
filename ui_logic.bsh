@@ -1231,6 +1231,7 @@ autoNumArtefact() {
 //Site logic
 onEvent("Site", "show", "addSiteNavigation();");
 onEvent("Site/Site/Take_GPS", "click", "fillInGPS(\"Site/Site/\")");
+onEvent("Site/Site/Attach_Photo", "click", "attachPictureTo(\"Site/Site/Photo\")");
 onEvent("Site/Site/Return", "delayclick", "cancelTabGroup(\"Site\", false);showTab(\"control/Start\");");
 String site_id = null;
 

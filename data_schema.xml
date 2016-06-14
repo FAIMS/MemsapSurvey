@@ -1127,6 +1127,10 @@
        <term>C<description/></term>
       </lookup>
     </property>
+    <property name="Site Name" isIdentifier="true">
+      <description></description>
+      <formatString>$2-</formatString>
+    </property>
     <property name="Site Type" isIdentifier="true">
       <description></description>
       <formatString>$1</formatString>
@@ -1207,6 +1211,9 @@
     </property>
     <property name="Notes">
       <description></description>
+    </property>
+    <property name="Photo" type="file" file="true" thumbnail="true">
+      <description/>
     </property>
   </ArchaeologicalElement>
 </dataSchema>
