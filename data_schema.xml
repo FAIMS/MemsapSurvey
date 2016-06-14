@@ -1165,12 +1165,13 @@
     <property name="Estimated Age">
       <description></description>
       <lookup>
-        <term>A</term>
+        <term>ESA</term>
         <term>MSA</term>
         <term>LSA</term>
         <term>Iron Age</term>
         <term>Historical</term>
         <term>Paleoenvironmental</term>
+        <term>Unknown Stone Age</term>
         <term>Other</term>
       </lookup>
     </property>
@@ -1197,6 +1198,7 @@
         <term>Intact</term>
         <term>Slightly Eroded</term>
         <term>Very Eroded</term>
+        <term>Modern threat</term>
       </lookup>
     </property>
     <property name="Recommend for further investigation">
