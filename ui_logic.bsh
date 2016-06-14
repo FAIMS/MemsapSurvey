@@ -1183,7 +1183,7 @@ showArtefactTabs(Boolean onLoad) {
                         cancelTab("Artefact/Core", false);
                         cancelTab("Artefact/Other", false);
                         showTab("Artefact/Shatter_Flakes");
-                    } else if (vocab.equals("{Other}")) {
+                    } else if (vocab.equals("{Other_Point}")) {
                         cancelTab("Artefact/Flake", false);
                         cancelTab("Artefact/Core", false);
                         cancelTab("Artefact/Shatter_Flakes", false);
