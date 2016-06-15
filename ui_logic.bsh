@@ -1,5 +1,6 @@
 /*
  * Clients originally specified in an SRID of 32736.
+ *
  */
 
 import java.util.concurrent.Callable;
@@ -680,6 +681,10 @@ addSurveyUnitNavigation() {
 
                     populateCameraPictureGallery("Survey_Unit/Survey_Unit/Photo", new ArrayList());        
                     autoNumSurveyUnit();
+
+                    msgHead = "Entity Duplicated";
+                    msgBody = "This entity has been duplicated.";
+                    showWarning(msgHead, msgBody);
                 }
             });
             
@@ -905,6 +910,10 @@ addPOINavigation() {
 
                     populateCameraPictureGallery("POI/POI/Photo", new ArrayList());
                     autoNumPOI();
+
+                    msgHead = "Entity Duplicated";
+                    msgBody = "This entity has been duplicated.";
+                    showWarning(msgHead, msgBody);
                 }
             });
         }
@@ -1101,7 +1110,13 @@ addArtefactNavigation() {
                     populateCameraPictureGallery("Artefact/Shatter_Flakes/Photo", new ArrayList());
                     populateCameraPictureGallery("Artefact/Other/Photo", new ArrayList());
 
+                    clearGPS("Artefact/Artefact/");
+
                     autoNumArtefact();
+
+                    msgHead = "Entity Duplicated";
+                    msgBody = "This entity has been duplicated.";
+                    showWarning(msgHead, msgBody);
                 }
             });
         }
@@ -1352,7 +1367,13 @@ addSiteNavigation() {
 
                     clearGPS("Site/Site/");
 
+                    populateCameraPictureGallery("Site/Site/Photo", new ArrayList());
+
                     autoNumSite();
+
+                    msgHead = "Entity Duplicated";
+                    msgBody = "This entity has been duplicated.";
+                    showWarning(msgHead, msgBody);
                 }
             });
         }
