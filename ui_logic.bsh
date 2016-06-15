@@ -1500,21 +1500,16 @@ initMap() {
 
     isEntity = true;
     queryName = "Transects";
-    querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Transect Point'";
+    querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Tracklog'";
         
     addDatabaseLayerQuery("control/Map/map", queryName, querySQL);
-
-    addTrackLogLayerQuery("control/Map/map", "track log entities", 
-        "SELECT uuid, max(aenttimestamp) as aenttimestamp " + 
-        " FROM latestNonDeletedArchent join aenttype using (aenttypeid) " +
-        " where aenttypename = 'Tracklog';");
 
     ps = createPointStyle(10, Color.BLUE, 0.2f, 0.5f);
     ls = createLineStyle(10, Color.GREEN, 0.05f, 0.3f, null);
     pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
     ts = createTextStyle(10, Color.RED, 30, Typeface.SANS_SERIF);
 
-    showDatabaseLayer("control/Map/map", "Saved Data Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
+    showDatabaseLayer("control/Map/map", "Tracklog Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
 }
 
 initMap();
