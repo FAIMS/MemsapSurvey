@@ -593,12 +593,19 @@ saveSurveyUnit(Callable callback) {
         showWarning("Validation Error", "Cannot save Transect without Transect number");
         return;
     }
-    
+
+    positionProj = getGPSPositionProjected();
+    l = new ArrayList();
+    if (positionProj != null) {
+        Point p = new Point(new MapPos(positionProj.getLongitude(), positionProj.getLatitude()), null, (PointStyle) null, null);
+        l.add(p);
+    } else {
+        l = null;
+    }
     saveTabGroup("Survey_Unit", survey_unit_id, null, null, new SaveCallback() {
         onSave(uuid, newRecord) {
             survey_unit_id = uuid;
             if(callback != null) callback.call();
-            
         }
     });
 }
@@ -1062,7 +1069,15 @@ saveArtefact(Callable callback) {
         showWarning("Validation Error", "Cannot save Total Recording without Total Recording ID");
         return;
     }
-    
+
+    positionProj = getGPSPositionProjected();
+    l = new ArrayList();
+    if (positionProj != null) {
+        Point p = new Point(new MapPos(positionProj.getLongitude(), positionProj.getLatitude()), null, (PointStyle) null, null);
+        l.add(p);
+    } else {
+        l = null;
+    }
     saveTabGroup("Artefact", artefact_id, null, null, new SaveCallback() {
         onSave(uuid, newRecord) {
             artefact_id = uuid;
@@ -1305,7 +1320,7 @@ saveSite(Callable callback) {
         showWarning("Validation Error", "Cannot save Transect Object without Transect Object ID");
         return;
     }
-    
+
     positionProj = getGPSPositionProjected();
     l = new ArrayList();
     if (positionProj != null) {
