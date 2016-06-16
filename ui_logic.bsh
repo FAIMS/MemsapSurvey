@@ -1531,6 +1531,13 @@ initMap() {
     ts = createTextStyle(10, Color.RED, 30, Typeface.SANS_SERIF);
 
     showDatabaseLayer("control/Map/map", "Tracklog Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
+
+    notesQueryName = "Notes";
+    notesQuerySql = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Note'";
+    notesps = createPointStyle(10, Color.YELLOW, 0.2f, 0.5f);
+    notesls = createLineStyle(10, Color.YELLOW, 0.05f, 0.3f, null);
+    notespos = createPolygonStyle(10, Color.YELLOW, createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
+    showDatabaseLayer("control/Map/map", "Shape Notes", isEntity, notesQueryName, notesQuerySql, notesps, notesls, notespos, ts);
 }
 
 initMap();
@@ -1606,6 +1613,75 @@ login() {
 }
 
 onEvent("user/usertab/login", "click", "login()");
+
+/*** Shape Tab Group ***/
+onEvent("Shape/Shape_Note/shape_return", "delayclick", "cancelTabGroup(\"Shape\", false);showTab(\"control/Map\");");
+onEvent("Shape/Shape_Note/shape_delete", "click", "deleteShape(shapeUUID);");
+onEvent("control/Map/Create_Shape", "click", "createShape();");
+
+shapeUUID = null;
+onEvent("Shape/Shape_Note", "show", "saveShape();");
+
+/* Generates a confirmation prompt to delete the given shape note. */
+deleteShape(String shapeID) {
+    showAlert("{Confirm_Deletion}", "{Press_To_Delete} {Shape_Note}!", "reallyDeleteShape(\"" + shapeID + "\")", "doNotDelete()");
+}
+
+/* Deletes the given Shape. */
+reallyDeleteShape(String shapeID) {
+    deleteArchEnt(shapeID, new DeleteCallback() {
+        onDelete(uuid) {
+            shapeID = null;
+            shapeUUID = shapeID;
+            showToast("{Shape_Note_Deleted}");
+            navigateToMap();
+        }
+    });
+}
+
+navigateToMap() {
+    cancelTabGroup("Shape", false);
+    showTab("control/Map");
+}
+
+/* Auto saves the shape note entity. */
+saveShape() {
+    List geolist = getGeometryList("control/Map/map", DATA_ENTRY_LAYER_ID);
+    print("[saveShape()] saving with geolist: " + geolist);
+    Boolean enable_autosave = true;
+    saveTabGroup("Shape", shapeUUID, geolist, null, new SaveCallback() {
+        onSave(uuid, newRecord) {
+            shapeUUID = uuid;
+            print("[saveShape()] Autosaved shape uuid: "+shapeUUID);
+            // Clear the data entry layer
+            if (newRecord && geoList != null && geolist.size() != 0) {
+                for (geom : geolist) {
+                    print("Geometry cleared:" + geom.userData.geomId);
+                    clearGeometry("control/Map/map", geom.userData.geomId);
+                }
+                geoList = getGeometryList("control/Map/map", DATA_ENTRY_LAYER_ID);
+                print("[saveShape()] Cleared geometry list: " + geoList);
+            }
+        }
+        onError(message) {
+            showToast(message);
+        }  
+    }, enable_autosave);
+}
+
+/* Saves drawn shapes with an attatched note. */
+createShape() {
+    shapeUUID = null;
+    print("[createShape()] DataEntryLayer ID: " + DATA_ENTRY_LAYER_ID);
+    List geolist = getGeometryList("control/Map/map", DATA_ENTRY_LAYER_ID);
+    print("[createShape()] geolist: " + geolist);
+    if (geolist == null || geolist.size() == 0) {
+        showWarning("{Warning}", "{Error_No_Shapes_Present}");
+    } else {
+        newTabGroup("Shape");
+        print("[createShape()] new shape tab group");
+    }
+}
 
 
 /*** SYNC ***/

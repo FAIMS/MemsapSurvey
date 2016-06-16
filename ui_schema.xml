@@ -119,6 +119,9 @@
                 <child2>
                   <saveSettings/>
                 </child2>
+                <child3>
+                  <Create_Shape/>
+                </child3>
               </container1>
             </Map>
           </control>
@@ -346,6 +349,14 @@
               <Team/>
             </Vars>
           </Site>
+          <Shape>
+            <Shape_Note>
+              <label/>
+              <note/>
+              <shape_return/>
+              <shape_delete/>
+            </Shape_Note>
+          </Shape>
         </faims>
       </instance>
       <bind nodeset="/faims/control/Start/container1/child2/Walker" type="decimal"/>
@@ -637,6 +648,12 @@
             <label/>
             <trigger ref="saveSettings">
               <label>Save Map Settings</label>
+            </trigger>
+          </group>
+          <group faims_style="even" ref="child3">
+            <label/>
+            <trigger ref="Create_Shape">
+              <label>{Create_Shape}</label>
             </trigger>
           </group>
         </group>
@@ -1409,6 +1426,24 @@
             <value>placeholder</value>
           </item>
         </select1>
+      </group>
+    </group>
+    <group ref="Shape" faims_archent_type="Note">
+      <label>{Shape}</label>
+      <group ref="Shape_Note">
+        <label>{Shape_Note}</label>
+        <input ref="label" faims_attribute_name="Label" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true">
+          <label>{Shape_Label}</label>
+        </input>
+        <input ref="note" faims_attribute_name="Note" faims_attribute_type="measure" faims_certainty="true" faims_annotation="true">
+          <label>{Shape_Note_Note}</label>
+        </input>
+        <trigger ref="shape_return" faims_style_class="faims-blue">
+          <label>{Shape_Return}</label>
+        </trigger>
+        <trigger ref="shape_delete" faims_style_class="faims-blue">
+          <label>{Shape_Delete}</label>
+        </trigger>
       </group>
     </group>
   </h:body>
