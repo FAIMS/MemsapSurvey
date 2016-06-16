@@ -137,6 +137,42 @@ addActionBarItem("distance_tracklog", new ToggleActionButtonCallback() {
     }
 });
 
+addActionBarItem("compute_transect_lines", new ActionButtonCallback() {
+    actionOnLabel() {
+        "Compute Transect Lines";
+    }
+    actionOn() {
+        computeTransectLines();
+    }
+});
+
+// TODO: Add spinner from Mungo
+computeTransectLines() {
+    //Dialog dialog = showBusy("Please Wait", "Computing transect lines...");
+
+    q  = " insert into archentity(uuid, userid, aenttypeid, geospatialcolumn)";
+    q += " select parentuuid, '"+userid+"', parentaenttypeid, casttoGeometryCollection(MakeLine(geospatialcolumn))";
+    q += " from (SELECT parent.uuid as parentuuid, parent.aenttypeid as parentaenttypeid, child.uuid as childuuid, parent.aenttypename as parentaenttypename, geospatialcolumn";
+    q += "       FROM (SELECT uuid, participatesverb, aenttypename, relationshipid, aenttypeid";
+    q += "               FROM latestnondeletedaentreln";
+    q += "               JOIN relationship USING (relationshipid)";
+    q += "               JOIN latestnondeletedarchent USING (uuid)";
+    q += "               JOIN aenttype USING (aenttypeid)) parent";
+    q += "       JOIN (SELECT uuid, relationshipid, participatesverb, aenttypename, geometryn(latestnondeletedarchent.geospatialcolumn,1) as geospatialcolumn, aenttimestamp";
+    q += "               FROM latestnondeletedaentreln";
+    q += "               JOIN relationship USING (relationshipid)";
+    q += "               JOIN latestnondeletedarchent USING (uuid)";
+    q += "               JOIN aenttype USING (aenttypeid)) child";
+    q += "         ON (parent.relationshipid = child.relationshipid AND parent.uuid != child.uuid)";
+    q += "   where parentaenttypename = 'Transect'";
+    q += "   order by child.aenttimestamp";
+    q += "   )";
+    q += " group by parentuuid;";
+    fetchOne(q);
+
+    //dialog.dismiss();
+}
+
 makeLocalID() {
     fetchOne("CREATE TABLE IF NOT EXISTS localSettings (key text primary key, value text);", null);
     fetchOne("drop view if exists identifierAsSpreadsheet;", null);
@@ -602,7 +638,7 @@ saveSurveyUnit(Callable callback) {
     } else {
         l = null;
     }
-    saveTabGroup("Survey_Unit", survey_unit_id, null, null, new SaveCallback() {
+    saveTabGroup("Survey_Unit", survey_unit_id, l, null, new SaveCallback() {
         onSave(uuid, newRecord) {
             survey_unit_id = uuid;
             if(callback != null) callback.call();
@@ -1078,7 +1114,7 @@ saveArtefact(Callable callback) {
     } else {
         l = null;
     }
-    saveTabGroup("Artefact", artefact_id, null, null, new SaveCallback() {
+    saveTabGroup("Artefact", artefact_id, l, null, new SaveCallback() {
         onSave(uuid, newRecord) {
             artefact_id = uuid;
             if(callback != null) callback.call();
@@ -1534,19 +1570,64 @@ initMap() {
 
     //showBaseMap("control/Map/map", "Base Layer", "files/data/maps/RasterData.tif");
 
+    // Site
     isEntity = true;
-    queryName = "Transects";
-    querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Tracklog'";
-        
+    queryName = "Site";
+    querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Site'";
+    ps = createPointStyle(10, Color.YELLOW, 0.2f, 0.5f);
+    ls = createLineStyle(10, Color.YELLOW, 0.05f, 0.3f, null);
+    pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
+    ts = createTextStyle(10, Color.YELLOW, 30, Typeface.SANS_SERIF);
+    showDatabaseLayer("control/Map/map", "Site Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
+
+    // Transect Object
+    isEntity = true;
+    queryName = "Transect Object";
+    querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Transect Object'";
+    ps = createPointStyle(10, Color.GREEN, 0.2f, 0.5f);
+    ls = createLineStyle(10, Color.GREEN, 0.05f, 0.3f, null);
+    pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
+    ts = createTextStyle(10, Color.GREEN, 30, Typeface.SANS_SERIF);
+    showDatabaseLayer("control/Map/map", "Transect Object Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
+
+    // Total Recording
+    isEntity = true;
+    queryName = "Total Recording";
+    querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Total Recording'";
+    ps = createPointStyle(10, Color.RED, 0.2f, 0.5f);
+    ls = createLineStyle(10, Color.RED, 0.05f, 0.3f, null);
+    pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
+    ts = createTextStyle(10, Color.RED, 30, Typeface.SANS_SERIF);
+    showDatabaseLayer("control/Map/map", "Total Recording Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
+
+    // Transect Point
+    isEntity = true;
+    queryName = "Transect Point";
+    querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Transect Point'";
     addDatabaseLayerQuery("control/Map/map", queryName, querySQL);
 
     ps = createPointStyle(10, Color.BLUE, 0.2f, 0.5f);
     ls = createLineStyle(10, Color.GREEN, 0.05f, 0.3f, null);
     pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
     ts = createTextStyle(10, Color.RED, 30, Typeface.SANS_SERIF);
+    showDatabaseLayer("control/Map/map", "Transect Point Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
 
+    // Transect Line
+    // ???
+
+    // Tracklog
+    isEntity = true;
+    queryName = "Tracklog";
+    querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Tracklog'";
+    addDatabaseLayerQuery("control/Map/map", queryName, querySQL);
+
+    ps = createPointStyle(10, Color.BLACK, 0.2f, 0.5f);
+    ls = createLineStyle(10, Color.BLACK, 0.05f, 0.3f, null);
+    pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
+    ts = createTextStyle(10, Color.BLACK, 30, Typeface.SANS_SERIF);
     showDatabaseLayer("control/Map/map", "Tracklog Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
 
+    // Notes
     notesQueryName = "Notes";
     notesQuerySql = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Note'";
     notesps = createPointStyle(10, Color.YELLOW, 0.2f, 0.5f);
