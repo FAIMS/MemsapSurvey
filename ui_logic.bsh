@@ -146,9 +146,8 @@ addActionBarItem("compute_transect_lines", new ActionButtonCallback() {
     }
 });
 
-// TODO: Add spinner from Mungo
 computeTransectLines() {
-    //Dialog dialog = showBusy("Please Wait", "Computing transect lines...");
+    Dialog dialog = showBusy("Please Wait", "Computing transect lines...");
 
     q  = " insert into archentity(uuid, userid, aenttypeid, geospatialcolumn)";
     q += " select parentuuid, '"+userid+"', parentaenttypeid, casttoGeometryCollection(MakeLine(geospatialcolumn))";
@@ -170,7 +169,7 @@ computeTransectLines() {
     q += " group by parentuuid;";
     fetchOne(q);
 
-    //dialog.dismiss();
+    dialog.dismiss();
 }
 
 makeLocalID() {
