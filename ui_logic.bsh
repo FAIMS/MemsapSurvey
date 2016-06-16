@@ -1547,7 +1547,7 @@ clearGPS(String path) {
 
 /*** 'Uneditable' - you can edit the code below with extreme precaution ***/
 
-DATA_ENTRY_LAYER = "Transect Layer";
+DATA_ENTRY_LAYER = "Data Entry Layer";
 DATA_ENTRY_LAYER_ID = 0;
 
 onEvent("control/Map", "show", "drawTransects();loadMapSettings;");
@@ -1612,8 +1612,17 @@ initMap() {
     ts = createTextStyle(10, Color.RED, 30, Typeface.SANS_SERIF);
     showDatabaseLayer("control/Map/map", "Transect Point Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
 
-    // Transect Line
-    // ???
+    // Transect
+    isEntity = true;
+    queryName = "Transect";
+    querySQL = "SELECT uuid, aenttimestamp FROM latestNonDeletedArchEnt join aenttype using (aenttypeid) where aenttypename = 'Transect'";
+    addDatabaseLayerQuery("control/Map/map", queryName, querySQL);
+
+    ps = createPointStyle(10, Color.BLUE, 0.2f, 0.5f);
+    ls = createLineStyle(10, Color.BLUE, 0.05f, 0.3f, null);
+    pos = createPolygonStyle(10, Color.parseColor("#440000FF"), createLineStyle(10, Color.parseColor("#AA000000"), 0.01f, 0.3f, null));
+    ts = createTextStyle(10, Color.BLUE, 30, Typeface.SANS_SERIF);
+    showDatabaseLayer("control/Map/map", "Transect Layer", isEntity, queryName, querySQL, ps, ls, pos, ts);
 
     // Tracklog
     isEntity = true;
