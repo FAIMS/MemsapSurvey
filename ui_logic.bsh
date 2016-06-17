@@ -458,7 +458,7 @@ saveGPSTrack(String stateAppend) {
     fetchOne("select vocabname from vocabulary where vocabid = "+getFieldValue("user/usertab/Team"), new FetchCallback() {
         onFetch(teamQuery) {
             position = getGPSPosition();
-            if (position == null) {
+            if (!isGPSOn() || position == null) {
                 tracklogState = "Bad GPS Fix";
                 return;
             }
@@ -534,7 +534,7 @@ newSurveyUnit() {
         return;
     }
     position = getGPSPosition();
-    if (position == null) {
+    if (!isGPSOn() || position == null) {
         showWarning("Warning", "Your GPS is not initialized, you cannot create a Transect until the GPS icon is blue.");
         return;
     }
@@ -651,7 +651,7 @@ finishSurveyUnit() {
         return;
     }
     position = getGPSPosition();
-    if (position == null) {
+    if (!isGPSOn() || position == null) {
         showWarning("Warning", "You have lost your GPS signal, please wait until the GPS icon is blue before you finish you Transect.");
         return;
     }
@@ -1520,21 +1520,27 @@ doNotDelete() {
     showToast("Delete Cancelled.");
 }
 
+isGPSOn() {
+    return isInternalGPSOn() || isExternalGPSOn();
+}
+
 fillInGPS(String path) {
-    Object position = getGPSPosition();    
-    Object projPosition = getGPSPositionProjected();
-    if (projPosition != null ) {
-        Double latitude = position.getLatitude();
-        Double longitude = position.getLongitude();
-        Double northing = projPosition.getLatitude();
-        Double easting = projPosition.getLongitude();
-        setFieldValue(path+"Latitude", latitude);
-        setFieldValue(path+"Longitude", longitude);
-        setFieldValue(path+"Northing", northing);
-        setFieldValue(path+"Easting", easting);
-    } else {
+    Object  position     = getGPSPosition();    
+    Object  projPosition = getGPSPositionProjected();
+
+    if (!isGPSOn() || projPosition == null) {
         showToast("GPS Not initialized");
+        return;
     }
+
+    Double latitude = position.getLatitude();
+    Double longitude = position.getLongitude();
+    Double northing = projPosition.getLatitude();
+    Double easting = projPosition.getLongitude();
+    setFieldValue(path+"Latitude", latitude);
+    setFieldValue(path+"Longitude", longitude);
+    setFieldValue(path+"Northing", northing);
+    setFieldValue(path+"Easting", easting);
 }
 
 clearGPS(String path) {
