@@ -1555,7 +1555,7 @@ clearGPS(String path) {
 DATA_ENTRY_LAYER = "Data Entry Layer";
 DATA_ENTRY_LAYER_ID = 0;
 
-onEvent("control/Map", "show", "drawTransects();loadMapSettings;");
+onEvent("control/Map", "show", "drawTransects();loadMapSettings();");
 onEvent("control/Map/centre", "click", "centreOnMe();");
 onEvent("control/Map/saveSettings", "click", "saveMapSettings();"); 
 
